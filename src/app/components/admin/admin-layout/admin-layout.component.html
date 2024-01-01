@@ -1,0 +1,43 @@
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+<main class="main" id="top">
+  <nav class="navbar navbar-vertical navbar-expand-lg">
+    <script>
+      var navbarStyle = window.config.config.phoenixNavbarStyle;
+      if (navbarStyle && navbarStyle !== 'transparent') {
+        document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+      }
+    </script>
+    <app-admin-sidebar/>
+  </nav>
+
+  <nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault">
+    <div class="collapse navbar-collapse justify-content-between">
+      <div class="navbar-logo">
+        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse"
+                aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation">
+          <span class="navbar-toggle-icon"><span class="toggle-line"></span></span>
+        </button>
+        <a class="navbar-brand me-1 me-sm-3" href="/admin">
+          <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center">
+              <img ngSrc="/assets/img/icons/quang-hung-logo.jpg" alt="phoenix" width="50" height="26" style="object-fit: contain"/>
+              <p class="logo-text ms-2 d-none d-sm-block">Kính mắt Quang Hưng</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <app-admin-header/>
+    </div>
+  </nav>
+
+  <div class="content">
+    <router-outlet/>
+    <app-admin-footer/>
+  </div>
+</main>
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->

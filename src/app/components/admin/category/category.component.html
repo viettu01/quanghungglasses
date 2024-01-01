@@ -1,0 +1,167 @@
+<nav class="mb-2" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+    <li class="breadcrumb-item">Quản lý sản phẩm</li>
+    <li class="breadcrumb-item active">Danh mục sản phẩm</li>
+  </ol>
+</nav>
+<div class="mb-9">
+  <div class="row g-3 mb-4">
+    <div class="col-auto">
+      <h2 class="mb-0">Danh sách danh mục</h2>
+    </div>
+  </div>
+  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#">
+        <span>Tất cả </span>
+        <span class="text-700 fw-semi-bold">({{paginationDTO.totalElements}})</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <span>Hiển thị </span>
+        <span class="text-700 fw-semi-bold">({{countStatus(true)}})</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <span>Ẩn </span>
+        <!-- <span class="text-700 fw-semi-bold">({{countStatus(false)}})</span> -->
+      </a>
+    </li>
+  </ul>
+  <div id="category">
+    <div class="mb-4">
+      <div class="row g-3">
+        <div class="col-auto">
+          <div class="search-box">
+            <form class="position-relative">
+              <input class="form-control search-input search" type="search" placeholder="Tìm kiếm danh mục"/>
+              <span class="fas fa-search search-box-icon"></span>
+            </form>
+          </div>
+        </div>
+        <div class="col-auto ms-auto">
+          <button class="btn btn-link text-body me-4 px-0">
+            <span class="fa-solid fa-file-export fs-9 me-2"></span>Xuất
+          </button>
+          <button class="btn btn-primary">
+            <span class="fas fa-plus me-2"></span>Thêm danh mục
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+      <div class="table-responsive scrollbar mx-n1 px-1">
+        <table class="table fs--1 mb-0">
+          <thead>
+          <tr>
+            <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
+              <div class="form-check mb-0 fs-0">
+                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"/>
+              </div>
+            </th>
+            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width: 250px;">Tên danh mục</th>
+            <th class="sort align-middle ps-4" scope="col" style="width:250px;">Slug</th>
+            <th class="sort align-middle ps-4" scope="col">Ngày tạo</th>
+            <th class="sort align-middle ps-3" scope="col">Ngày sửa</th>
+            <th class="sort align-middle ps-4" scope="col">Trạng thái</th>
+            <th class="sort text-end align-middle pe-0 ps-4" scope="col"></th>
+          </tr>
+          </thead>
+          <tbody class="list" id="category-table-body">
+          <tr *ngIf="paginationDTO.content.length <= 0">
+            <td colspan="7" class="text-center">
+              <span class="fs-7">Không có dữ liệu</span>
+            </td>
+          </tr>
+          <tr class="position-static" *ngFor="let category of paginationDTO.content">
+            <td class="fs--1 align-middle">
+              <div class="form-check mb-0 fs-0">
+                <input class="form-check-input" type="checkbox" [value]="category.id" data-bulk-select-row=""/>
+              </div>
+            </td>
+            <td class="align-middle ps-4">{{category.name}}</td>
+            <td class="align-middle white-space-nowrap text-700 ps-4">{{category.slug}}</td>
+            <td class="align-middle white-space-nowrap text-600 ps-4">
+              {{category.createdDate | date:'dd/MM/yyyy HH:mm:ss'}}
+            </td>
+            <td class="align-middle white-space-nowrap text-600 ps-3">
+              {{category.updatedDate | date:'dd/MM/yyyy HH:mm:ss'}}
+            </td>
+            <td class="align-middle white-space-nowrap text-600 ps-4">
+              <span class="badge badge-phoenix badge-phoenix-success p-2" *ngIf="category.status">Hiển thị</span>
+              <span class="badge badge-phoenix badge-phoenix-danger p-2" *ngIf="!category.status">Ẩn</span>
+            </td>
+            <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
+              <div class="font-sans-serif btn-reveal-trigger position-static">
+                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                        type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
+                        aria-expanded="false" data-bs-reference="parent">
+                  <span class="fas fa-ellipsis-h fs--2"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end py-2">
+                  <a class="dropdown-item" href="#!">View</a>
+                  <a class="dropdown-item" href="#!">Export</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" href="#!">Remove</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row align-items-center py-2 pe-0 fs--1">
+        <div class="col-auto d-flex">
+          <label>
+            <select class="form-select form-select-sm form-select-solid">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+        </div>
+        <div class="col-auto d-flex">
+          <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900">
+            Hiển thị {{paginationDTO.firstElementOnPage}} đến {{paginationDTO.lastElementOnPage}}
+            <span class="text-body-tertiary"> của </span>{{paginationDTO.totalElements}} danh mục</p>
+          <a class="fw-semi-bold" href="#!">
+            Xem tất cả<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+          </a>
+          <a class="fw-semi-bold d-none" href="#!">
+            Xem ít hơn<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+          </a>
+        </div>
+        <div class="col-auto ms-auto d-flex">
+          <button type="button" class="page-link" (click)="changePage(1)"
+                  [class.disabled]="paginationDTO.pageNumber <= 1">
+            <span class="fas fa-angle-double-left"></span>
+          </button>
+          <button type="button" class="page-link" (click)="previousPage()"
+                  [class.disabled]="paginationDTO.pageNumber <= 1">
+            <span class="fas fa-angle-left"></span>
+          </button>
+          <ul class="mb-0 pagination">
+            <li class="page-item"
+                *ngFor="let i of getVisiblePages(paginationDTO.pageNumber, paginationDTO.totalPages, 5)"
+                [class.active]="i === paginationDTO.pageNumber">
+              <button type="button" class="page-link" (click)="changePage(i)">{{i}}</button>
+            </li>
+          </ul>
+          <button type="button" class="page-link pe-0" (click)="nextPage()"
+                  [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
+            <span class="fas fa-angle-right"></span>
+          </button>
+          <button type="button" class="page-link pe-0" (click)="changePage(paginationDTO.totalPages)"
+                  [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
+            <span class="fas fa-angle-double-right"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
