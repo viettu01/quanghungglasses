@@ -20,7 +20,7 @@
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link label-1" role="button" data-bs-toggle="" aria-expanded="false" href="/admin/staff"
-             [class.active]="isExactRoute('/admin/staff')">
+             [class.active]="isExactRouteStartWith('/admin/staff')">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><span data-feather="user"></span></span>
               <span class="nav-link-text-wrapper"><span class="nav-link-text">Quản lý nhân viên</span></span>
@@ -30,7 +30,7 @@
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link label-1" role="button" data-bs-toggle="" aria-expanded="false" href="/admin/customer"
-             [class.active]="isExactRoute('/admin/customer')">
+             [class.active]="isExactRouteStartWith('/admin/customer')">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><span data-feather="users"></span></span>
               <span class="nav-link-text-wrapper"><span class="nav-link-text">Quản lý khách hàng</span></span>
@@ -40,7 +40,7 @@
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link label-1" role="button" data-bs-toggle="" aria-expanded="false" href="/admin/banner"
-             [class.active]="isExactRoute('/admin/banner')">
+             [class.active]="isExactRouteStartWith('/admin/banner')">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><span data-feather="image"></span></span>
               <span class="nav-link-text-wrapper"><span class="nav-link-text">Quản lý banner</span></span>
@@ -61,32 +61,32 @@
             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-category">
               <li class="nav-item">
                 <a class="nav-link" href="/admin/supplier" data-bs-toggle="" aria-expanded="false"
-                   [class.active]="isExactRoute('/admin/supplier')">
+                   [class.active]="isExactRouteStartWith('/admin/supplier')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Nhà cung cấp</span></div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/admin/material" data-bs-toggle="" aria-expanded="false"
-                   [class.active]="isExactRoute('/admin/material')">
+                   [class.active]="isExactRouteStartWith('/admin/material')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Chất liệu</span></div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/admin/shape" data-bs-toggle="" aria-expanded="false"
-                   [class.active]="isExactRoute('/admin/shape')">
+                   [class.active]="isExactRouteStartWith('/admin/shape')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Hình dạng</span></div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/admin/brand" data-bs-toggle="" aria-expanded="false"
-                   [class.active]="isExactRoute('/admin/brand')">
+                   [class.active]="isExactRouteStartWith('/admin/brand')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Thương hiệu</span>
                   </div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/admin/origin" data-bs-toggle="" aria-expanded="false"
-                   [class.active]="isExactRoute('/admin/origin')">
+                   [class.active]="isExactRouteStartWith('/admin/origin')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Xuất xứ</span>
                   </div>
                 </a>
@@ -98,8 +98,8 @@
         <div class="nav-item-wrapper py-2">
           <a class="nav-link dropdown-indicator label-1" href="#nv-product" role="button"
              data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-product"
-             [class.collapsed]="isExactRoute('/admin/category') || isExactRoute('/admin/product') || isExactRoute('/admin/sale')"
-             [attr.aria-expanded]="isExactRoute('/admin/category') || isExactRoute('/admin/product') || isExactRoute('/admin/sale')">
+             [class.collapsed]="isExactRouteStartWith('/admin/category') || isExactRouteStartWith('/admin/product') || isExactRouteStartWith('/admin/sale')"
+             [attr.aria-expanded]="isExactRouteStartWith('/admin/category') || isExactRouteStartWith('/admin/product') || isExactRouteStartWith('/admin/sale')">
             <div class="d-flex align-items-center">
               <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
               <span class="nav-link-icon"><span data-feather="archive"></span></span>
@@ -108,22 +108,22 @@
           </a>
           <div class="parent-wrapper label-1">
             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-product"
-                [class.show]="isExactRoute('/admin/category') || isExactRoute('/admin/product') || isExactRoute('/admin/sale')">
+                [class.show]="isExactRouteStartWith('/admin/category') || isExactRouteStartWith('/admin/product') || isExactRouteStartWith('/admin/sale')">
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/category"
-                   [class.active]="isExactRoute('/admin/category')">
+                   [class.active]="isExactRouteStartWith('/admin/category')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Danh mục sản phẩm</span></div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/product"
-                   [class.active]="isExactRoute('/admin/product')">
+                   [class.active]="isExactRouteStartWith('/admin/product')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Sản phẩm</span></div>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/sale"
-                   [class.active]="isExactRoute('/admin/sale')">
+                   [class.active]="isExactRouteStartWith('/admin/sale')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Chương trình khuyến mãi</span>
                   </div>
                 </a>
@@ -134,7 +134,7 @@
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link label-1" href="/admin/order" role="button" data-bs-toggle="" aria-expanded="false"
-             [class.active]="isExactRoute('/admin/order')">
+             [class.active]="isExactRouteStartWith('/admin/order')">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><span data-feather="shopping-bag"></span></span>
               <span class="nav-link-text-wrapper"><span class="nav-link-text">Hóa đơn bán hàng</span></span>
@@ -144,7 +144,7 @@
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link label-1" href="/admin/receipt" role="button" data-bs-toggle="" aria-expanded="false"
-             [class.active]="isExactRoute('/admin/receipt')">
+             [class.active]="isExactRouteStartWith('/admin/receipt')">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><span data-feather="download"></span></span>
               <span class="nav-link-text-wrapper"><span class="nav-link-text">Hóa đơn nhập hàng</span></span>
@@ -154,7 +154,7 @@
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link label-1" href="/admin/report" role="button" data-bs-toggle="" aria-expanded="false"
-             [class.active]="isExactRoute('/admin/report')">
+             [class.active]="isExactRouteStartWith('/admin/report')">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><span data-feather="trending-up"></span></span>
               <span class="nav-link-text-wrapper"><span class="nav-link-text">Báo cáo & Thống kê</span></span>

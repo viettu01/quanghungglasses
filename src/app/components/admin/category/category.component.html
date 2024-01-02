@@ -13,22 +13,22 @@
   </div>
   <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#">
+      <a class="nav-link active" aria-current="page" routerLink="/admin/category">
         <span>Tất cả </span>
-        <span class="text-700 fw-semi-bold">({{paginationDTO.totalElements}})</span>
+        <span class="text-700 fw-semi-bold">({{countAll}})</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <span class="nav-link" (click)="getListByStatus(true)">
         <span>Hiển thị </span>
-        <span class="text-700 fw-semi-bold">({{countStatus(true)}})</span>
-      </a>
+        <span class="text-700 fw-semi-bold">({{countStatusTrue}})</span>
+      </span>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <span class="nav-link" (click)="getListByStatus(false)">
         <span>Ẩn </span>
-        <!-- <span class="text-700 fw-semi-bold">({{countStatus(false)}})</span> -->
-      </a>
+        <span class="text-700 fw-semi-bold">({{countStatusFalse}})</span>
+      </span>
     </li>
   </ul>
   <div id="category">
@@ -37,7 +37,8 @@
         <div class="col-auto">
           <div class="search-box">
             <form class="position-relative">
-              <input class="form-control search-input search" type="search" placeholder="Tìm kiếm danh mục"/>
+              <input class="form-control search-input search" type="text" placeholder="Tìm kiếm danh mục"
+                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp"/>
               <span class="fas fa-search search-box-icon"></span>
             </form>
           </div>
@@ -59,10 +60,25 @@
           <tr>
             <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
               <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"/>
+                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"
+                       (input)="toggleSelectAll()"/>
               </div>
             </th>
-            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width: 250px;">Tên danh mục</th>
+            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width: 250px;"
+                (click)="sortByField('name')">
+              Tên danh mục
+              <label [class.d-none]="paginationDTO.sortBy === 'name'">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.visible]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection === 'DESC'"
+                     [class.d-none]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection !== 'DESC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.visible]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection === 'ASC'"
+                     [class.d-none]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection !== 'ASC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
             <th class="sort align-middle ps-4" scope="col" style="width:250px;">Slug</th>
             <th class="sort align-middle ps-4" scope="col">Ngày tạo</th>
             <th class="sort align-middle ps-3" scope="col">Ngày sửa</th>
@@ -79,7 +95,8 @@
           <tr class="position-static" *ngFor="let category of paginationDTO.content">
             <td class="fs--1 align-middle">
               <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" type="checkbox" [value]="category.id" data-bulk-select-row=""/>
+                <input class="form-check-input" type="checkbox" [value]="category.id"
+                       [checked]="selectAll"/>
               </div>
             </td>
             <td class="align-middle ps-4">{{category.name}}</td>
@@ -116,12 +133,13 @@
       <div class="row align-items-center py-2 pe-0 fs--1">
         <div class="col-auto d-flex">
           <label>
-            <select class="form-select form-select-sm form-select-solid">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
+            <select class="form-select form-select-sm form-select-solid" name="sizeSelected"
+                    [(ngModel)]="sizeSelected" (change)="changePageSize(sizeSelected)">
+              <option value="5" [selected]="paginationDTO.pageSize == 5">5</option>
+              <option value="10" [selected]="paginationDTO.pageSize == 10">10</option>
+              <option value="25" [selected]="paginationDTO.pageSize == 25">25</option>
+              <option value="50" [selected]="paginationDTO.pageSize == 50">50</option>
+              <option value="100" [selected]="paginationDTO.pageSize == 100">100</option>
             </select>
           </label>
         </div>
@@ -141,7 +159,7 @@
                   [class.disabled]="paginationDTO.pageNumber <= 1">
             <span class="fas fa-angle-double-left"></span>
           </button>
-          <button type="button" class="page-link" (click)="previousPage()"
+          <button type="button" class="page-link" (click)="changePage(paginationDTO.pageNumber - 1)"
                   [class.disabled]="paginationDTO.pageNumber <= 1">
             <span class="fas fa-angle-left"></span>
           </button>
@@ -152,7 +170,7 @@
               <button type="button" class="page-link" (click)="changePage(i)">{{i}}</button>
             </li>
           </ul>
-          <button type="button" class="page-link pe-0" (click)="nextPage()"
+          <button type="button" class="page-link pe-0" (click)="changePage(paginationDTO.pageNumber + 1)"
                   [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
             <span class="fas fa-angle-right"></span>
           </button>

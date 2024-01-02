@@ -13,27 +13,42 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class CategoryComponent implements OnInit {
   protected readonly Environment = Environment;
-  paginationDTO: PaginationDTO<CategoryDto> = new PaginationDTO<CategoryDto>([], 0, 0, 0, 0, 0, 0, 0);
-  categoryDTO: CategoryDto = new CategoryDto(0, "", "", "", false, new Date(), new Date());
+  paginationDTO: PaginationDTO<CategoryDto> = new PaginationDTO<CategoryDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  countAll: number = 0;
+  countStatusTrue: number = 0;
+  countStatusFalse: number = 0;
+  searchTemp: any = '';
+  sizeSelected: any = [];
+  selectAll: boolean = false;
+  sortDir: string = "ASC";
 
-  constructor(private title: Title, private categoryService: CategoryService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private title: Title, private categoryService: CategoryService,
+              private activatedRoute: ActivatedRoute, private router: Router) {
     this.title.setTitle("Quản lý danh mục");
+    this.findByNonStatus();
+    this.findAllByStatus(true);
+    this.findAllByStatus(false);
   }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       const name = params['name'] || "";
+      const status = params['status'] || "";
       const pageSize = +params['page-size'] || 10;
       const pageNumber = +params['page-number'] || 1;
-      const sortDir = params['sortDir'] || "";
-      const sortBy = params['sortBy'] || "";
+      const sortDir = params['sort-direction'] || "";
+      const sortBy = params['sort-by'] || "";
 
-      this.findAll(name, pageSize, pageNumber, sortDir, sortBy);
+      this.findAll(name, status, pageSize, pageNumber, sortDir, sortBy);
     });
   }
 
-  private findAll(name: string, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.categoryService.findAll(name, pageSize, pageNumber, sortDir, sortBy).subscribe({
+  toggleSelectAll() {
+    this.selectAll = !this.selectAll;
+  }
+
+  findAll(name: string, status: boolean, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    this.categoryService.findAll(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         this.paginationDTO.totalPages = response.totalPages;
@@ -43,6 +58,35 @@ export class CategoryComponent implements OnInit {
         this.paginationDTO.pageNumber = response.pageNumber;
         this.paginationDTO.firstElementOnPage = response.firstElementOnPage;
         this.paginationDTO.lastElementOnPage = response.lastElementOnPage;
+        this.paginationDTO.sortBy = response.sortBy;
+        this.paginationDTO.sortDirection = response.sortDirection;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+
+  findAllByStatus(status: boolean) {
+    this.categoryService.findAllByStatus(status).subscribe({
+      next: (response: any) => {
+        if (status)
+          this.countStatusTrue = response.totalElements;
+        else if (!status)
+          this.countStatusFalse = response.totalElements;
+        else
+          this.countAll = response.totalElements;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+
+  findByNonStatus() {
+    this.categoryService.findAllNonStatus().subscribe({
+      next: (response: any) => {
+        this.countAll = response.totalElements;
       },
       error: (error: any) => {
         console.log(error);
@@ -51,17 +95,10 @@ export class CategoryComponent implements OnInit {
   }
 
   changePage(pageNumber: number): void {
-    this.router.navigate(['/admin/category'], {queryParams: {"page-number": pageNumber}}).then(r => {
-    });
-  }
-
-  nextPage(): void {
-    this.router.navigate(['/admin/category'], {queryParams: {"page-number": this.paginationDTO.pageNumber + 1}}).then(r => {
-    });
-  }
-
-  previousPage(): void {
-    this.router.navigate(['/admin/category'], {queryParams: {"page-number": this.paginationDTO.pageNumber - 1}}).then(r => {
+    this.router.navigate(['/admin/category'], {
+      queryParams: {"page-number": pageNumber},
+      queryParamsHandling: 'merge'
+    }).then(r => {
     });
   }
 
@@ -74,14 +111,33 @@ export class CategoryComponent implements OnInit {
     return Array.from({length: end - start + 1}, (_, index) => start + index);
   }
 
-  countStatus(status: boolean): any {
-    this.categoryService.countByStatus(status).subscribe({
-      next: (response: any) => {
-        return response;
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
+  getListByStatus(status: boolean) {
+    this.router.navigate(['/admin/category'], {queryParams: {"status": status}}).then(r => {
+    });
+  }
+
+  changePageSize(pageSize: number): void {
+    this.router.navigate(['/admin/category'], {
+      queryParams: {"page-size": pageSize},
+      queryParamsHandling: 'merge'
+    }).then(r => {
+    });
+  }
+
+  sortByField(sortBy: string): void {
+    this.router.navigate(['/admin/category'], {
+      queryParams: {"sort-by": sortBy, "sort-direction": this.sortDir},
+      queryParamsHandling: 'merge'
+    }).then(r => {
+    });
+    this.sortDir = this.sortDir === "ASC" ? "DESC" : "ASC";
+  }
+
+  search() {
+    this.router.navigate(['/admin/category'], {
+      queryParams: {"name": this.searchTemp},
+      queryParamsHandling: 'merge'
+    }).then(r => {
     });
   }
 }

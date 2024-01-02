@@ -31,6 +31,7 @@ import { BrandComponent } from './components/admin/brand/brand.component';
 import { SupplierComponent } from './components/admin/supplier/supplier.component';
 import { BannerComponent } from './components/admin/banner/banner.component';
 import { ClientMenuComponent } from './components/client/client-menu/client-menu.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -61,14 +62,14 @@ import { ClientMenuComponent } from './components/client/client-menu/client-menu
     BannerComponent,
     ClientMenuComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterModule,
-    NgOptimizedImage,
-    HttpClientModule,
-
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        RouterModule,
+        NgOptimizedImage,
+        HttpClientModule,
+        FormsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
