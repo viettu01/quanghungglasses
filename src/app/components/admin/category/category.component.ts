@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from "../../../service/category.service";
 import {Title} from "@angular/platform-browser";
 import {PaginationDTO} from "../../../dto/pagination.dto";
 import {CategoryDto} from "../../../dto/category.dto";
 import {Environment} from "../../../environment/environment";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-category',
@@ -17,15 +19,29 @@ export class CategoryComponent implements OnInit {
   countAll: number = 0;
   countStatusTrue: number = 0;
   countStatusFalse: number = 0;
-  searchTemp: any = '';
+  searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   sizeSelected: any = [];
   selectAll: boolean = false;
   sortDir: string = "ASC";
 
+  @ViewChild('btnCloseModal') btnCloseModal!: ElementRef;
+  titleModal: string = "";
+  btnSave: string = "";
+  isDisplayNone: boolean = false;
+  errorMessage: string = "";
+  categoryForm: FormGroup = new FormGroup(
+    {
+      id: new FormControl(null),
+      name: new FormControl('', [Validators.required]),
+      slug: new FormControl('', [Validators.required]),
+      status: new FormControl('false', [Validators.required]),
+    }
+  );
+
   constructor(private title: Title, private categoryService: CategoryService,
               private activatedRoute: ActivatedRoute, private router: Router) {
     this.title.setTitle("Quản lý danh mục");
-    this.findByNonStatus();
+    this.findAllByNonStatus();
     this.findAllByStatus(true);
     this.findAllByStatus(false);
   }
@@ -47,7 +63,7 @@ export class CategoryComponent implements OnInit {
     this.selectAll = !this.selectAll;
   }
 
-  findAll(name: string, status: boolean, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+  findAll(name: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
     this.categoryService.findAll(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
@@ -72,10 +88,8 @@ export class CategoryComponent implements OnInit {
       next: (response: any) => {
         if (status)
           this.countStatusTrue = response.totalElements;
-        else if (!status)
-          this.countStatusFalse = response.totalElements;
         else
-          this.countAll = response.totalElements;
+          this.countStatusFalse = response.totalElements;
       },
       error: (error: any) => {
         console.log(error);
@@ -83,7 +97,7 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  findByNonStatus() {
+  findAllByNonStatus() {
     this.categoryService.findAllNonStatus().subscribe({
       next: (response: any) => {
         this.countAll = response.totalElements;
@@ -139,5 +153,104 @@ export class CategoryComponent implements OnInit {
       queryParamsHandling: 'merge'
     }).then(r => {
     });
+  }
+
+  onSubmit() {
+    // debugger;
+    if (this.categoryForm.invalid) {
+      return;
+    }
+    this.save();
+  }
+
+  save() {
+    this.isDisplayNone = true;
+    this.categoryService.save(this.categoryForm.value).subscribe({
+      next: (response: any) => {
+        this.categoryForm.reset();
+        this.btnCloseModal.nativeElement.click();
+        this.updateTable();
+      },
+      error: (error: any) => {
+        this.errorMessage = error.error;
+        this.isDisplayNone = false;
+      }
+    });
+  }
+
+  updateStatus(category: CategoryDto) {
+    this.categoryForm.patchValue({
+      id: category.id,
+      name: category.name,
+      slug: category.slug,
+      status: !category.status
+    });
+    console.log(this.categoryForm.value);
+    this.categoryService.save(this.categoryForm.value).subscribe({
+      next: (response: any) => {
+        this.updateTable();
+      },
+      error: (error: any) => {
+        this.errorMessage = error.error;
+        this.isDisplayNone = false;
+      }
+    });
+  }
+
+  delete(id: number) {
+    Swal.fire({
+      title: 'Bạn có chắc chắn muốn xóa?',
+      text: 'Dữ liệu sẽ không thể phục hồi sau khi xóa!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xác nhận',
+      cancelButtonText: 'Hủy',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-danger me-1',
+        cancelButton: 'btn btn-secondary'
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoryService.delete([id]).subscribe({
+          next: (response: any) => {
+            this.updateTable();
+          },
+          error: (error: any) => {
+            // debugger;
+            console.log(error);
+          }
+        });
+      }
+    })
+  }
+
+  openModalCreate() {
+    this.categoryForm.reset();
+    this.categoryForm.patchValue({
+      status: 'false'
+    });
+    this.titleModal = "Thêm danh mục";
+    this.btnSave = "Thêm mới";
+  }
+
+  openModalUpdate(category: CategoryDto) {
+    this.categoryForm.patchValue({
+      id: category.id,
+      name: category.name,
+      slug: category.slug,
+      status: category.status.toString()
+    });
+    this.titleModal = "Cập nhật danh mục";
+    this.btnSave = "Cập nhật";
+  }
+
+  updateTable() {
+    this.isDisplayNone = false;
+    this.errorMessage = "";
+    this.findAllByStatus(true);
+    this.findAllByStatus(false);
+    this.findAllByNonStatus();
+    this.findAll(this.searchTemp, "", 10, 1, "", "");
   }
 }

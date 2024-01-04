@@ -47,7 +47,8 @@
           <button class="btn btn-link text-body me-4 px-0">
             <span class="fa-solid fa-file-export fs-9 me-2"></span>Xuất
           </button>
-          <button class="btn btn-primary">
+          <button class="btn btn-primary" data-bs-target="#modalCategory" data-bs-toggle="modal"
+                  (click)="openModalCreate()">
             <span class="fas fa-plus me-2"></span>Thêm danh mục
           </button>
         </div>
@@ -67,17 +68,17 @@
             <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width: 250px;"
                 (click)="sortByField('name')">
               Tên danh mục
-              <label [class.d-none]="paginationDTO.sortBy === 'name'">
-                <span class="fas fa-sort align-middle fs-9"></span>
-              </label>
-              <label [class.visible]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection === 'DESC'"
-                     [class.d-none]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection !== 'DESC'">
-                <span class="fas fa-sort-up align-middle fs-9"></span>
-              </label>
-              <label [class.visible]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection === 'ASC'"
-                     [class.d-none]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection !== 'ASC'">
-                <span class="fas fa-sort-down align-middle fs-9"></span>
-              </label>
+              <!--              <label [class.d-none]="paginationDTO.sortBy === 'name'">-->
+              <!--                <span class="fas fa-sort align-middle fs-9"></span>-->
+              <!--              </label>-->
+              <!--              <label [class.visible]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection === 'DESC'"-->
+              <!--                     [class.d-none]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection !== 'DESC'">-->
+              <!--                <span class="fas fa-sort-up align-middle fs-9"></span>-->
+              <!--              </label>-->
+              <!--              <label [class.visible]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection === 'ASC'"-->
+              <!--                     [class.d-none]="paginationDTO.sortBy === 'name' && paginationDTO.sortDirection !== 'ASC'">-->
+              <!--                <span class="fas fa-sort-down align-middle fs-9"></span>-->
+              <!--              </label>-->
             </th>
             <th class="sort align-middle ps-4" scope="col" style="width:250px;">Slug</th>
             <th class="sort align-middle ps-4" scope="col">Ngày tạo</th>
@@ -119,10 +120,17 @@
                   <span class="fas fa-ellipsis-h fs--2"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
-                  <a class="dropdown-item" href="#!">View</a>
-                  <a class="dropdown-item" href="#!">Export</a>
+                  <a class="dropdown-item" href="#!">Chi tiết</a>
+                  <button class="dropdown-item" data-bs-target="#modalCategory" data-bs-toggle="modal"
+                          (click)="openModalUpdate(category)">Cập nhật
+                  </button>
+                  <button class="dropdown-item" (click)="updateStatus(category)">
+                    <span *ngIf="category.status">Ẩn</span>
+                    <span *ngIf="!category.status">Hiển thị</span>
+                  </button>
+                  <a class="dropdown-item" href="#!">Xuất</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item text-danger" href="#!">Remove</a>
+                  <button class="dropdown-item text-danger" (click)="delete(category.id)">Xóa</button>
                 </div>
               </div>
             </td>
@@ -170,16 +178,85 @@
               <button type="button" class="page-link" (click)="changePage(i)">{{i}}</button>
             </li>
           </ul>
-          <button type="button" class="page-link pe-0" (click)="changePage(paginationDTO.pageNumber + 1)"
+          <button type="button" class="page-link" (click)="changePage(paginationDTO.pageNumber + 1)"
                   [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
             <span class="fas fa-angle-right"></span>
           </button>
-          <button type="button" class="page-link pe-0" (click)="changePage(paginationDTO.totalPages)"
+          <button type="button" class="page-link" (click)="changePage(paginationDTO.totalPages)"
                   [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
             <span class="fas fa-angle-double-right"></span>
           </button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalCategory" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCategoryLabel">{{titleModal}}</h5>
+        <button class="btn p-1" data-bs-dismiss="modal" aria-label="Close" #btnCloseModal>
+          <span class="fas fa-times fs-9"></span>
+        </button>
+      </div>
+      <form class="form" [formGroup]="categoryForm" (submit)="onSubmit()">
+        <div class="modal-body">
+          <div class="row px-3" *ngIf="errorMessage != ''">
+            <label class="col-sm-12 col-form-label fs-9 alert alert-subtle-danger p-2" role="alert">
+              {{errorMessage}}
+            </label>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-3 col-form-label fs-9" for="name">Tên danh mục</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="name" type="text" formControlName="name">
+              <small class="text-danger mt-1"
+                     *ngIf="categoryForm['controls']['name'].dirty && categoryForm['controls']['name'].errors?.['required']">
+                Tên danh mục không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-3 col-form-label fs-9" for="slug">Slug</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="slug" type="text" formControlName="slug">
+              <small class="text-danger mt-1"
+                     *ngIf="categoryForm['controls']['slug'].dirty && categoryForm['controls']['slug'].errors?.['required']">
+                Slug không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-form-label col-sm-3 pt-0 fs-9">Trạng thái</label>
+            <div class="col-sm-9">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="status" value="false"
+                       formControlName="status"/>
+                <label class="form-check-label">Ẩn</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="status" value="true"
+                       formControlName="status"/>
+                <label class="form-check-label">Hiện</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit" [disabled]="categoryForm.invalid">
+            <span [class.d-none]="isDisplayNone">{{btnSave}}</span>
+            <span class="indicator-progress" [class.d-none]="!isDisplayNone">
+              Vui lòng chờ...
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          </button>
+
+          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Quay lại</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {CategoryDto} from "../dto/category.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,21 @@ export class CategoryService {
   findAllNonStatus() {
     let queryParams = new HttpParams();
     return this.http.get(this.apiCategoryUrl, { params: queryParams });
+  }
+
+  save(category: CategoryDto) {
+    if (category.id != null) {
+      return this.http.put(this.apiCategoryUrl, category, this.apiConfigUrl);
+    }
+    return this.http.post(this.apiCategoryUrl, category, this.apiConfigUrl);
+  };
+
+  delete(ids: number[]) {
+    const options = {
+      headers: this.apiConfigUrl.headers,
+      body: ids // Truyền danh sách ids vào phần body
+    };
+
+    return this.http.delete(`${this.apiCategoryUrl}`, options);
   }
 }

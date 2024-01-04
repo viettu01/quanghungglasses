@@ -31,7 +31,7 @@ import { BrandComponent } from './components/admin/brand/brand.component';
 import { SupplierComponent } from './components/admin/supplier/supplier.component';
 import { BannerComponent } from './components/admin/banner/banner.component';
 import { ClientMenuComponent } from './components/client/client-menu/client-menu.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -69,6 +69,7 @@ import {FormsModule} from "@angular/forms";
         NgOptimizedImage,
         HttpClientModule,
         FormsModule,
+        ReactiveFormsModule,
     ],
   providers: [],
   bootstrap: [AppComponent]
