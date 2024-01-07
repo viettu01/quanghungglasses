@@ -200,11 +200,11 @@
           </p>
         </div>
         <div class="col-auto ms-auto d-flex">
-          <button type="button" class="page-link" (click)="changePage(1)"
+          <button type="button" class="page-link" (click)="changePageNumber(1)"
                   [class.disabled]="paginationDTO.pageNumber <= 1">
             <span class="fas fa-angle-double-left"></span>
           </button>
-          <button type="button" class="page-link" (click)="changePage(paginationDTO.pageNumber - 1)"
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.pageNumber - 1)"
                   [class.disabled]="paginationDTO.pageNumber <= 1">
             <span class="fas fa-angle-left"></span>
           </button>
@@ -212,14 +212,14 @@
             <li class="page-item"
                 *ngFor="let i of Utils.getVisiblePages(paginationDTO.pageNumber, paginationDTO.totalPages, 5)"
                 [class.active]="i === paginationDTO.pageNumber">
-              <button type="button" class="page-link" (click)="changePage(i)">{{ i }}</button>
+              <button type="button" class="page-link" (click)="changePageNumber(i)">{{ i }}</button>
             </li>
           </ul>
-          <button type="button" class="page-link" (click)="changePage(paginationDTO.pageNumber + 1)"
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.pageNumber + 1)"
                   [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
             <span class="fas fa-angle-right"></span>
           </button>
-          <button type="button" class="page-link" (click)="changePage(paginationDTO.totalPages)"
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.totalPages)"
                   [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
             <span class="fas fa-angle-double-right"></span>
           </button>

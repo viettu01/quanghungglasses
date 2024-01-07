@@ -108,7 +108,7 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  changePage(pageNumber: number): void {
+  changePageNumber(pageNumber: number): void {
     this.router.navigate(['/admin/category'], {
       queryParams: {"page-number": pageNumber},
       queryParamsHandling: 'merge'
