@@ -25,15 +25,18 @@ export class CategoryService {
     return this.http.get(this.apiCategoryUrl, { params: queryParams });
   };
 
-  findAllByStatus(status: boolean) {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("status", status);
-    return this.http.get(this.apiCategoryUrl, { params: queryParams });
+  findBySlug(slug: string) {
+    return this.http.get(`${this.apiCategoryUrl}/${slug}`);
   }
 
-  findAllNonStatus() {
+  countByStatus(status: boolean) {
     let queryParams = new HttpParams();
-    return this.http.get(this.apiCategoryUrl, { params: queryParams });
+    queryParams = queryParams.append("status", status);
+    return this.http.get(`${this.apiCategoryUrl}/count`, { params: queryParams });
+  }
+
+  countAll() {
+    return this.http.get(`${this.apiCategoryUrl}/count-all`);
   }
 
   save(category: CategoryDto) {

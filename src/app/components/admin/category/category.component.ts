@@ -3,10 +3,10 @@ import {CategoryService} from "../../../service/category.service";
 import {Title} from "@angular/platform-browser";
 import {PaginationDTO} from "../../../dto/pagination.dto";
 import {CategoryDto} from "../../../dto/category.dto";
-import {Environment} from "../../../environment/environment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from 'sweetalert2';
+import {Utils} from "../../../utils/utils";
 
 @Component({
   selector: 'app-category',
@@ -14,15 +14,16 @@ import Swal from 'sweetalert2';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
-  protected readonly Environment = Environment;
+  protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<CategoryDto> = new PaginationDTO<CategoryDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
-  countAll: number = 0;
+  countStatusAll: number = 0;
   countStatusTrue: number = 0;
   countStatusFalse: number = 0;
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   sizeSelected: any = [];
   selectAll: boolean = false;
   sortDir: string = "ASC";
+  sortBy: string = "";
 
   @ViewChild('btnCloseModal') btnCloseModal!: ElementRef;
   titleModal: string = "";
@@ -40,13 +41,13 @@ export class CategoryComponent implements OnInit {
 
   constructor(private title: Title, private categoryService: CategoryService,
               private activatedRoute: ActivatedRoute, private router: Router) {
-    this.title.setTitle("Quản lý danh mục");
-    this.findAllByNonStatus();
-    this.findAllByStatus(true);
-    this.findAllByStatus(false);
   }
 
   ngOnInit() {
+    this.title.setTitle("Quản lý danh mục");
+    this.countAll();
+    this.countByStatus(true);
+    this.countByStatus(false);
     this.activatedRoute.queryParams.subscribe(params => {
       const name = params['name'] || "";
       const status = params['status'] || "";
@@ -83,8 +84,8 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  findAllByStatus(status: boolean) {
-    this.categoryService.findAllByStatus(status).subscribe({
+  countByStatus(status: boolean) {
+    this.categoryService.countByStatus(status).subscribe({
       next: (response: any) => {
         if (status)
           this.countStatusTrue = response.totalElements;
@@ -97,10 +98,10 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  findAllByNonStatus() {
-    this.categoryService.findAllNonStatus().subscribe({
+  countAll() {
+    this.categoryService.countAll().subscribe({
       next: (response: any) => {
-        this.countAll = response.totalElements;
+        this.countStatusAll = response.totalElements;
       },
       error: (error: any) => {
         console.log(error);
@@ -116,25 +117,16 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  getVisiblePages(currentPage: number, totalPages: number, visibleCount: number): number[] {
-    // start = Giá trị nhỏ nhất của trang hiển thị
-    // end = Giá trị lớn nhất của trang hiển thị
-    let start = Math.max(1, Math.min(currentPage - Math.floor(visibleCount / 2), totalPages - visibleCount + 1));
-    let end = Math.min(totalPages, start + visibleCount - 1);
-
-    return Array.from({length: end - start + 1}, (_, index) => start + index);
-  }
-
-  getListByStatus(status: boolean) {
-    this.router.navigate(['/admin/category'], {queryParams: {"status": status}}).then(r => {
+  changePageSize(pageSize: number): void {
+    this.router.navigate(['/admin/category'], {
+      queryParams: {'page-size': pageSize},
+      queryParamsHandling: 'merge'
+    }).then(r => {
     });
   }
 
-  changePageSize(pageSize: number): void {
-    this.router.navigate(['/admin/category'], {
-      queryParams: {"page-size": pageSize},
-      queryParamsHandling: 'merge'
-    }).then(r => {
+  findAllByStatus(status: boolean) {
+    this.router.navigate(['/admin/category'], {queryParams: {'status': status}}).then(r => {
     });
   }
 
@@ -145,11 +137,12 @@ export class CategoryComponent implements OnInit {
     }).then(r => {
     });
     this.sortDir = this.sortDir === "ASC" ? "DESC" : "ASC";
+    this.sortBy = sortBy;
   }
 
   search() {
     this.router.navigate(['/admin/category'], {
-      queryParams: {"name": this.searchTemp},
+      queryParams: {"name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
     }).then(r => {
     });
@@ -248,9 +241,9 @@ export class CategoryComponent implements OnInit {
   updateTable() {
     this.isDisplayNone = false;
     this.errorMessage = "";
-    this.findAllByStatus(true);
-    this.findAllByStatus(false);
-    this.findAllByNonStatus();
+    this.countByStatus(true);
+    this.countByStatus(false);
+    this.countAll();
     this.findAll(this.searchTemp, "", 10, 1, "", "");
   }
 }
