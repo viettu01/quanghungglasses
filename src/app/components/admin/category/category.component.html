@@ -184,7 +184,7 @@
         <div class="col-auto d-flex">
           <label>
             <select class="form-select form-select-sm form-select-solid" name="sizeSelected"
-                    [(ngModel)]="sizeSelected" (change)="changePageSize(sizeSelected)">
+                    [(ngModel)]="paginationDTO.pageSize" (change)="changePageSize(paginationDTO.pageSize)">
               <option value="5" [selected]="paginationDTO.pageSize == 5">5</option>
               <option value="10" [selected]="paginationDTO.pageSize == 10">10</option>
               <option value="25" [selected]="paginationDTO.pageSize == 25">25</option>
@@ -196,13 +196,8 @@
         <div class="col-auto d-flex">
           <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900">
             Hiển thị {{ paginationDTO.firstElementOnPage }} đến {{ paginationDTO.lastElementOnPage }}
-            <span class="text-body-tertiary"> của </span>{{ paginationDTO.totalElements }} danh mục</p>
-          <a class="fw-semi-bold" href="#!">
-            Xem tất cả<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-          </a>
-          <a class="fw-semi-bold d-none" href="#!">
-            Xem ít hơn<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-          </a>
+            <span class="text-body-tertiary"> của </span>{{ paginationDTO.totalElements }} danh mục
+          </p>
         </div>
         <div class="col-auto ms-auto d-flex">
           <button type="button" class="page-link" (click)="changePage(1)"

@@ -20,7 +20,6 @@ export class CategoryComponent implements OnInit {
   countStatusTrue: number = 0;
   countStatusFalse: number = 0;
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
-  sizeSelected: any = [];
   selectAll: boolean = false;
   sortDir: string = "ASC";
   sortBy: string = "";

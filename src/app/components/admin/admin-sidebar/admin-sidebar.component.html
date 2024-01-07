@@ -50,7 +50,11 @@
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link dropdown-indicator label-1" href="#nv-category" role="button"
-             data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-category">
+             data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-category"
+             [class.collapsed]="!(isExactRouteStartWith('/admin/supplier') || isExactRouteStartWith('/admin/material')
+             || isExactRouteStartWith('/admin/shape') || isExactRouteStartWith('/admin/brand'))"
+             [attr.aria-expanded]="isExactRouteStartWith('/admin/supplier') || isExactRouteStartWith('/admin/material')
+             || isExactRouteStartWith('/admin/shape') || isExactRouteStartWith('/admin/brand')">
             <div class="d-flex align-items-center">
               <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
               <span class="nav-link-icon"><span data-feather="box"></span></span>
@@ -98,7 +102,7 @@
         <div class="nav-item-wrapper py-2">
           <a class="nav-link dropdown-indicator label-1" href="#nv-product" role="button"
              data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-product"
-             [class.collapsed]="isExactRouteStartWith('/admin/category') || isExactRouteStartWith('/admin/product') || isExactRouteStartWith('/admin/sale')"
+             [class.collapsed]="!(isExactRouteStartWith('/admin/category') || isExactRouteStartWith('/admin/product') || isExactRouteStartWith('/admin/sale'))"
              [attr.aria-expanded]="isExactRouteStartWith('/admin/category') || isExactRouteStartWith('/admin/product') || isExactRouteStartWith('/admin/sale')">
             <div class="d-flex align-items-center">
               <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
