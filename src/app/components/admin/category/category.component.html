@@ -249,35 +249,62 @@
           <div class="row mb-3">
             <label class="col-sm-3 col-form-label fs-9" for="name">Tên danh mục</label>
             <div class="col-sm-9">
-              <input class="form-control" id="name" type="text" formControlName="name">
-              <small class="text-danger mt-1"
-                     *ngIf="categoryForm['controls']['name'].dirty && categoryForm['controls']['name'].errors?.['required']">
-                Tên danh mục không được để trống
+              <input class="form-control" id="name" type="text" formControlName="name" placeholder="Tên danh mục"
+                     (input)="slugify()">
+              <small class="text-danger mt-1">
+                <span
+                  *ngIf="categoryForm['controls']['name'].dirty && categoryForm['controls']['name'].errors?.['required']">
+                  Tên danh mục không được để trống
+                </span>
+                <span
+                  *ngIf="categoryForm['controls']['name'].dirty && categoryForm['controls']['name'].errors?.['maxlength']">
+                  Tên danh mục không được vượt quá 30 ký tự
+                </span>
               </small>
             </div>
           </div>
           <div class="row mb-3">
             <label class="col-sm-3 col-form-label fs-9" for="slug">Slug</label>
             <div class="col-sm-9">
-              <input class="form-control" id="slug" type="text" formControlName="slug">
-              <small class="text-danger mt-1"
-                     *ngIf="categoryForm['controls']['slug'].dirty && categoryForm['controls']['slug'].errors?.['required']">
-                Slug không được để trống
+              <input class="form-control" id="slug" type="text" formControlName="slug" placeholder="ten-danh-muc">
+              <small class="text-danger mt-1">
+                <span
+                  *ngIf="categoryForm['controls']['slug'].dirty && categoryForm['controls']['slug'].errors?.['required']">
+                  Slug không được để trống
+                </span>
+                <span
+                  *ngIf="categoryForm['controls']['slug'].invalid && categoryForm['controls']['slug'].errors?.['maxlength']">
+                  Slug không được vượt quá 50 ký tự
+                </span>
+                <span
+                  *ngIf="categoryForm['controls']['slug'].invalid && categoryForm['controls']['slug'].errors?.['pattern']">
+                  Slug phải không được có dấu và khoảng trắng
+                </span>
               </small>
             </div>
           </div>
-          <div class="row mb-3">
-            <label class="col-form-label col-sm-3 pt-0 fs-9">Trạng thái</label>
+          <div class="row mb-1">
+            <label class="col-sm-3 col-form-label fs-9" for="description">Mô tả</label>
             <div class="col-sm-9">
-              <div class="form-check form-check-inline">
+              <textarea class="form-control" id="description" rows="3" placeholder="Mô tả" formControlName="description"></textarea>
+              <small class="text-danger mt-1"
+                     *ngIf="categoryForm['controls']['description'].dirty && categoryForm['controls']['description'].errors?.['maxlength']">
+                Mô tả không được vượt quá 100 ký tự
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-form-label col-sm-3 fs-9 m-auto">Trạng thái</label>
+            <div class="col-sm-9 m-auto">
+              <div class="form-check form-check-inline mb-0">
                 <input class="form-check-input" type="radio" name="status" value="false"
                        formControlName="status"/>
-                <label class="form-check-label">Ẩn</label>
+                <label class="form-check-label fs-9">Ẩn</label>
               </div>
-              <div class="form-check form-check-inline">
+              <div class="form-check form-check-inline mb-0">
                 <input class="form-check-input" type="radio" name="status" value="true"
                        formControlName="status"/>
-                <label class="form-check-label">Hiện</label>
+                <label class="form-check-label fs-9">Hiện</label>
               </div>
             </div>
           </div>

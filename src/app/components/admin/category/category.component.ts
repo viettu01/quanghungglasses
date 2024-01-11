@@ -6,6 +6,7 @@ import {CategoryDto} from "../../../dto/category.dto";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from 'sweetalert2';
+import slugify from 'slugify';
 import {Utils} from "../../../utils/utils";
 
 @Component({
@@ -23,6 +24,7 @@ export class CategoryComponent implements OnInit {
   selectAll: boolean = false;
   sortDir: string = "ASC";
   sortBy: string = "";
+  slug: string = "";
 
   @ViewChild('btnCloseModal') btnCloseModal!: ElementRef;
   titleModal: string = "";
@@ -32,8 +34,13 @@ export class CategoryComponent implements OnInit {
   categoryForm: FormGroup = new FormGroup(
     {
       id: new FormControl(null),
-      name: new FormControl('', [Validators.required]),
-      slug: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+      slug: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z0-9-]*$/)
+      ]),
+      description: new FormControl('', [Validators.maxLength(100)]),
       status: new FormControl('false', [Validators.required]),
     }
   );
@@ -118,7 +125,7 @@ export class CategoryComponent implements OnInit {
 
   changePageSize(pageSize: number): void {
     this.router.navigate(['/admin/category'], {
-      queryParams: {'page-size': pageSize},
+      queryParams: {'page-size': pageSize, 'page-number': 1},
       queryParamsHandling: 'merge'
     }).then(r => {
     });
@@ -237,12 +244,27 @@ export class CategoryComponent implements OnInit {
     this.btnSave = "Cập nhật";
   }
 
+  slugify() {
+    this.categoryForm.patchValue({
+      slug: slugify(this.categoryForm.value.name, {
+          lower: true,
+          remove: /[*+~.,()'"!:@]/g,
+          locale: 'en',
+          trim: true,
+          strict: true
+        },
+      )
+    });
+  }
+
   updateTable() {
     this.isDisplayNone = false;
     this.errorMessage = "";
     this.countByStatus(true);
     this.countByStatus(false);
     this.countAll();
-    this.findAll(this.searchTemp, "", 10, 1, "", "");
+    this.router.navigate(['/admin/category'], {queryParams: {'page-number': 1}})
+      .then(r => {
+      });
   }
 }
