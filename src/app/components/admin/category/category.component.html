@@ -151,8 +151,8 @@
               {{ category.updatedDate | date:'dd/MM/yyyy HH:mm:ss' }}
             </td>
             <td class="align-middle white-space-nowrap text-600 ps-4">
-              <span class="badge badge-phoenix badge-phoenix-success p-2" *ngIf="category.status">Hiển thị</span>
-              <span class="badge badge-phoenix badge-phoenix-danger p-2" *ngIf="!category.status">Ẩn</span>
+              <span class="text-success" *ngIf="category.status">Hiển thị</span>
+              <span class="text-danger" *ngIf="!category.status">Ẩn</span>
             </td>
             <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
               <div class="font-sans-serif btn-reveal-trigger position-static">
@@ -162,7 +162,7 @@
                   <span class="fas fa-ellipsis-h fs--2"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
-                  <a class="dropdown-item" href="#!">Chi tiết</a>
+                  <button class="dropdown-item" (click)="detail(category.id)">Chi tiết</button>
                   <button class="dropdown-item" data-bs-target="#modalCategory" data-bs-toggle="modal"
                           (click)="openModalUpdate(category)">Cập nhật
                   </button>
@@ -286,7 +286,8 @@
           <div class="row mb-1">
             <label class="col-sm-3 col-form-label fs-9" for="description">Mô tả</label>
             <div class="col-sm-9">
-              <textarea class="form-control" id="description" rows="3" placeholder="Mô tả" formControlName="description"></textarea>
+              <textarea class="form-control" id="description" rows="3" placeholder="Mô tả"
+                        formControlName="description"></textarea>
               <small class="text-danger mt-1"
                      *ngIf="categoryForm['controls']['description'].dirty && categoryForm['controls']['description'].errors?.['maxlength']">
                 Mô tả không được vượt quá 100 ký tự

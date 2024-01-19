@@ -39,19 +39,24 @@ export class CategoryService {
     return this.http.get(`${this.apiCategoryUrl}/count-all`);
   }
 
-  save(category: CategoryDto) {
-    if (category.id != null) {
-      return this.http.put(this.apiCategoryUrl, category, this.apiConfigUrl);
-    }
+  create(category: CategoryDto) {
     return this.http.post(this.apiCategoryUrl, category, this.apiConfigUrl);
-  };
+  }
 
-  delete(ids: number[]) {
-    const options = {
-      headers: this.apiConfigUrl.headers,
-      body: ids // Truyền danh sách ids vào phần body
-    };
+  update(category: CategoryDto) {
+    return this.http.put(this.apiCategoryUrl, category, this.apiConfigUrl);
+  }
 
-    return this.http.delete(`${this.apiCategoryUrl}`, options);
+  // delete(ids: number[]) {
+  //   const options = {
+  //     headers: this.apiConfigUrl.headers,
+  //     body: ids // Truyền danh sách ids vào phần body
+  //   };
+  //
+  //   return this.http.delete(`${this.apiCategoryUrl}`, options);
+  // }
+
+  delete(id: number) {
+    return this.http.delete(`${this.apiCategoryUrl}/${id}`,);
   }
 }

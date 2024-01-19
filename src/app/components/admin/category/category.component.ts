@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from 'sweetalert2';
 import slugify from 'slugify';
+import { ToastrService } from 'ngx-toastr';
 import {Utils} from "../../../utils/utils";
 
 @Component({
@@ -46,7 +47,8 @@ export class CategoryComponent implements OnInit {
   );
 
   constructor(private title: Title, private categoryService: CategoryService,
-              private activatedRoute: ActivatedRoute, private router: Router) {
+              private activatedRoute: ActivatedRoute, private router: Router,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -159,16 +161,36 @@ export class CategoryComponent implements OnInit {
     if (this.categoryForm.invalid) {
       return;
     }
-    this.save();
+    if (this.categoryForm.value.id == null)
+      this.create();
+    else
+      this.update();
   }
 
-  save() {
+  create() {
     this.isDisplayNone = true;
-    this.categoryService.save(this.categoryForm.value).subscribe({
+    this.categoryService.create(this.categoryForm.value).subscribe({
       next: (response: any) => {
         this.categoryForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
+        this.toastr.success('Thêm danh mục thành công', 'Thông báo');
+      },
+      error: (error: any) => {
+        this.errorMessage = error.error;
+        this.isDisplayNone = false;
+      }
+    });
+  }
+
+  update() {
+    this.isDisplayNone = true;
+    this.categoryService.update(this.categoryForm.value).subscribe({
+      next: (response: any) => {
+        this.categoryForm.reset();
+        this.btnCloseModal.nativeElement.click();
+        this.updateTable();
+        this.toastr.success('Cập nhật danh mục thành công', 'Thông báo');
       },
       error: (error: any) => {
         this.errorMessage = error.error;
@@ -184,8 +206,7 @@ export class CategoryComponent implements OnInit {
       slug: category.slug,
       status: !category.status
     });
-    console.log(this.categoryForm.value);
-    this.categoryService.save(this.categoryForm.value).subscribe({
+    this.categoryService.update(this.categoryForm.value).subscribe({
       next: (response: any) => {
         this.updateTable();
       },
@@ -211,17 +232,21 @@ export class CategoryComponent implements OnInit {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoryService.delete([id]).subscribe({
+        this.categoryService.delete(id).subscribe({
           next: (response: any) => {
             this.updateTable();
+            this.toastr.success('Xóa danh mục thành công', 'Thông báo');
           },
           error: (error: any) => {
-            // debugger;
-            console.log(error);
+            this.toastr.error(error.error, 'Thất bại');
           }
         });
       }
     })
+  }
+
+  detail(id: number) {
+
   }
 
   openModalCreate() {
@@ -263,8 +288,6 @@ export class CategoryComponent implements OnInit {
     this.countByStatus(true);
     this.countByStatus(false);
     this.countAll();
-    this.router.navigate(['/admin/category'], {queryParams: {'page-number': 1}})
-      .then(r => {
-      });
+    this.findAll("", "", this.paginationDTO.pageSize, 1, "", "");
   }
 }
