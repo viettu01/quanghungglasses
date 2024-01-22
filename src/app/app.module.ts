@@ -6,7 +6,7 @@ import {NgOptimizedImage} from "@angular/common";
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastrModule} from "ngx-toastr";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/auth/login/login.component';
@@ -40,6 +40,8 @@ import {BrandComponent} from './components/admin/brand/brand.component';
 import {SupplierComponent} from './components/admin/supplier/supplier.component';
 import {BannerComponent} from './components/admin/banner/banner.component';
 import {ClientMenuComponent} from './components/client/client-menu/client-menu.component';
+import {VerifyEmailComponent} from './components/auth/verify-email/verify-email.component';
+import {CodeInputModule} from "angular-code-input";
 
 @NgModule({
   declarations: [
@@ -69,6 +71,7 @@ import {ClientMenuComponent} from './components/client/client-menu/client-menu.c
     SupplierComponent,
     BannerComponent,
     ClientMenuComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +89,11 @@ import {ClientMenuComponent} from './components/client/client-menu/client-menu.c
       // closeButton: true,  // Hiển thị nút đóng
       extendedTimeOut: 1000,  // Thời gian mở rộng cho thông báo khi di chuyển chuột qua (đơn vị là miligiây)
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CodeInputModule.forRoot({
+      codeLength: 6,
+      isCharsCode: false
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

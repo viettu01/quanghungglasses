@@ -27,6 +27,7 @@ import {AccessDeniedComponent} from "./components/errors/access-denied/access-de
 
 import {ClientLayoutComponent} from "./components/client/client-layout/client-layout.component";
 import {HomeComponent} from "./components/client/home/home.component";
+import {VerifyEmailComponent} from "./components/auth/verify-email/verify-email.component";
 
 const routes: Routes = [
   {
@@ -55,6 +56,7 @@ const routes: Routes = [
   },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'verify-email', component: VerifyEmailComponent},
   {path: 'access-denied', component: AccessDeniedComponent},
   {path: 'server-error', component: InternalServerErrorComponent},
   {path: '**', component: PageNotFoundComponent},

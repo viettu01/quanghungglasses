@@ -9,26 +9,77 @@
       <div class="text-center mb-3">
         <h3 class="text-body-highlight">Đăng ký</h3>
       </div>
-      <form>
+      <form [formGroup]="registerForm" (submit)="onSubmit()">
         <div class="mb-3 text-start">
-          <label class="form-label" for="name">Họ và tên</label>
-          <input class="form-control" id="name" type="text" placeholder="Họ và tên"/>
+          <label class="form-label" for="fullname">Họ và tên</label>
+          <input class="form-control" id="fullname" type="text" placeholder="Họ và tên" formControlName="fullname"/>
+          <small class="text-danger mt-1">
+            <span
+              *ngIf="registerForm['controls']['fullname'].dirty && registerForm['controls']['fullname'].errors?.['required']">
+              Họ tên không được để trống
+            </span>
+            <span
+              *ngIf="registerForm['controls']['fullname'].invalid && registerForm['controls']['fullname'].errors?.['maxlength']">
+              Họ tên không được vượt quá 30 ký tự
+            </span>
+          </small>
         </div>
         <div class="mb-3 text-start">
           <label class="form-label" for="email">Email</label>
-          <input class="form-control" id="email" type="email" placeholder="email@gmail.com"/>
+          <input class="form-control" id="email" type="email" placeholder="email@gmail.com" formControlName="email"/>
+          <small class="text-danger mt-1">
+            <span
+              *ngIf="registerForm['controls']['email'].dirty && registerForm['controls']['email'].errors?.['required']">
+              Email không được để trống
+            </span>
+            <span
+              *ngIf="registerForm['controls']['email'].invalid && registerForm['controls']['email'].errors?.['maxlength']">
+              Email không được vượt quá 30 ký tự
+            </span>
+            <span
+              *ngIf="registerForm['controls']['email'].invalid && registerForm['controls']['email'].errors?.['email']">
+              Email không đúng định dạng
+            </span>
+          </small>
         </div>
         <div class="row g-3 mb-3">
           <div class="col-sm-6">
             <label class="form-label" for="password">Mật khẩu</label>
-            <input class="form-control form-icon-input" id="password" type="password" placeholder="Password"/>
+            <input class="form-control form-icon-input" id="password" type="password" placeholder="Password"
+                   formControlName="password"/>
+            <small class="text-danger mt-1"
+                   *ngIf="registerForm['controls']['password'].dirty">
+              <span *ngIf="registerForm['controls']['password'].errors?.['required']">
+                  Mật khẩu không được để trống
+              </span>
+              <span *ngIf="registerForm['controls']['password'].errors?.['pattern']">
+                Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và dài hơn 8 ký tự
+              </span>
+            </small>
           </div>
           <div class="col-sm-6">
             <label class="form-label" for="confirmPassword">Xác nhận Mật khẩu</label>
-            <input class="form-control form-icon-input" id="confirmPassword" type="password" placeholder="Confirm Password"/>
+            <input class="form-control form-icon-input" id="confirmPassword" type="password"
+                   placeholder="Confirm Password" formControlName="confirmPassword"/>
+            <small class="text-danger mt-1" *ngIf="registerForm['controls']['confirmPassword'].dirty">
+              <span
+                *ngIf="registerForm['controls']['confirmPassword'].errors?.['required']">
+                Mật khẩu không được để trống
+              </span>
+              <span
+                *ngIf="!registerForm['controls']['confirmPassword'].errors?.['required'] && registerForm.errors?.['mismatch']">
+                Mật khẩu không khớp
+              </span>
+            </small>
           </div>
         </div>
-        <button class="btn btn-primary w-100 mb-3">Đăng ký</button>
+        <button class="btn btn-primary w-100 mb-3" [disabled]="registerForm.invalid">
+          <span [class.d-none]="isLoaderDisplayNone">Đăng ký</span>
+          <span class="indicator-progress" [class.d-none]="!isLoaderDisplayNone">
+              Vui lòng chờ...
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+        </button>
         <div class="text-center fs-9">Bạn đã có tài khoản? <a class="fs-9 fw-bold" href="/login">Đăng nhập</a></div>
       </form>
     </div>
