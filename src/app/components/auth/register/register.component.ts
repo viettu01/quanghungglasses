@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthService} from "../../../service/auth.service";
 import {Title} from "@angular/platform-browser";
 import {ToastrService} from "ngx-toastr";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {RegisterDto} from "../../../dto/register.dto";
+import {CustomerService} from "../../../service/customer.service";
 
 @Component({
   selector: 'app-register',
@@ -40,7 +39,7 @@ export class RegisterComponent implements OnInit {
     return password === confirmPassword ? null : {mismatch: true};
   }
 
-  constructor(private authService: AuthService, private router: Router, private title: Title, private toastr: ToastrService) {
+  constructor(private customerService: CustomerService, private router: Router, private title: Title, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -55,18 +54,18 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    //chuển hương trang web su dung window.location.href
-    // window.location.href = "/verify-email";
     this.isLoaderDisplayNone = true;
-    return this.authService.register(this.registerForm.value).subscribe({
-        next: (response) => {
-          this.toastr.success("Đăng ký tài khoản thành công", "Thông báo");
+    return this.customerService.register(this.registerForm.value).subscribe({
+        next: (response: any) => {
+          this.toastr.success(response.message, "Thông báo");
+          localStorage.setItem("email", this.registerForm.value.email);
           this.isLoaderDisplayNone = false;
+
           this.router.navigateByUrl("/verify-email");
         },
-        error: (err) => {
-          this.toastr.error("Đăng ký tài khoản thất bại", "Thông báo");
-          console.log(err);
+        error: (error: any) => {
+          this.toastr.error(error.error, "Thông báo");
+          this.isLoaderDisplayNone = false;
         }
       }
     );

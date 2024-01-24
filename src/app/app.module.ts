@@ -84,7 +84,7 @@ import {CodeInputModule} from "angular-code-input";
     ToastrModule.forRoot({
       timeOut: 3000,  // Thời gian hiển thị của thông báo (đơn vị là miligiây)
       positionClass: 'toast-top-right',  // Vị trí của thông báo trên màn hình
-      //preventDuplicates: true,  // Ngăn chặn hiển thị các thông báo trùng lặp
+      preventDuplicates: true,  // Ngăn chặn hiển thị các thông báo trùng lặp
       tapToDismiss: true,  // Cho phép bấm vào thông báo để đóng nó
       // closeButton: true,  // Hiển thị nút đóng
       extendedTimeOut: 1000,  // Thời gian mở rộng cho thông báo khi di chuyển chuột qua (đơn vị là miligiây)
