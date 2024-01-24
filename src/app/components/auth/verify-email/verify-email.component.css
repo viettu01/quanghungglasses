@@ -1,0 +1,29 @@
+code-input {
+  /*--item-spacing: 8px;*/
+  /*--item-height: 3em;*/
+  /*--item-border: none;*/
+  /*!*--item-border: 1px solid #dddddd;*!*/
+  /*!*--item-border-bottom: 2px solid #dddddd;*!*/
+  /*--item-border-has-value: none;*/
+  /*!*--item-border-bottom-has-value: 2px solid #888888;*!*/
+  /*--item-border-bottom-has-value: none;*/
+  /*--item-border-focused: none;*/
+  /*!*--item-border-bottom-focused: 2px solid #809070;*!*/
+  /*--item-border-bottom-focused: none;*/
+  /*!*--item-shadow-focused: 1px 1px 5px rgba(221, 221, 221, 1);*!*/
+  /*!*--item-shadow-focused: 1px 1px 5px rgba(221, 221, 221, 1);*!*/
+  /*--item-shadow-focused: none;*/
+  /*--item-border-radius: 10px;*/
+  /*--item-font-weight: 500;*/
+  /*--color: #000000;*/
+  --item-spacing: 10px;
+  --item-height: 3em;
+  --item-border: none;
+  --item-border-bottom: 2px solid #dddddd;
+  --item-border-has-value: none;
+  --item-border-bottom-has-value: 2px solid #888888;
+  --item-border-focused: none;
+  --item-border-bottom-focused: 2px solid #809070;
+  --item-shadow-focused: none;
+  --item-border-radius: 0px;
+}

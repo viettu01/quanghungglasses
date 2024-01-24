@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row flex-center min-vh-100 py-5">
+    <div class="col-sm-10 col-md-8 col-lg-5 col-xxl-4">
+      <a class="d-flex flex-center text-decoration-none mb-4" href="/">
+      <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+        <img src="/assets/img/icons/quang-hung-logo-crop.png" alt="phoenix" width="70"/>
+      </div>
+    </a>
+      <div class="px-xxl-5">
+        <div class="text-center mb-6">
+          <h4 class="text-body-highlight">Nhâp mã xác minh</h4>
+          <p class="text-body-tertiary mb-0">Một email chứa mã xác minh gồm 6 chữ số đã được gửi đến email của bạn</p>
+          <form class="verification-form">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <code-input (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)"
+                          #codeInput [initialFocusField]="0">
+              </code-input>
+            </div>
+            Bạn không nhận được mã? <a class="" href="#!">Gửi lại</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
