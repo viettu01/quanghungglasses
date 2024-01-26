@@ -169,9 +169,9 @@
           </div>
         </div>
         <div class="card-footer p-0 border-top border-translucent border-0">
-          <div class="my-2 text-center fw-bold fs-10 text-body-tertiary text-opactity-85"><a class="fw-bolder"
-                                                                                             href="pages/notifications.html">Notification
-            history</a></div>
+          <div class="my-2 text-center fw-bold fs-10 text-body-tertiary text-opactity-85">
+            <a class="fw-bolder" href="pages/notifications.html">Notification history</a>
+          </div>
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@
     <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown"
        data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
       <div class="avatar avatar-l">
-        <img class="rounded-circle " ngSrc="assets/img/avatar/avatar-placeholder.webp" alt="" height="40" width="40"/>
+        <img class="rounded-circle" ngSrc="assets/img/avatar/avatar-placeholder.webp" alt="" height="40" width="40"/>
       </div>
     </a>
     <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border"
@@ -196,9 +196,9 @@
         </div>
         <div class="card-footer p-0 border-top border-translucent">
           <div class="px-3 my-3">
-            <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!">
+            <button class="btn btn-phoenix-secondary d-flex flex-center w-100" (click)="logout()">
               <span class="me-2" data-feather="log-out"></span>Đăng xuất
-            </a>
+            </button>
           </div>
         </div>
       </div>

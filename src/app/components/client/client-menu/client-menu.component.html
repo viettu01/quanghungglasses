@@ -2,28 +2,10 @@
   <div class="container-small d-flex flex-between-center justify-content-center" data-navbar="data-navbar">
     <ul class="p-3 navbar-nav align-items-center">
       <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link ps-0 active" href="/">Home</a>
+        <a class="nav-link fs-8 ps-0 active" href="/">Trang chủ</a>
       </li>
-      <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link" href="favourite-stores.html">My Favorites Stores</a>
-      </li>
-      <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link" href="products-filter.html">Products</a>
-      </li>
-      <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link" href="wishlist.html">Wishlist</a>
-      </li>
-      <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link" href="shipping-info.html">Shipping Info</a>
-      </li>
-      <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link" href="../admin/add-product.html">Be a vendor</a>
-      </li>
-      <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link" href="order-tracking.html">Track order</a>
-      </li>
-      <li class="nav-item" data-nav-item="data-nav-item">
-        <a class="nav-link pe-0" href="checkout.html">Checkout</a>
+      <li class="nav-item" data-nav-item="data-nav-item" *ngFor="let category of categoryDto">
+        <a class="nav-link fs-8" href="#">{{category.name}}</a>
       </li>
     </ul>
   </div>

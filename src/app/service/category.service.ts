@@ -22,8 +22,14 @@ export class CategoryService {
     queryParams = queryParams.append("page-number", pageNumber);
     queryParams = queryParams.append("sort-direction", sortDir);
     queryParams = queryParams.append("sort-by", sortBy);
-    return this.http.get(this.apiCategoryUrl, { params: queryParams });
+    return this.http.get(this.apiCategoryUrl, {params: queryParams});
   };
+
+  findAllNonBy() {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("sort-direction", "ASC");
+    return this.http.get(this.apiCategoryUrl, {params: queryParams});
+  }
 
   findBySlug(slug: string) {
     return this.http.get(`${this.apiCategoryUrl}/${slug}`);
@@ -32,7 +38,7 @@ export class CategoryService {
   countByStatus(status: boolean) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);
-    return this.http.get(`${this.apiCategoryUrl}/count`, { params: queryParams });
+    return this.http.get(`${this.apiCategoryUrl}/count`, {params: queryParams});
   }
 
   countAll() {

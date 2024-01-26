@@ -3,6 +3,8 @@ import {AuthService} from "../../../service/auth.service";
 import {Router} from '@angular/router';
 import {Title} from "@angular/platform-browser";
 import {ToastrService} from "ngx-toastr";
+import {FormControl, FormGroup} from "@angular/forms";
+import {TokenService} from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +12,37 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private title: Title, private toastr: ToastrService, private authService: AuthService) {
+  loginForm: FormGroup = new FormGroup(
+    {
+      email: new FormControl(''),
+      password: new FormControl('')
+    }
+  );
+
+  constructor(private router: Router, private title: Title, private toastr: ToastrService,
+              private authService: AuthService, private tokenService: TokenService) {
   }
 
   ngOnInit(): void {
     this.title.setTitle("Đăng nhập");
   }
 
+  login() {
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response: any) => {
+        this.tokenService.setToken(response.token);
+        const roles = this.tokenService.getUserRoles();
+        const requiredRole = ['ROLE_ADMIN', 'ROLE_STAFF'];
+        if (roles.some((role: string) => requiredRole.includes(role))) {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = "/";
+        }
+        this.toastr.success('Đăng nhập thành công', 'Thông báo');
+      },
+      error: (error: any) => {
+        this.toastr.error(error.error, 'Thông báo');
+      }
+    });
+  }
 }

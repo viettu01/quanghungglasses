@@ -28,6 +28,7 @@ import {AccessDeniedComponent} from "./components/errors/access-denied/access-de
 import {ClientLayoutComponent} from "./components/client/client-layout/client-layout.component";
 import {HomeComponent} from "./components/client/home/home.component";
 import {VerifyEmailComponent} from "./components/auth/verify-email/verify-email.component";
+import {AdminGuard} from "./guard/admin.guard";
 
 const routes: Routes = [
   {
@@ -45,14 +46,14 @@ const routes: Routes = [
       {path: 'product/:slug', component: AdminProductDetailsComponent},
       {path: 'product/save', component: AdminProductSaveComponent},
     ],
-    // canActivate: [AdminGuard], // Thêm guard vào đây
+    canActivate: [AdminGuard], // Thêm guard vào đây
   },
   {
     path: '',
     component: ClientLayoutComponent,
     children: [
       {path: '', component: HomeComponent}
-    ],
+    ]
   },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},

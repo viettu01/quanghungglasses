@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {LoginDto} from "../dto/login.dto";
+import {TokenService} from "./token.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +11,16 @@ export class AuthService {
   private apiCategoryUrl = `${Environment.apiBaseUrl}`;
   private apiConfigUrl = {headers: {'Content-Type': 'application/json'}};
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private tokenService: TokenService) {
   }
 
-  login(email: string, password: string) {
-    let loginRequest = {
-      email: email,
-      password: password
-    }
-    return this.http.post(`${this.apiCategoryUrl}/login`, loginRequest, this.apiConfigUrl);
+  login(loginDto: LoginDto) {
+    return this.http.post(`${this.apiCategoryUrl}/login`, loginDto, this.apiConfigUrl);
+  }
+
+  logout() {
+    this.tokenService.removeToken();
+    window.location.href = '/login';
   }
 
   verifyEmail(email: string, verificationCode: string) {

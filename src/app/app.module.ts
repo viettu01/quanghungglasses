@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import {NgOptimizedImage} from "@angular/common";
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -42,6 +42,9 @@ import {BannerComponent} from './components/admin/banner/banner.component';
 import {ClientMenuComponent} from './components/client/client-menu/client-menu.component';
 import {VerifyEmailComponent} from './components/auth/verify-email/verify-email.component';
 import {CodeInputModule} from "angular-code-input";
+import {JwtModule} from "@auth0/angular-jwt";
+import {Environment} from "./environment/environment";
+import {TokenInterceptor} from "./interceptors/token.interceptor";
 
 @NgModule({
   declarations: [
@@ -94,8 +97,23 @@ import {CodeInputModule} from "angular-code-input";
       codeLength: 6,
       isCharsCode: false
     }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        },
+        allowedDomains: [`${Environment.domain}`], // Các đường dẫn sử dụng token
+        disallowedRoutes: [`${Environment.domain}/login`] // Các đường dẫn không sử dụng token
+      }
+    }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
