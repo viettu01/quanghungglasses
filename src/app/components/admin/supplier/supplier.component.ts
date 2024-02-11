@@ -1,14 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PaginationDTO} from "../../../dto/pagination.dto";
-import {CategoryDto} from "../../../dto/category.dto";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Title} from "@angular/platform-browser";
-import {CategoryService} from "../../../service/category.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
-import slugify from 'slugify';
 import {Utils} from "../../../utils/utils";
+import {SupplierService} from "../../../service/supplier.service";
+import {SupplierDto} from "../../../dto/supplier.dto";
 
 @Component({
   selector: 'app-supplier',
@@ -17,33 +16,31 @@ import {Utils} from "../../../utils/utils";
 })
 export class SupplierComponent implements OnInit {
   protected readonly Utils = Utils;
-  paginationDTO: PaginationDTO<CategoryDto> = new PaginationDTO<CategoryDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  paginationDTO: PaginationDTO<SupplierDto> = new PaginationDTO<SupplierDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   selectAll: boolean = false;
   sortDir: string = "ASC";
   sortBy: string = "";
-  slug: string = "";
 
   @ViewChild('btnCloseModal') btnCloseModal!: ElementRef;
   titleModal: string = "";
   btnSave: string = "";
   isDisplayNone: boolean = false;
   errorMessage: string = "";
-  categoryForm: FormGroup = new FormGroup(
+  supplierForm: FormGroup = new FormGroup(
     {
       id: new FormControl(null),
-      name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
-      slug: new FormControl('', [
+      name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      phone: new FormControl('', [
         Validators.required,
-        Validators.maxLength(50),
-        Validators.pattern(/^[a-zA-Z0-9-]*$/)
-      ]),
-      description: new FormControl('', [Validators.maxLength(100)]),
-      status: new FormControl('false', [Validators.required]),
+        Validators.maxLength(10),
+        Validators.minLength(10),
+        Validators.pattern("^0[0-9]{9}$")]),
+      address: new FormControl('', [Validators.maxLength(200)])
     }
   );
 
-  constructor(private title: Title, private categoryService: CategoryService,
+  constructor(private title: Title, private supplierService: SupplierService,
               private activatedRoute: ActivatedRoute, private router: Router,
               private toastr: ToastrService) {
   }
@@ -52,13 +49,12 @@ export class SupplierComponent implements OnInit {
     this.title.setTitle("Quản lý nhà cung cấp");
     this.activatedRoute.queryParams.subscribe(params => {
       const name = params['name'] || "";
-      const status = params['status'] || "";
       const pageSize = +params['page-size'] || 10;
       const pageNumber = +params['page-number'] || 1;
       const sortDir = params['sort-direction'] || "";
       const sortBy = params['sort-by'] || "";
 
-      this.findAll(name, status, pageSize, pageNumber, sortDir, sortBy);
+      this.findAll(name, pageSize, pageNumber, sortDir, sortBy);
     });
   }
 
@@ -66,8 +62,8 @@ export class SupplierComponent implements OnInit {
     this.selectAll = !this.selectAll;
   }
 
-  findAll(name: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.categoryService.findAll(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
+  findAll(name: string, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    this.supplierService.findAllByName(name, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         this.paginationDTO.totalPages = response.totalPages;
@@ -87,7 +83,7 @@ export class SupplierComponent implements OnInit {
   }
 
   changePageNumber(pageNumber: number): void {
-    this.router.navigate(['/admin/category'], {
+    this.router.navigate(['/admin/supplier'], {
       queryParams: {"page-number": pageNumber},
       queryParamsHandling: 'merge'
     }).then(r => {
@@ -95,20 +91,15 @@ export class SupplierComponent implements OnInit {
   }
 
   changePageSize(pageSize: number): void {
-    this.router.navigate(['/admin/category'], {
+    this.router.navigate(['/admin/supplier'], {
       queryParams: {'page-size': pageSize, 'page-number': 1},
       queryParamsHandling: 'merge'
     }).then(r => {
     });
   }
 
-  findAllByStatus(status: boolean) {
-    this.router.navigate(['/admin/category'], {queryParams: {'status': status}}).then(r => {
-    });
-  }
-
   sortByField(sortBy: string): void {
-    this.router.navigate(['/admin/category'], {
+    this.router.navigate(['/admin/supplier'], {
       queryParams: {"sort-by": sortBy, "sort-direction": this.sortDir},
       queryParamsHandling: 'merge'
     }).then(r => {
@@ -118,7 +109,7 @@ export class SupplierComponent implements OnInit {
   }
 
   search() {
-    this.router.navigate(['/admin/category'], {
+    this.router.navigate(['/admin/supplier'], {
       queryParams: {"name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
     }).then(r => {
@@ -126,11 +117,10 @@ export class SupplierComponent implements OnInit {
   }
 
   onSubmit() {
-    // debugger;
-    if (this.categoryForm.invalid) {
+    if (this.supplierForm.invalid) {
       return;
     }
-    if (this.categoryForm.value.id == null)
+    if (this.supplierForm.value.id == null)
       this.create();
     else
       this.update();
@@ -138,12 +128,12 @@ export class SupplierComponent implements OnInit {
 
   create() {
     this.isDisplayNone = true;
-    this.categoryService.create(this.categoryForm.value).subscribe({
+    this.supplierService.create(this.supplierForm.value).subscribe({
       next: (response: any) => {
-        this.categoryForm.reset();
+        this.supplierForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Thêm danh mục thành công', 'Thông báo');
+        this.toastr.success('Thêm nhà cung cấp thành công', 'Thông báo');
       },
       error: (error: any) => {
         this.errorMessage = error.error;
@@ -154,30 +144,12 @@ export class SupplierComponent implements OnInit {
 
   update() {
     this.isDisplayNone = true;
-    this.categoryService.update(this.categoryForm.value).subscribe({
+    this.supplierService.update(this.supplierForm.value).subscribe({
       next: (response: any) => {
-        this.categoryForm.reset();
+        this.supplierForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Cập nhật danh mục thành công', 'Thông báo');
-      },
-      error: (error: any) => {
-        this.errorMessage = error.error;
-        this.isDisplayNone = false;
-      }
-    });
-  }
-
-  updateStatus(category: CategoryDto) {
-    this.categoryForm.patchValue({
-      id: category.id,
-      name: category.name,
-      slug: category.slug,
-      status: !category.status
-    });
-    this.categoryService.update(this.categoryForm.value).subscribe({
-      next: (response: any) => {
-        this.updateTable();
+        this.toastr.success('Cập nhật nhà cung cấp thành công', 'Thông báo');
       },
       error: (error: any) => {
         this.errorMessage = error.error;
@@ -201,10 +173,10 @@ export class SupplierComponent implements OnInit {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoryService.delete(id).subscribe({
+        this.supplierService.delete(id).subscribe({
           next: (response: any) => {
             this.updateTable();
-            this.toastr.success('Xóa danh mục thành công', 'Thông báo');
+            this.toastr.success('Xóa nhà cung cấp thành công', 'Thông báo');
           },
           error: (error: any) => {
             this.toastr.error(error.error, 'Thất bại');
@@ -214,25 +186,18 @@ export class SupplierComponent implements OnInit {
     })
   }
 
-  detail(id: number) {
-
-  }
-
   openModalCreate() {
-    this.categoryForm.reset();
-    this.categoryForm.patchValue({
-      status: 'false'
-    });
+    this.supplierForm.reset();
     this.titleModal = "Thêm nhà cung cấp";
     this.btnSave = "Thêm mới";
   }
 
-  openModalUpdate(category: CategoryDto) {
-    this.categoryForm.patchValue({
-      id: category.id,
-      name: category.name,
-      slug: category.slug,
-      status: category.status.toString()
+  openModalUpdate(supplierDto: SupplierDto) {
+    this.supplierForm.patchValue({
+      id: supplierDto.id,
+      name: supplierDto.name,
+      phone: supplierDto.phone,
+      address: supplierDto.address
     });
     this.titleModal = "Cập nhật nhà cung cấp";
     this.btnSave = "Cập nhật";
@@ -241,6 +206,6 @@ export class SupplierComponent implements OnInit {
   updateTable() {
     this.isDisplayNone = false;
     this.errorMessage = "";
-    this.findAll("", "", this.paginationDTO.pageSize, 1, "", "");
+    this.findAll("", this.paginationDTO.pageSize, 1, "", "");
   }
 }

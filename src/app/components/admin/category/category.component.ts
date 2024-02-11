@@ -73,7 +73,7 @@ export class CategoryComponent implements OnInit {
   }
 
   findAll(name: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.categoryService.findAll(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
+    this.categoryService.findAllByName(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         this.paginationDTO.totalPages = response.totalPages;

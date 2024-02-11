@@ -14,10 +14,9 @@ export class ClientMenuComponent {
   }
 
   getCategories() {
-    this.categoryService.findAllNonBy().subscribe({
+    this.categoryService.findAll().subscribe({
       next: (data: any) => {
-        console.log(data.content);
-        this.categoryDto = data.content;
+        this.categoryDto = data;
       },
       error: err => {
         console.log(err);

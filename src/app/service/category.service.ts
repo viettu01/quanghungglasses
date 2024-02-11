@@ -7,6 +7,7 @@ import {CategoryDto} from "../dto/category.dto";
   providedIn: 'root'
 })
 export class CategoryService {
+  private apiCategoryAdminUrl = `${Environment.apiBaseUrl}/admin/category`;
   private apiCategoryUrl = `${Environment.apiBaseUrl}/category`;
   private apiConfigUrl = {headers: {'Content-Type': 'application/json'}};
 
@@ -14,7 +15,7 @@ export class CategoryService {
 
   }
 
-  findAll(nameSearch: string, status: boolean, pageSize: number, pageNumber: any, sortDir: string, sortBy: string) {
+  findAllByName(nameSearch: string = "", status: boolean, pageSize: number, pageNumber: any, sortDir: string, sortBy: string) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("name", nameSearch);
     queryParams = queryParams.append("status", status);
@@ -22,35 +23,33 @@ export class CategoryService {
     queryParams = queryParams.append("page-number", pageNumber);
     queryParams = queryParams.append("sort-direction", sortDir);
     queryParams = queryParams.append("sort-by", sortBy);
-    return this.http.get(this.apiCategoryUrl, {params: queryParams});
+    return this.http.get(this.apiCategoryAdminUrl, {params: queryParams});
   };
 
-  findAllNonBy() {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("sort-direction", "ASC");
-    return this.http.get(this.apiCategoryUrl, {params: queryParams});
-  }
+  findAll() {
+    return this.http.get(this.apiCategoryUrl);
+  };
 
   findBySlug(slug: string) {
-    return this.http.get(`${this.apiCategoryUrl}/${slug}`);
+    return this.http.get(`${this.apiCategoryAdminUrl}/${slug}`);
   }
 
   countByStatus(status: boolean) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);
-    return this.http.get(`${this.apiCategoryUrl}/count`, {params: queryParams});
+    return this.http.get(`${this.apiCategoryAdminUrl}/count`, {params: queryParams});
   }
 
   countAll() {
-    return this.http.get(`${this.apiCategoryUrl}/count-all`);
+    return this.http.get(`${this.apiCategoryAdminUrl}/count-all`);
   }
 
   create(category: CategoryDto) {
-    return this.http.post(this.apiCategoryUrl, category, this.apiConfigUrl);
+    return this.http.post(this.apiCategoryAdminUrl, category, this.apiConfigUrl);
   }
 
   update(category: CategoryDto) {
-    return this.http.put(this.apiCategoryUrl, category, this.apiConfigUrl);
+    return this.http.put(this.apiCategoryAdminUrl, category, this.apiConfigUrl);
   }
 
   // delete(ids: number[]) {
@@ -63,6 +62,6 @@ export class CategoryService {
   // }
 
   delete(id: number) {
-    return this.http.delete(`${this.apiCategoryUrl}/${id}`,);
+    return this.http.delete(`${this.apiCategoryAdminUrl}/${id}`,);
   }
 }

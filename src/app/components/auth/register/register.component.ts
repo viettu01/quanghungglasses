@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {ToastrService} from "ngx-toastr";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {CustomerService} from "../../../service/customer.service";
+import {AuthService} from "../../../service/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
     return password === confirmPassword ? null : {mismatch: true};
   }
 
-  constructor(private customerService: CustomerService, private router: Router, private title: Title, private toastr: ToastrService) {
+  constructor(private authService: AuthService, private router: Router, private title: Title, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.isLoaderDisplayNone = true;
-    return this.customerService.register(this.registerForm.value).subscribe({
+    return this.authService.register(this.registerForm.value).subscribe({
         next: (response: any) => {
           this.toastr.success(response.message, "Thông báo");
           localStorage.setItem("email", this.registerForm.value.email);

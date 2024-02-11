@@ -62,7 +62,12 @@
             </div>
           </a>
           <div class="parent-wrapper label-1">
-            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-category">
+            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-category"
+                [class.show]="isExactRouteStartWith('/admin/supplier')
+                || isExactRouteStartWith('/admin/material')
+                || isExactRouteStartWith('/admin/shape')
+                || isExactRouteStartWith('/admin/brand')
+                || isExactRouteStartWith('/admin/origin')">
               <li class="nav-item">
                 <a class="nav-link" href="/admin/supplier" data-bs-toggle="" aria-expanded="false"
                    [class.active]="isExactRouteStartWith('/admin/supplier')">
@@ -112,7 +117,9 @@
           </a>
           <div class="parent-wrapper label-1">
             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-product"
-                [class.show]="isExactRouteStartWith('/admin/category') || isExactRouteStartWith('/admin/product') || isExactRouteStartWith('/admin/sale')">
+                [class.show]="isExactRouteStartWith('/admin/category')
+                || isExactRouteStartWith('/admin/product')
+                || isExactRouteStartWith('/admin/sale')">
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/category"
                    [class.active]="isExactRouteStartWith('/admin/category')">

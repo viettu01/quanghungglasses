@@ -46,7 +46,7 @@ const routes: Routes = [
       {path: 'product/:slug', component: AdminProductDetailsComponent},
       {path: 'product/save', component: AdminProductSaveComponent},
     ],
-    // canActivate: [AdminGuard], // Thêm guard vào đây
+    canActivate: [AdminGuard], // Thêm guard vào đây
   },
   {
     path: '',
