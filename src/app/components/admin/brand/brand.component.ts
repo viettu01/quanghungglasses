@@ -80,24 +80,21 @@ export class BrandComponent implements OnInit {
     this.router.navigate(['/admin/brand'], {
       queryParams: {"page-number": pageNumber},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   changePageSize(pageSize: number): void {
     this.router.navigate(['/admin/brand'], {
       queryParams: {'page-size': pageSize, 'page-number': 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   sortByField(sortBy: string): void {
     this.router.navigate(['/admin/brand'], {
       queryParams: {"sort-by": sortBy, "sort-direction": this.sortDir},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
     this.sortDir = this.sortDir === "ASC" ? "DESC" : "ASC";
     this.sortBy = sortBy;
   }
@@ -106,8 +103,7 @@ export class BrandComponent implements OnInit {
     this.router.navigate(['/admin/brand'], {
       queryParams: {"name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   onSubmit() {
@@ -123,7 +119,7 @@ export class BrandComponent implements OnInit {
   create() {
     this.isDisplayNone = true;
     this.brandService.create(this.brandForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.brandForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
@@ -139,7 +135,7 @@ export class BrandComponent implements OnInit {
   update() {
     this.isDisplayNone = true;
     this.brandService.update(this.brandForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.brandForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
@@ -168,7 +164,7 @@ export class BrandComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.brandService.delete(id).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.updateTable();
             this.toastr.success('Xóa thương hiệu thành công', 'Thông báo');
           },

@@ -80,24 +80,21 @@ export class ShapeComponent implements OnInit {
     this.router.navigate(['/admin/shape'], {
       queryParams: {"page-number": pageNumber},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   changePageSize(pageSize: number): void {
     this.router.navigate(['/admin/shape'], {
       queryParams: {'page-size': pageSize, 'page-number': 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   sortByField(sortBy: string): void {
     this.router.navigate(['/admin/shape'], {
       queryParams: {"sort-by": sortBy, "sort-direction": this.sortDir},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
     this.sortDir = this.sortDir === "ASC" ? "DESC" : "ASC";
     this.sortBy = sortBy;
   }
@@ -106,8 +103,7 @@ export class ShapeComponent implements OnInit {
     this.router.navigate(['/admin/shape'], {
       queryParams: {"name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   onSubmit() {
@@ -123,7 +119,7 @@ export class ShapeComponent implements OnInit {
   create() {
     this.isDisplayNone = true;
     this.shapeService.create(this.shapeForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.shapeForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
@@ -139,7 +135,7 @@ export class ShapeComponent implements OnInit {
   update() {
     this.isDisplayNone = true;
     this.shapeService.update(this.shapeForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.shapeForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
@@ -168,7 +164,7 @@ export class ShapeComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.shapeService.delete(id).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.updateTable();
             this.toastr.success('Xóa hình dạng thành công', 'Thông báo');
           },

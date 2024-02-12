@@ -122,29 +122,25 @@ export class CategoryComponent implements OnInit {
     this.router.navigate(['/admin/category'], {
       queryParams: {"page-number": pageNumber},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   changePageSize(pageSize: number): void {
     this.router.navigate(['/admin/category'], {
       queryParams: {'page-size': pageSize, 'page-number': 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   findAllByStatus(status: boolean) {
-    this.router.navigate(['/admin/category'], {queryParams: {'status': status}}).then(r => {
-    });
+    this.router.navigate(['/admin/category'], {queryParams: {'status': status}}).then();
   }
 
   sortByField(sortBy: string): void {
     this.router.navigate(['/admin/category'], {
       queryParams: {"sort-by": sortBy, "sort-direction": this.sortDir},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
     this.sortDir = this.sortDir === "ASC" ? "DESC" : "ASC";
     this.sortBy = sortBy;
   }
@@ -153,8 +149,7 @@ export class CategoryComponent implements OnInit {
     this.router.navigate(['/admin/category'], {
       queryParams: {"name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   onSubmit() {
@@ -171,7 +166,7 @@ export class CategoryComponent implements OnInit {
   create() {
     this.isDisplayNone = true;
     this.categoryService.create(this.categoryForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.categoryForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
@@ -187,7 +182,7 @@ export class CategoryComponent implements OnInit {
   update() {
     this.isDisplayNone = true;
     this.categoryService.update(this.categoryForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.categoryForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
@@ -208,7 +203,7 @@ export class CategoryComponent implements OnInit {
       status: !category.status
     });
     this.categoryService.update(this.categoryForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.updateTable();
       },
       error: (error: any) => {
@@ -234,7 +229,7 @@ export class CategoryComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.delete(id).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.updateTable();
             this.toastr.success('Xóa danh mục thành công', 'Thông báo');
           },
