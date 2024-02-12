@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from 'sweetalert2';
 import slugify from 'slugify';
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 import {Utils} from "../../../utils/utils";
 
 @Component({
@@ -18,6 +18,7 @@ import {Utils} from "../../../utils/utils";
 export class CategoryComponent implements OnInit {
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<CategoryDto> = new PaginationDTO<CategoryDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  categoryDetails: CategoryDto = new CategoryDto(0, "", "", "", 0, false, new Date(), new Date());
   countStatusAll: number = 0;
   countStatusTrue: number = 0;
   countStatusFalse: number = 0;
@@ -245,8 +246,15 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-  detail(id: number) {
-
+  detail(slug: string) {
+    this.categoryService.findBySlug(slug).subscribe({
+      next: (response: any) => {
+        this.categoryDetails = response;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
   }
 
   openModalCreate() {
@@ -263,6 +271,7 @@ export class CategoryComponent implements OnInit {
       id: category.id,
       name: category.name,
       slug: category.slug,
+      description: category.description,
       status: category.status.toString()
     });
     this.titleModal = "Cập nhật danh mục";

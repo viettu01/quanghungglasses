@@ -8,7 +8,7 @@
 <div class="mb-9">
   <div class="row g-3 mb-4">
     <div class="col-auto">
-      <h2 class="mb-0">Danh sách danh mục</h2>
+      <h2 class="mb-0">Danh sách danh mục sản phẩm</h2>
     </div>
   </div>
   <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
@@ -162,7 +162,9 @@
                   <span class="fas fa-ellipsis-h fs--2"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
-                  <button class="dropdown-item" (click)="detail(category.id)">Chi tiết</button>
+                  <button class="dropdown-item" data-bs-target="#modalDetailsCategory" data-bs-toggle="modal"
+                          (click)="detail(category.slug)">Chi tiết
+                  </button>
                   <button class="dropdown-item" data-bs-target="#modalCategory" data-bs-toggle="modal"
                           (click)="openModalUpdate(category)">Cập nhật
                   </button>
@@ -170,7 +172,6 @@
                     <span *ngIf="category.status">Ẩn</span>
                     <span *ngIf="!category.status">Hiển thị</span>
                   </button>
-                  <a class="dropdown-item" href="#!">Xuất</a>
                   <div class="dropdown-divider"></div>
                   <button class="dropdown-item text-danger" (click)="delete(category.id)">Xóa</button>
                 </div>
@@ -229,7 +230,7 @@
   </div>
 </div>
 
-
+<!--Modal Save Category-->
 <div class="modal fade" id="modalCategory" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -325,3 +326,69 @@
     </div>
   </div>
 </div>
+<!--End Modal Save Category-->
+
+<!--Modal Details Category-->
+<div class="modal fade" id="modalDetailsCategory" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetailsCategoryLabel">Chi tiết danh mục sản phẩm</h5>
+        <button class="btn p-1" data-bs-dismiss="modal" aria-label="Close">
+          <span class="fas fa-times fs-9"></span>
+        </button>
+      </div>
+      <form class="form">
+        <div class="modal-body">
+          <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fs-9" for="name">Tên danh mục</label>
+            <div class="col-sm-8 fs-9">
+              {{ categoryDetails.name }}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fs-9" for="slug">Slug</label>
+            <div class="col-sm-8 fs-9">
+              {{ categoryDetails.slug }}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fs-9" for="description">Mô tả</label>
+            <div class="col-sm-8 fs-9">
+              {{ categoryDetails.description }}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fs-9 m-auto">Tổng số sản phẩm</label>
+            <div class="col-sm-8 fs-9">
+              {{ categoryDetails.totalProduct }}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fs-9">Trạng thái</label>
+            <div class="col-sm-8 fs-9">
+              <span class="text-success" *ngIf="categoryDetails.status">Hiển thị</span>
+              <span class="text-danger" *ngIf="!categoryDetails.status">Ẩn</span>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fs-9">Ngày tạo</label>
+            <div class="col-sm-8 fs-9">
+              {{ categoryDetails.createdDate | date:'dd/MM/yyyy HH:mm:ss'}}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-4 col-form-label fs-9">Ngày sửa</label>
+            <div class="col-sm-8 fs-9">
+              {{ categoryDetails.updatedDate | date:'dd/MM/yyyy HH:mm:ss'}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--End Modal Details Category-->
