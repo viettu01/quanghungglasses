@@ -29,6 +29,13 @@ import {ClientLayoutComponent} from "./components/client/client-layout/client-la
 import {HomeComponent} from "./components/client/home/home.component";
 import {VerifyEmailComponent} from "./components/auth/verify-email/verify-email.component";
 import {AdminGuard} from "./guard/admin.guard";
+import {StaffComponent} from "./components/admin/staff/staff.component";
+import {CustomerComponent} from "./components/admin/customer/customer.component";
+import {BannerComponent} from "./components/admin/banner/banner.component";
+import {SaleComponent} from "./components/admin/sale/sale.component";
+import {AdminOrderComponent} from "./components/admin/admin-order/admin-order.component";
+import {ReceiptComponent} from "./components/admin/receipt/receipt.component";
+import {ReportComponent} from "./components/admin/report/report.component";
 
 const routes: Routes = [
   {
@@ -36,6 +43,13 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {path: '', component: DashboardComponent},
+      {path: 'staff', component: StaffComponent},
+      {path: 'customer', component: CustomerComponent},
+      {path: 'banner', component: BannerComponent},
+      {path: 'sale', component: SaleComponent},
+      {path: 'order', component: AdminOrderComponent},
+      {path: 'receipt', component: ReceiptComponent},
+      {path: 'report', component: ReportComponent},
       {path: 'supplier', component: SupplierComponent},
       {path: 'material', component: MaterialComponent},
       {path: 'shape', component: ShapeComponent},

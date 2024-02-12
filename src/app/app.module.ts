@@ -45,6 +45,12 @@ import {CodeInputModule} from "angular-code-input";
 import {JwtModule} from "@auth0/angular-jwt";
 import {Environment} from "./environment/environment";
 import {TokenInterceptor} from "./interceptors/token.interceptor";
+import { StaffComponent } from './components/admin/staff/staff.component';
+import { CustomerComponent } from './components/admin/customer/customer.component';
+import { SaleComponent } from './components/admin/sale/sale.component';
+import { AdminOrderComponent } from './components/admin/admin-order/admin-order.component';
+import { ReceiptComponent } from './components/admin/receipt/receipt.component';
+import { ReportComponent } from './components/admin/report/report.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +81,12 @@ import {TokenInterceptor} from "./interceptors/token.interceptor";
     BannerComponent,
     ClientMenuComponent,
     VerifyEmailComponent,
+    StaffComponent,
+    CustomerComponent,
+    SaleComponent,
+    AdminOrderComponent,
+    ReceiptComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,
