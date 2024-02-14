@@ -33,6 +33,12 @@ export class TokenService {
     return decodedToken.roles || [];
   }
 
+  getUserEmail(): string {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    const decodedToken = token ? this.jwtHelper.decodeToken(token) : null;
+    return decodedToken.sub;
+  }
+
   isTokenExpired(): boolean {
     const token = localStorage.getItem(this.TOKEN_KEY);
     const decodedToken = token ? this.jwtHelper.decodeToken(token) : null;

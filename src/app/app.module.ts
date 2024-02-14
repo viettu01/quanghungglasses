@@ -39,18 +39,26 @@ import {ShapeComponent} from './components/admin/shape/shape.component';
 import {BrandComponent} from './components/admin/brand/brand.component';
 import {SupplierComponent} from './components/admin/supplier/supplier.component';
 import {BannerComponent} from './components/admin/banner/banner.component';
+import {AdminOrderListComponent} from './components/admin/admin-order/admin-order-list/admin-order-list.component';
+import {AdminOrderSaveComponent} from './components/admin/admin-order/admin-order-save/admin-order-save.component';
+import {
+  AdminOrderDetailsComponent
+} from './components/admin/admin-order/admin-order-details/admin-order-details.component';
+import {CustomerListComponent} from './components/admin/customer/customer-list/customer-list.component';
+import {CustomerSaveComponent} from './components/admin/customer/customer-save/customer-save.component';
+import {CustomerDetailsComponent} from './components/admin/customer/customer-details/customer-details.component';
+import {ReceiptListComponent} from './components/admin/receipt/receipt-list/receipt-list.component';
+import {ReceiptSaveComponent} from './components/admin/receipt/receipt-save/receipt-save.component';
+import {ReceiptDetailsComponent} from './components/admin/receipt/receipt-details/receipt-details.component';
+import {StaffListComponent} from './components/admin/staff/staff-list/staff-list.component';
+import {StaffSaveComponent} from './components/admin/staff/staff-save/staff-save.component';
+import {StaffDetailsComponent} from './components/admin/staff/staff-details/staff-details.component';
 import {ClientMenuComponent} from './components/client/client-menu/client-menu.component';
 import {VerifyEmailComponent} from './components/auth/verify-email/verify-email.component';
 import {CodeInputModule} from "angular-code-input";
 import {JwtModule} from "@auth0/angular-jwt";
 import {Environment} from "./environment/environment";
 import {TokenInterceptor} from "./interceptors/token.interceptor";
-import { StaffComponent } from './components/admin/staff/staff.component';
-import { CustomerComponent } from './components/admin/customer/customer.component';
-import { SaleComponent } from './components/admin/sale/sale.component';
-import { AdminOrderComponent } from './components/admin/admin-order/admin-order.component';
-import { ReceiptComponent } from './components/admin/receipt/receipt.component';
-import { ReportComponent } from './components/admin/report/report.component';
 
 @NgModule({
   declarations: [
@@ -81,12 +89,18 @@ import { ReportComponent } from './components/admin/report/report.component';
     BannerComponent,
     ClientMenuComponent,
     VerifyEmailComponent,
-    StaffComponent,
-    CustomerComponent,
-    SaleComponent,
-    AdminOrderComponent,
-    ReceiptComponent,
-    ReportComponent,
+    AdminOrderListComponent,
+    AdminOrderSaveComponent,
+    AdminOrderDetailsComponent,
+    CustomerListComponent,
+    CustomerSaveComponent,
+    CustomerDetailsComponent,
+    ReceiptListComponent,
+    ReceiptSaveComponent,
+    ReceiptDetailsComponent,
+    StaffListComponent,
+    StaffSaveComponent,
+    StaffDetailsComponent
   ],
   imports: [
     BrowserModule,

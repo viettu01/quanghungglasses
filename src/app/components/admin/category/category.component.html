@@ -44,9 +44,6 @@
           </div>
         </div>
         <div class="col-auto ms-auto">
-          <button class="btn btn-link text-body me-4 px-0">
-            <span class="fa-solid fa-file-export fs-9 me-2"></span>Xuất
-          </button>
           <button class="btn btn-primary" data-bs-target="#modalCategory" data-bs-toggle="modal"
                   (click)="openModalCreate()">
             <span class="fas fa-plus me-2"></span>Thêm danh mục
@@ -342,44 +339,44 @@
         <div class="modal-body">
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9" for="name">Tên danh mục</label>
-            <div class="col-sm-8 fs-9">
+            <div class="col-sm-8 col-form-label fs-9 fw-medium">
               {{ categoryDetails.name }}
             </div>
           </div>
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9" for="slug">Slug</label>
-            <div class="col-sm-8 fs-9">
+            <div class="col-sm-8 col-form-label fs-9 fw-medium">
               {{ categoryDetails.slug }}
             </div>
           </div>
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9" for="description">Mô tả</label>
-            <div class="col-sm-8 fs-9">
+            <div class="col-sm-8 col-form-label fs-9 fw-medium">
               {{ categoryDetails.description }}
             </div>
           </div>
           <div class="row mb-3">
-            <label class="col-sm-4 col-form-label fs-9 m-auto">Tổng số sản phẩm</label>
-            <div class="col-sm-8 fs-9">
+            <label class="col-sm-4 col-form-label fs-9">Tổng số sản phẩm</label>
+            <div class="col-sm-8 col-form-label fs-9 fw-medium">
               {{ categoryDetails.totalProduct }}
             </div>
           </div>
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9">Trạng thái</label>
-            <div class="col-sm-8 fs-9">
+            <div class="col-sm-8 col-form-label fs-9 fw-medium">
               <span class="text-success" *ngIf="categoryDetails.status">Hiển thị</span>
               <span class="text-danger" *ngIf="!categoryDetails.status">Ẩn</span>
             </div>
           </div>
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9">Ngày tạo</label>
-            <div class="col-sm-8 fs-9">
+            <div class="col-sm-8 col-form-label fs-9 fw-medium">
               {{ categoryDetails.createdDate | date:'dd/MM/yyyy HH:mm:ss'}}
             </div>
           </div>
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9">Ngày sửa</label>
-            <div class="col-sm-8 fs-9">
+            <div class="col-sm-8 col-form-label fs-9 fw-medium">
               {{ categoryDetails.updatedDate | date:'dd/MM/yyyy HH:mm:ss'}}
             </div>
           </div>
