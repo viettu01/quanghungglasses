@@ -17,4 +17,8 @@ export class CategoryDto extends BaseDto {
     this.totalProduct = totalProduct;
     this.status = status;
   }
+
+  static createEmpty(): CategoryDto {
+    return new CategoryDto(0, "", "", "", 0, false, new Date(), new Date());
+  }
 }

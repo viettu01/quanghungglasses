@@ -16,7 +16,7 @@ import {SupplierDto} from "../../../dto/supplier.dto";
 })
 export class SupplierComponent implements OnInit {
   protected readonly Utils = Utils;
-  paginationDTO: PaginationDTO<SupplierDto> = new PaginationDTO<SupplierDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  paginationDTO: PaginationDTO<SupplierDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   selectAll: boolean = false;
   sortDir: string = "ASC";

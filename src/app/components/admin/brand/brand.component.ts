@@ -16,7 +16,7 @@ import {BrandService} from "../../../service/brand.service";
 })
 export class BrandComponent implements OnInit {
   protected readonly Utils = Utils;
-  paginationDTO: PaginationDTO<BrandDto> = new PaginationDTO<BrandDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  paginationDTO: PaginationDTO<BrandDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   selectAll: boolean = false;
   sortDir: string = "ASC";

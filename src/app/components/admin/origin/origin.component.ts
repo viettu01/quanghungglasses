@@ -16,7 +16,7 @@ import {OriginService} from "../../../service/origin.service";
 })
 export class OriginComponent implements OnInit {
   protected readonly Utils = Utils;
-  paginationDTO: PaginationDTO<OriginDto> = new PaginationDTO<OriginDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  paginationDTO: PaginationDTO<OriginDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   selectAll: boolean = false;
   sortDir: string = "ASC";

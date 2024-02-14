@@ -17,8 +17,8 @@ import {Utils} from "../../../utils/utils";
 })
 export class CategoryComponent implements OnInit {
   protected readonly Utils = Utils;
-  paginationDTO: PaginationDTO<CategoryDto> = new PaginationDTO<CategoryDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
-  categoryDetails: CategoryDto = new CategoryDto(0, "", "", "", 0, false, new Date(), new Date());
+  paginationDTO: PaginationDTO<CategoryDto> = PaginationDTO.createEmpty();
+  categoryDetails: CategoryDto = CategoryDto.createEmpty();
   countStatusAll: number = 0;
   countStatusTrue: number = 0;
   countStatusFalse: number = 0;
@@ -26,7 +26,6 @@ export class CategoryComponent implements OnInit {
   selectAll: boolean = false;
   sortDir: string = "ASC";
   sortBy: string = "";
-  slug: string = "";
 
   @ViewChild('btnCloseModal') btnCloseModal!: ElementRef;
   titleModal: string = "";
@@ -53,7 +52,7 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.title.setTitle("Quản lý danh mục");
+    this.title.setTitle("Danh mục sản phẩm");
     this.countAll();
     this.countByStatus(true);
     this.countByStatus(false);
@@ -205,10 +204,10 @@ export class CategoryComponent implements OnInit {
     this.categoryService.update(this.categoryForm.value).subscribe({
       next: () => {
         this.updateTable();
+        this.toastr.success('Cập nhật trạng thái thành công', 'Thông báo');
       },
-      error: (error: any) => {
-        this.errorMessage = error.error;
-        this.isDisplayNone = false;
+      error: () => {
+        this.toastr.error('Cập nhật trạng thái thất bại', 'Thất bại');
       }
     });
   }

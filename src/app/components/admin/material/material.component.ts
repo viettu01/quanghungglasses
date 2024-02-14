@@ -16,7 +16,7 @@ import {MaterialService} from "../../../service/material.service";
 })
 export class MaterialComponent implements OnInit {
   protected readonly Utils = Utils;
-  paginationDTO: PaginationDTO<MaterialDto> = new PaginationDTO<MaterialDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  paginationDTO: PaginationDTO<MaterialDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   selectAll: boolean = false;
   sortDir: string = "ASC";

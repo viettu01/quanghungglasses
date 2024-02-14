@@ -18,8 +18,8 @@ import {BannerService} from "../../../service/banner.service";
 export class BannerComponent implements OnInit {
   protected readonly Utils = Utils;
   baseUrl: string = `${Environment.apiBaseUrl}`;
-  paginationDTO: PaginationDTO<BannerDto> = new PaginationDTO<BannerDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
-  bannerDetails: BannerDto = new BannerDto(new Date(), new Date(), 0, "", "", false, "");
+  paginationDTO: PaginationDTO<BannerDto> = PaginationDTO.createEmpty();
+  bannerDetails: BannerDto = BannerDto.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   selectAll: boolean = false;
   sortDir: string = "ASC";
@@ -191,9 +191,8 @@ export class BannerComponent implements OnInit {
       next: () => {
         this.updateTable();
       },
-      error: (error: any) => {
-        this.errorMessage = error.error;
-        this.isDisplayNone = false;
+      error: () => {
+        this.toastr.error('Cập nhật trạng thái thất bại', 'Thất bại');
       }
     });
   }

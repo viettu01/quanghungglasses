@@ -1,10 +1,10 @@
 export class PaginationDTO<T> {
   content: T[];
-  totalPages: number;
-  totalElements: number;
-  numberOfElements: number;
-  pageSize: number;
-  pageNumber: number;
+  totalPages: number; // Tổng số trang
+  totalElements: number; // Tổng số phần tử
+  numberOfElements: number; // Số phần tử trên trang hiện tại
+  pageSize: number; // Số phần tử trên mỗi trang
+  pageNumber: number; // Số trang hiện tại
   firstElementOnPage: number; // Số thứ tự phần tử đầu tiên trên trang hiện tại
   lastElementOnPage: number; // Số thứ tự phần tử cuối cùng trên trang hiện tại
   sortBy: string; // Sắp xếp theo
@@ -22,5 +22,9 @@ export class PaginationDTO<T> {
     this.lastElementOnPage = lastElementOnPage;
     this.sortBy = sortBy;
     this.sortDirection = sortDirection;
+  }
+
+  static createEmpty<T>(): PaginationDTO<T> {
+    return new PaginationDTO<T>([], 0, 0, 0, 0, 0, 0, 0, "", "");
   }
 }

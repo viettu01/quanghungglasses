@@ -16,7 +16,7 @@ import {ShapeDto} from "../../../dto/shape.dto";
 })
 export class ShapeComponent implements OnInit {
   protected readonly Utils = Utils;
-  paginationDTO: PaginationDTO<ShapeDto> = new PaginationDTO<ShapeDto>([], 0, 0, 0, 0, 0, 0, 0, "", "");
+  paginationDTO: PaginationDTO<ShapeDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   selectAll: boolean = false;
   sortDir: string = "ASC";

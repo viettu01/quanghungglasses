@@ -15,4 +15,8 @@ export class BannerDto extends BaseDto {
     this.status = status;
     this.staffEmail = staffEmail;
   }
+
+  static createEmpty(): BannerDto {
+    return new BannerDto(new Date(), new Date(), 0, "", "", false, "");
+  }
 }
