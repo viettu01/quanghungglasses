@@ -59,6 +59,8 @@ import {CodeInputModule} from "angular-code-input";
 import {JwtModule} from "@auth0/angular-jwt";
 import {Environment} from "./environment/environment";
 import {TokenInterceptor} from "./interceptors/token.interceptor";
+import {EditorModule, TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule({
   declarations: [
@@ -132,13 +134,16 @@ import {TokenInterceptor} from "./interceptors/token.interceptor";
         disallowedRoutes: [`${Environment.domain}/login`] // Các đường dẫn không sử dụng token
       }
     }),
+    EditorModule,
+    NgSelectModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    {provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js'}
   ],
   bootstrap: [AppComponent]
 })
