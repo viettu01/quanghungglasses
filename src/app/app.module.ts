@@ -61,6 +61,7 @@ import {Environment} from "./environment/environment";
 import {TokenInterceptor} from "./interceptors/token.interceptor";
 import {EditorModule, TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
 import {NgSelectModule} from "@ng-select/ng-select";
+import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import {NgSelectModule} from "@ng-select/ng-select";
     ReceiptDetailsComponent,
     StaffListComponent,
     StaffSaveComponent,
-    StaffDetailsComponent
+    StaffDetailsComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
