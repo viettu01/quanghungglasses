@@ -11,26 +11,26 @@
       <h2 class="mb-0">Danh sách danh mục sản phẩm</h2>
     </div>
   </div>
-  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" routerLink="/admin/category">
-        <span>Tất cả </span>
-        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" (click)="findAllByStatus(true)">
-        <span>Hiển thị </span>
-        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>
-      </button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" (click)="findAllByStatus(false)">
-        <span>Ẩn </span>
-        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>
-      </button>
-    </li>
-  </ul>
+<!--  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link active" aria-current="page" routerLink="/admin/category">-->
+<!--        <span>Tất cả </span>-->
+<!--        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <button class="nav-link" (click)="findAllByStatus(true)">-->
+<!--        <span>Hiển thị </span>-->
+<!--        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>-->
+<!--      </button>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <button class="nav-link" (click)="findAllByStatus(false)">-->
+<!--        <span>Ẩn </span>-->
+<!--        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>-->
+<!--      </button>-->
+<!--    </li>-->
+<!--  </ul>-->
   <div id="category">
     <div class="mb-4">
       <div class="row g-3">
@@ -56,12 +56,12 @@
         <table class="table fs--1 mb-0">
           <thead>
           <tr>
-            <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
-              <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"
-                       (input)="toggleSelectAll()"/>
-              </div>
-            </th>
+<!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
+<!--              <div class="form-check mb-0 fs-0">-->
+<!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
+<!--                       (input)="toggleSelectAll()"/>-->
+<!--              </div>-->
+<!--            </th>-->
             <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width: 250px;"
                 (click)="sortByField('name')">
               Tên danh mục
@@ -75,7 +75,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-4" scope="col" style="width:250px;" (click)="sortByField('slug')">
+            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:250px;" (click)="sortByField('slug')">
               Slug
               <label [class.d-none]="sortBy === 'slug' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
@@ -87,7 +87,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-4" scope="col" (click)="sortByField('createdDate')">
+            <th class="sort white-space-nowrap align-middle ps-4" scope="col" (click)="sortByField('createdDate')">
               Ngày tạo
               <label [class.d-none]="sortBy === 'createdDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
@@ -99,7 +99,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-3" scope="col" (click)="sortByField('updatedDate')">
+            <th class="sort white-space-nowrap align-middle ps-3" scope="col" (click)="sortByField('updatedDate')">
               Ngày sửa
               <label [class.d-none]="sortBy === 'updatedDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
@@ -111,7 +111,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-4" scope="col" (click)="sortByField('status')">
+            <th class="sort white-space-nowrap align-middle ps-4" scope="col" (click)="sortByField('status')">
               Trạng thái
               <label [class.d-none]="sortBy === 'status' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
@@ -133,12 +133,12 @@
             </td>
           </tr>
           <tr class="position-static" *ngFor="let category of paginationDTO.content">
-            <td class="fs--1 align-middle">
-              <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" type="checkbox" [value]="category.id"
-                       [checked]="selectAll"/>
-              </div>
-            </td>
+<!--            <td class="fs&#45;&#45;1 align-middle">-->
+<!--              <div class="form-check mb-0 fs-0">-->
+<!--                <input class="form-check-input" type="checkbox" [value]="category.id"-->
+<!--                       [checked]="selectAll"/>-->
+<!--              </div>-->
+<!--            </td>-->
             <td class="align-middle ps-4">{{ category.name }}</td>
             <td class="align-middle white-space-nowrap text-700 ps-4">{{ category.slug }}</td>
             <td class="align-middle white-space-nowrap text-600 ps-4">
