@@ -11,35 +11,33 @@
       <h2 class="mb-0">Danh sách sản phẩm</h2>
     </div>
   </div>
-  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/admin/product"
-         [class.active]="isStatusAll">
-        <span>Tất cả </span>
-        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" (click)="findAllByStatus(true)"
-              [class.active]="isStatusTrue">
-        <span>Đang bán </span>
-        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>
-      </button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" (click)="findAllByStatus(false)"
-              [class.active]="isStatusFalse">
-        <span>Ngưng bán </span>
-        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>
-      </button>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">
-        <span>Đang giảm giá </span>
-        <span class="text-700 fw-semi-bold">({{ countProductSale }})</span>
-      </a>
-    </li>
-  </ul>
+<!--  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link" routerLink="/admin/product"-->
+<!--         [class.active]="isStatusAll">-->
+<!--        <span>Tất cả </span>-->
+<!--        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <button class="nav-link" (click)="findAllByStatus(true)" [class.active]="isStatusTrue">-->
+<!--        <span>Đang bán </span>-->
+<!--        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>-->
+<!--      </button>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <button class="nav-link" (click)="findAllByStatus(false)" [class.active]="isStatusFalse">-->
+<!--        <span>Ngưng bán </span>-->
+<!--        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>-->
+<!--      </button>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link" href="#">-->
+<!--        <span>Đang giảm giá </span>-->
+<!--        <span class="text-700 fw-semi-bold">({{ countProductSale }})</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--  </ul>-->
   <div id="products">
     <div class="mb-4">
       <div class="row g-3">
@@ -52,25 +50,7 @@
             </form>
           </div>
         </div>
-        <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
-          <div class="btn-group position-static" role="group">
-            <div class="btn-group position-static text-nowrap">
-              <button class="btn btn-phoenix-secondary px-7 flex-shrink-0" type="button" data-bs-toggle="dropdown"
-                      data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                Danh mục<span class="fas fa-angle-down ms-2"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li *ngFor="let category of categories">
-                  <a class="dropdown-item" href="#">{{ category.name }}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
         <div class="col-auto ms-auto">
-          <button class="btn btn-link text-body me-4 px-0">
-            <span class="fa-solid fa-file-export fs-9 me-2"></span>Xuất
-          </button>
           <a class="btn btn-primary" href="/admin/product/save">
             <span class="fas fa-plus me-2"></span>Thêm sản phẩm
           </a>
@@ -82,13 +62,8 @@
         <table class="table fs--1 mb-0">
           <thead>
           <tr>
-            <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
-              <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" type="checkbox" (input)="toggleSelectAll()"/>
-              </div>
-            </th>
-            <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;"></th>
-            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;"
+            <th class="white-space-nowrap align-middle fs--2" scope="col" style="width:70px;"></th>
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:300px;"
                 (click)="sortByField('name')">
               Tên sản phẩm
               <label [class.d-none]="sortBy === 'name' && (sortDir === 'DESC' || sortDir === 'ASC')">
@@ -101,7 +76,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-4" scope="col" style="width:150px;"
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:150px;"
                 (click)="sortByField('price')">
               Giá
               <label [class.d-none]="sortBy === 'price' && (sortDir === 'DESC' || sortDir === 'ASC')">
@@ -114,10 +89,10 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-4" scope="col" style="width:150px;">
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:150px;">
               Danh mục
             </th>
-            <th class="sort align-middle ps-4" scope="col" style="width:150px;"
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:210px;"
                 (click)="sortByField('status')">
               Trạng thái
               <label [class.d-none]="sortBy === 'status' && (sortDir === 'DESC' || sortDir === 'ASC')">
@@ -130,7 +105,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-4" scope="col" style="width:200px;"
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:200px;"
                 (click)="sortByField('createdDate')">
               Ngày tạo
               <label [class.d-none]="sortBy === 'createdDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
@@ -143,7 +118,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort align-middle ps-4" scope="col" style="width:200px;"
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:200px;"
                 (click)="sortByField('updatedDate')">
               Ngày sửa
               <label [class.d-none]="sortBy === 'updatedDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
@@ -166,11 +141,6 @@
             </td>
           </tr>
           <tr class="position-static" *ngFor="let product of paginationDTO.content">
-            <td class="fs--1 align-middle">
-              <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" type="checkbox" [value]="product.id" [checked]="selectAll"/>
-              </div>
-            </td>
             <td class="align-middle white-space-nowrap py-0">
               <img src="{{baseUrl}}/images/{{product.thumbnail}}" alt="" width="53"/>
             </td>
@@ -187,10 +157,10 @@
               <span class="text-success" *ngIf="product.status">Đang bán</span>
               <span class="text-danger" *ngIf="!product.status">Ngưng bán</span>
             </td>
-            <td class="vendor align-middle text-start fw-semi-bold ps-4">
+            <td class="vendor align-middle white-space-nowrap ps-4">
               {{ product.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
             </td>
-            <td class="time align-middle white-space-nowrap text-600 ps-4">
+            <td class="time align-middle white-space-nowrap ps-4">
               {{ product.updatedDate | date:'dd/MM/yyyy HH:mm:ss' }}
             </td>
             <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
@@ -202,7 +172,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
                   <a class="dropdown-item" href="#!">Chi tiết</a>
-                  <a class="dropdown-item" href="#!">Cập nhật</a>
+                  <a class="dropdown-item" href="/admin/product/save/{{product.id}}">Cập nhật</a>
                   <!--<button class="dropdown-item" (click)="updateStatus(category)">-->
                   <!--  <span *ngIf="category.status">Ẩn</span>-->
                   <!--  <span *ngIf="!category.status">Hiển thị</span>-->

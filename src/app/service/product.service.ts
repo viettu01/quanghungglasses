@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {CategoryDto} from "../dto/category.dto";
+import {ProductDto} from "../dto/product.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,11 @@ export class ProductService {
   };
 
   findBySlug(slug: string) {
-    return this.http.get(`${this.apiProductAdminUrl}/${slug}`);
+    return this.http.get(`${this.apiProductUrl}/${slug}`);
+  }
+
+  findById(id: number) {
+    return this.http.get(`${this.apiProductAdminUrl}/${id}`);
   }
 
   countByStatus(status: boolean) {
@@ -44,24 +49,63 @@ export class ProductService {
     return this.http.get(`${this.apiProductAdminUrl}/count-all`);
   }
 
-  create(category: CategoryDto) {
-    return this.http.post(this.apiProductAdminUrl, category, this.apiConfigUrl);
+  create(product: ProductDto, thumbnailFile: File, imageProductFiles: File[]) {
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('thumbnailFile', thumbnailFile);
+    formData.append('slug', product.slug);
+    formData.append('description', product.description);
+    formData.append('price', product.price.toString());
+    formData.append('categoryId', product.categoryId.toString());
+    formData.append('materialId', product.materialId.toString());
+    formData.append('originId', product.originId.toString());
+    formData.append('shapeId', product.shapeId.toString());
+    formData.append('brandId', product.brandId.toString());
+    formData.append('status', product.status.toString());
+    for (let i = 0; i < product.productDetails.length; i++) {
+      formData.append(`productDetails[${i}].color`, product.productDetails[i].color);
+      formData.append(`productDetails[${i}].quantity`, '0');
+    }
+    for (let i = 0; i < imageProductFiles.length; i++) {
+      formData.append('imageFiles', imageProductFiles[i]);
+    }
+    console.log(product.productDetails);
+    // debugger;
+    return this.http.post(this.apiProductAdminUrl, formData);
   }
 
-  update(category: CategoryDto) {
-    return this.http.put(this.apiProductAdminUrl, category, this.apiConfigUrl);
+  update(product: ProductDto, thumbnailFile: File, imageProductFiles: File[]) {
+    const formData = new FormData();
+    formData.append('id', product.id.toString());
+    formData.append('name', product.name);
+    formData.append('thumbnailFile', thumbnailFile);
+    formData.append('slug', product.slug);
+    formData.append('description', product.description);
+    formData.append('price', product.price.toString());
+    formData.append('categoryId', product.categoryId.toString());
+    formData.append('materialId', product.materialId.toString());
+    formData.append('originId', product.originId.toString());
+    formData.append('shapeId', product.shapeId.toString());
+    formData.append('brandId', product.brandId.toString());
+    formData.append('status', product.status.toString());
+    for (let i = 0; i < product.productDetails.length; i++) {
+      if (product.productDetails[i].id !== null) {
+        formData.append(`productDetails[${i}].id`, product.productDetails[i].id.toString());
+      }
+      formData.append(`productDetails[${i}].color`, product.productDetails[i].color);
+      formData.append(`productDetails[${i}].quantity`, product.productDetails[i].quantity.toString());
+    }
+    for (let i = 0; i < imageProductFiles.length; i++) {
+      formData.append('imageFiles', imageProductFiles[i]);
+    }
+    return this.http.put(this.apiProductAdminUrl, formData);
   }
-
-  // delete(ids: number[]) {
-  //   const options = {
-  //     headers: this.apiConfigUrl.headers,
-  //     body: ids // Truyền danh sách ids vào phần body
-  //   };
-  //
-  //   return this.http.delete(`${this.apiCategoryUrl}`, options);
-  // }
 
   delete(id: number) {
     return this.http.delete(`${this.apiProductAdminUrl}/${id}`,);
+  }
+
+  deleteImage(id: number, imageName: string) {
+    return this.http.delete(`${this.apiProductAdminUrl}/${id}/images/${imageName}`);
   }
 }

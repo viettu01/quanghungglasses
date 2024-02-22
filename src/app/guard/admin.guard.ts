@@ -6,15 +6,16 @@ import {TokenService} from "../service/token.service";
   providedIn: 'root'
 })
 export class AdminGuard {
-  constructor(private tokenService: TokenService, private router: Router) {}
+  constructor(private tokenService: TokenService, private router: Router) {
+  }
 
   canActivate: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree => {
     // debugger
     const requiredRole = ['ROLE_ADMIN', 'ROLE_STAFF']; // Quyền truy cập yêu cầu
     const roles = this.tokenService.getUserRoles(); // Lấy danh sách các quyền từ AuthService
-    // console.log(roles);
+    // console.log("role:" + roles);
     // debugger
-    if (roles.length == 0 || this.tokenService.isTokenExpired()) {
+    if (roles == null || roles.length == 0 || this.tokenService.isTokenExpired()) {
       // nếu token hết hạn, chuyển hướng đến trang đăng nhập
       return this.router.createUrlTree(['/login']);
     } else if (roles.some((role: string) => requiredRole.includes(role))) {

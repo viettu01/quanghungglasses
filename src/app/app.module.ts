@@ -61,7 +61,8 @@ import {Environment} from "./environment/environment";
 import {TokenInterceptor} from "./interceptors/token.interceptor";
 import {EditorModule, TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
 import {NgSelectModule} from "@ng-select/ng-select";
-import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
+import {ForgotPasswordComponent} from './components/auth/forgot-password/forgot-password.component';
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 @NgModule({
   declarations: [
@@ -137,7 +138,8 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
       }
     }),
     EditorModule,
-    NgSelectModule
+    NgSelectModule,
+    NgxDropzoneModule
   ],
   providers: [
     {
@@ -145,7 +147,10 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
       useClass: TokenInterceptor,
       multi: true
     },
-    {provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js'}
+    {
+      provide: TINYMCE_SCRIPT_SRC,
+      useValue: 'tinymce/tinymce.min.js'
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -14,6 +14,9 @@ import {OriginDto} from "../../../../dto/origin.dto";
 import {BrandDto} from "../../../../dto/brand.dto";
 import {ShapeDto} from "../../../../dto/shape.dto";
 import {MaterialDto} from "../../../../dto/material.dto";
+import {Environment} from "../../../../environment/environment";
+import {StorageService} from "../../../../service/storage.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-save',
@@ -21,16 +24,19 @@ import {MaterialDto} from "../../../../dto/material.dto";
   styleUrls: ['./admin-product-save.component.css']
 })
 export class AdminProductSaveComponent implements OnInit {
+  protected readonly Environment = Environment;
   titleString: string = "";
   selectedImageUrl: string = "";
   selectedImageFile: File = new File([""], "filename");
+  selectedImageProductUrl: string[] = [];
+  selectedImageProductFiles: File[] = [];
   categories: CategoryDto[] = [];
   origins: OriginDto[] = [];
   brands: BrandDto[] = [];
   shapes: ShapeDto[] = [];
   materials: MaterialDto[] = [];
   editorConfig = {
-    height: 280,
+    height: 314,
     selector: 'textarea',
     base_url: '/tinymce',
     suffix: '.min',
@@ -39,8 +45,10 @@ export class AdminProductSaveComponent implements OnInit {
     toolbar: 'undo redo | cut copy paste  | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fullscreen',
   };
 
-  productForm: FormGroup = new FormGroup(
-    {
+  isDisplayNone: boolean = false;
+  btnSave: string = "";
+
+  productForm: FormGroup = new FormGroup({
       id: new FormControl(null),
       name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       price: new FormControl('', [
@@ -55,34 +63,54 @@ export class AdminProductSaveComponent implements OnInit {
         Validators.pattern(/^[a-zA-Z0-9-]*$/)
       ]),
       description: new FormControl('', [Validators.required]),
+      imageProductFiles: new FormControl(null, [Validators.required]),
       status: new FormControl('false', [Validators.required]),
-      categoryId: new FormControl('', [Validators.required]),
-      materialId: new FormControl('', [Validators.required]),
-      originId: new FormControl('', [Validators.required]),
-      shapeId: new FormControl('', [Validators.required]),
-      brandId: new FormControl('', [Validators.required]),
+      categoryId: new FormControl(null, [Validators.required]),
+      materialId: new FormControl(null, [Validators.required]),
+      originId: new FormControl(null, [Validators.required]),
+      shapeId: new FormControl(null, [Validators.required]),
+      brandId: new FormControl(null, [Validators.required]),
       productDetails: new FormArray([
         new FormGroup({
-          color: new FormControl(''),
-          imageFile: new FormArray([])
+          id: new FormControl(null),
+          color: new FormControl('', [Validators.required]),
+          quantity: new FormControl(0)
         })
       ], Validators.required)
     }
   );
 
+  get productDetails() {
+    return this.productForm.get('productDetails') as FormArray;
+  }
+
   constructor(private title: Title,
-              private categoryService: CategoryService, private originService: OriginService,
-              private brandService: BrandService, private shapeService: ShapeService,
-              private materialService: MaterialService, private productService: ProductService,
+              private categoryService: CategoryService, private storageService: StorageService,
+              private originService: OriginService, private brandService: BrandService,
+              private shapeService: ShapeService, private materialService: MaterialService,
+              private productService: ProductService,
               private activatedRoute: ActivatedRoute, private router: Router,
               private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
-    if (this.productForm.get('id')?.value === null)
+    const thumbnailFileControl = this.productForm.get('thumbnailFile');
+    const imageProductFilesControl = this.productForm.get('imageProductFiles');
+    if (this.activatedRoute.snapshot.params["id"] === undefined) {
       this.titleString = "Thêm sản phẩm";
-    else
+      this.btnSave = "Thêm mới";
+      thumbnailFileControl?.setValidators([Validators.required]);
+      imageProductFilesControl?.setValidators([Validators.required]);
+    } else {
       this.titleString = "Cập nhật sản phẩm";
+      this.btnSave = "Cập nhật";
+      thumbnailFileControl?.setValidators([Validators.nullValidator]);
+      imageProductFilesControl?.setValidators([Validators.nullValidator]);
+      this.findProductById(this.activatedRoute.snapshot.params["id"]);
+    }
+    thumbnailFileControl?.updateValueAndValidity();
+    imageProductFilesControl?.updateValueAndValidity();
+
     this.title.setTitle(this.titleString);
     this.findAllCategory();
     this.findAllOrigin();
@@ -103,17 +131,42 @@ export class AdminProductSaveComponent implements OnInit {
     }
   }
 
-  // get productDetails() {
-  //   return this.productForm.get('productDetails') as FormArray;
-  // }
+  onSelect(event: any) {
+    this.selectedImageProductFiles.push(...event.addedFiles);
+    this.productForm.get('imageProductFiles')?.setValue(this.selectedImageProductFiles);
+    console.log(this.selectedImageProductFiles);
+  }
+
+  onRemove(event: any) {
+    this.selectedImageProductFiles.splice(this.selectedImageProductFiles.indexOf(event), 1);
+    this.productForm.get('imageProductFiles')?.setValue(this.selectedImageProductFiles);
+  }
 
   addProductDetails() {
     const productDetails = this.productForm.get('productDetails') as FormArray;
     productDetails.push(
       new FormGroup({
-        color: new FormControl(''),
+        id: new FormControl(null),
+        color: new FormControl('', [Validators.required]),
+        quantity: new FormControl(0)
       })
     );
+  }
+
+  removeProductDetails(index: number) {
+    const productDetails = this.productForm.get('productDetails') as FormArray;
+    productDetails.removeAt(index);
+  }
+
+  onSubmit() {
+    if (this.productForm.invalid) {
+      return;
+    }
+    if (this.activatedRoute.snapshot.params["id"] === undefined) {
+      this.createProduct();
+    } else {
+      this.updateProduct();
+    }
   }
 
   findAllCategory() {
@@ -154,5 +207,94 @@ export class AdminProductSaveComponent implements OnInit {
         this.materials = data;
       }
     );
+  }
+
+  findProductById(id: number) {
+    this.productService.findById(id).subscribe({
+      next: (data: any) => {
+        this.productForm.patchValue(data);
+        this.selectedImageUrl = Environment.apiBaseUrl + '/images/' + data.thumbnail;
+        this.selectedImageFile = new File([""], "filename");
+        this.selectedImageProductFiles = [];
+        this.selectedImageProductUrl = data.images.map((image: string) => {
+          return image;
+        });
+        this.productForm.get('imageProductFiles')?.setValue(this.selectedImageProductFiles);
+        this.productForm.get('status')?.setValue(data.status.toString());
+        this.productForm.setControl('productDetails', new FormArray([]));
+        data.productDetails.forEach((productDetail: any) => {
+          this.productDetails.push(
+            new FormGroup({
+              id: new FormControl(productDetail.id),
+              color: new FormControl(productDetail.color, [Validators.required]),
+              quantity: new FormControl(productDetail.quantity)
+            })
+          );
+        });
+      },
+      error: (err: any) => {
+        this.toastr.error(err.error, "Thất bại");
+      }
+    });
+  }
+
+  createProduct() {
+    this.productService.create(this.productForm.value, this.selectedImageFile, this.selectedImageProductFiles).subscribe({
+      next: (data: any) => {
+        this.toastr.success("Thêm sản phẩm thành công");
+        // this.router.navigateByUrl("/admin/product");
+      },
+      error: (err: any) => {
+        this.toastr.error(err.error, "Thất bại");
+      }
+    });
+  }
+
+  updateProduct() {
+    this.productService.update(this.productForm.value, this.selectedImageFile, this.selectedImageProductFiles).subscribe({
+      next: (data: any) => {
+        this.toastr.success("Cập nhật sản phẩm thành công");
+        this.router.navigateByUrl("/admin/product");
+      },
+      error: (err: any) => {
+        this.toastr.error(err.error, "Thất bại");
+      }
+    });
+  }
+
+  deleteImageProduct(imageName: string) {
+    Swal.fire({
+      title: 'Bạn có chắc chắn muốn xóa?',
+      text: 'Dữ liệu sẽ không thể phục hồi sau khi xóa!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xác nhận',
+      cancelButtonText: 'Hủy',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-danger me-1',
+        cancelButton: 'btn btn-secondary'
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productService.deleteImage(this.activatedRoute.snapshot.params["id"], imageName).subscribe({
+          next: () => {
+            this.toastr.success("Xóa ảnh thành công");
+            if (this.selectedImageProductUrl.length === 0) {
+              const imageProductFilesControl = this.productForm.get('imageProductFiles');
+              imageProductFilesControl?.setValidators([Validators.required]);
+              imageProductFilesControl?.updateValueAndValidity();
+            }
+
+            this.selectedImageProductUrl = this.selectedImageProductUrl.filter((image: string) => {
+              return image !== imageName;
+            });
+          },
+          error: (err: any) => {
+            this.toastr.error(err.error, "Thất bại");
+          }
+        });
+      }
+    });
   }
 }

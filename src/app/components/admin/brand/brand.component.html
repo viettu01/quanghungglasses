@@ -36,12 +36,12 @@
         <table class="table fs--1 mb-0">
           <thead>
           <tr>
-            <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
-              <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"
-                       (input)="toggleSelectAll()"/>
-              </div>
-            </th>
+<!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
+<!--              <div class="form-check mb-0 fs-0">-->
+<!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
+<!--                       (input)="toggleSelectAll()"/>-->
+<!--              </div>-->
+<!--            </th>-->
             <th class="sort white-space-nowrap align-middle ps-4" scope="col"
                 (click)="sortByField('name')">
               Tên thương hiệu
@@ -89,11 +89,11 @@
             </td>
           </tr>
           <tr class="position-static" *ngFor="let shape of paginationDTO.content">
-            <td class="fs--1 align-middle">
-              <div class="form-check mb-0 fs-0">
-                <input class="form-check-input" type="checkbox" [value]="shape.id" [checked]="selectAll"/>
-              </div>
-            </td>
+<!--            <td class="fs&#45;&#45;1 align-middle">-->
+<!--              <div class="form-check mb-0 fs-0">-->
+<!--                <input class="form-check-input" type="checkbox" [value]="shape.id" [checked]="selectAll"/>-->
+<!--              </div>-->
+<!--            </td>-->
             <td class="align-middle ps-4">{{ shape.name }}</td>
             <td class="align-middle white-space-nowrap text-600 ps-4">
               {{ shape.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}

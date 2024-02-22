@@ -34,13 +34,13 @@ export class AdminProductListComponent implements OnInit {
   sortDir: string = "ASC";
   sortBy: string = "";
 
-  constructor(private title: Title, private categoryService: CategoryService, private productService: ProductService,
-              private activatedRoute: ActivatedRoute, private router: Router, private toastr: ToastrService) {
+  constructor(private title: Title, private productService: ProductService,
+              private activatedRoute: ActivatedRoute, private router: Router,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
     this.title.setTitle("Danh sách sản phẩm");
-    this.findAllCategory();
     this.countAll();
     this.countByStatus(true);
     this.countByStatus(false);
@@ -68,18 +68,6 @@ export class AdminProductListComponent implements OnInit {
 
       this.findAll(name, status, pageSize, pageNumber, sortDir, sortBy);
     });
-  }
-
-  findAllCategory() {
-    this.categoryService.findAllByName("", true, 100, 1, "ASC", "name").subscribe(
-      (data: any) => {
-        this.categories = data.content;
-      }
-    );
-  }
-
-  toggleSelectAll() {
-    this.selectAll = !this.selectAll;
   }
 
   findAll(name: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
@@ -194,7 +182,7 @@ export class AdminProductListComponent implements OnInit {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoryService.delete(id).subscribe({
+        this.productService.delete(id).subscribe({
           next: () => {
             this.updateTable();
             this.toastr.success('Xóa sản phẩm thành công', 'Thông báo');
