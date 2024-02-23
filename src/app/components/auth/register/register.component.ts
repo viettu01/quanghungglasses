@@ -4,6 +4,7 @@ import {Title} from "@angular/platform-browser";
 import {ToastrService} from "ngx-toastr";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {AuthService} from "../../../service/auth.service";
+import {Utils} from "../../../utils/utils";
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,8 @@ export class RegisterComponent implements OnInit {
     {
       fullname: new FormControl('', [
         Validators.required,
-        Validators.maxLength(30)]),
+        Validators.maxLength(30)
+      ]),
       email: new FormControl('', [
         Validators.required,
         Validators.maxLength(50),
@@ -70,4 +72,6 @@ export class RegisterComponent implements OnInit {
       }
     );
   }
+
+  protected readonly Utils = Utils;
 }

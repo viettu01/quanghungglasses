@@ -39,6 +39,8 @@ import {HomeComponent} from "./components/client/home/home.component";
 import {VerifyEmailComponent} from "./components/auth/verify-email/verify-email.component";
 import {AdminGuard} from "./guard/admin.guard";
 import {ForgotPasswordComponent} from "./components/auth/forgot-password/forgot-password.component";
+import {CustomerDetailsComponent} from "./components/admin/customer/customer-details/customer-details.component";
+import {StaffDetailsComponent} from "./components/admin/staff/staff-details/staff-details.component";
 
 const routes: Routes = [
   {
@@ -46,10 +48,17 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       {path: '', component: DashboardComponent},
+
       {path: 'staff', component: StaffListComponent},
       {path: 'staff/save', component: StaffSaveComponent},
+      {path: 'staff/save/:id', component: StaffSaveComponent},
+      {path: 'staff/:id', component: StaffDetailsComponent},
+
       {path: 'customer', component: CustomerListComponent},
       {path: 'customer/save', component: CustomerSaveComponent},
+      {path: 'customer/save/:id', component: CustomerSaveComponent},
+      {path: 'customer/:id', component: CustomerDetailsComponent},
+
       {path: 'banner', component: BannerComponent},
       {path: 'sale', component: SaleComponent},
       {path: 'order', component: AdminOrderListComponent},
@@ -61,6 +70,7 @@ const routes: Routes = [
       {path: 'brand', component: BrandComponent},
       {path: 'origin', component: OriginComponent},
       {path: 'category', component: CategoryComponent},
+
       {path: 'product', component: AdminProductListComponent},
       {path: 'product/save', component: AdminProductSaveComponent},
       {path: 'product/save/:id', component: AdminProductSaveComponent},

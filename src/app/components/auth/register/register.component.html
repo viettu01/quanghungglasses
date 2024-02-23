@@ -28,18 +28,18 @@
           <label class="form-label" for="email">Email</label>
           <input class="form-control" id="email" type="email" placeholder="email@gmail.com" formControlName="email"/>
           <small class="text-danger mt-1">
-              <span
-                *ngIf="registerForm['controls']['email'].dirty && registerForm['controls']['email'].errors?.['required']">
-                Email không được để trống
-              </span>
-            <span
+            <div
+              *ngIf="registerForm['controls']['email'].dirty && registerForm['controls']['email'].errors?.['required']">
+              Email không được để trống
+            </div>
+            <div
               *ngIf="registerForm['controls']['email'].invalid && registerForm['controls']['email'].errors?.['maxlength']">
-                Email không được vượt quá 30 ký tự
-              </span>
-            <span
+              Email không được vượt quá 30 ký tự
+            </div>
+            <div
               *ngIf="registerForm['controls']['email'].invalid && registerForm['controls']['email'].errors?.['email']">
-                Email không đúng định dạng
-              </span>
+              Email không đúng định dạng
+            </div>
           </small>
         </div>
         <div class="row g-3 mb-3">
@@ -79,7 +79,8 @@
               <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
         </button>
-        <div class="text-center fs-9">Bạn đã có tài khoản? <a class="fs-9 fw-bold" routerLink="/login">Đăng nhập</a></div>
+        <div class="text-center fs-9">Bạn đã có tài khoản? <a class="fs-9 fw-bold" routerLink="/login">Đăng nhập</a>
+        </div>
       </form>
     </div>
   </div>
