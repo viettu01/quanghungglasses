@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {CategoryDto} from "../dto/category.dto";
 import {ProductDto} from "../dto/product.dto";
 
 @Injectable({
@@ -10,7 +9,6 @@ import {ProductDto} from "../dto/product.dto";
 export class ProductService {
   private apiProductAdminUrl = `${Environment.apiBaseUrl}/admin/product`;
   private apiProductUrl = `${Environment.apiBaseUrl}/product`;
-  private apiConfigUrl = {headers: {'Content-Type': 'application/json'}};
 
   constructor(private http: HttpClient) {
 

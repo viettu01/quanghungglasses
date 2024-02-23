@@ -269,7 +269,7 @@ export class AdminProductSaveComponent implements OnInit {
 
   createProduct() {
     this.productService.create(this.productForm.value, this.selectedImageFile, this.selectedImageProductFiles).subscribe({
-      next: (data: any) => {
+      next: () => {
         this.toastr.success("Thêm sản phẩm thành công");
         this.router.navigateByUrl("/admin/product");
       },
@@ -281,7 +281,7 @@ export class AdminProductSaveComponent implements OnInit {
 
   updateProduct() {
     this.productService.update(this.productForm.value, this.selectedImageFile, this.selectedImageProductFiles).subscribe({
-      next: (data: any) => {
+      next: () => {
         this.toastr.success("Cập nhật sản phẩm thành công");
         this.router.navigateByUrl("/admin/product");
       },

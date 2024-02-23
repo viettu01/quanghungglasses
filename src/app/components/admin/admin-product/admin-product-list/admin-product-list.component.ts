@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
-import {CategoryService} from "../../../../service/category.service";
 import {ProductService} from "../../../../service/product.service";
 import {CategoryDto} from "../../../../dto/category.dto";
 import {PaginationDTO} from "../../../../dto/pagination.dto";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Utils} from 'src/app/utils/utils';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
