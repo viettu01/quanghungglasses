@@ -101,8 +101,16 @@ export class ProductService {
     return this.http.put(this.apiProductAdminUrl, formData);
   }
 
+  updateStatus(id: number) {
+    return this.http.put(`${this.apiProductAdminUrl}/${id}/status`, null);
+  }
+
   delete(id: number) {
     return this.http.delete(`${this.apiProductAdminUrl}/${id}`,);
+  }
+
+  deleteProductDetails(id: number) {
+    return this.http.delete(`${this.apiProductAdminUrl}/details/${id}`);
   }
 
   deleteImage(id: number, imageName: string) {

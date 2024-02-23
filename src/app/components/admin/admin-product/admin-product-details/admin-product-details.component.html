@@ -1,1 +1,171 @@
-<p>detail-product works!</p>
+<nav class="mb-2" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+    <li class="breadcrumb-item">Quản lý sản phẩm</li>
+    <li class="breadcrumb-item active">{{ titleString }}</li>
+  </ol>
+</nav>
+<div class="mb-9">
+  <div class="row g-3 flex-between-end mb-5">
+    <div class="col-auto">
+      <h2 class="mb-2">{{ titleString }}</h2>
+    </div>
+    <div class="col-auto">
+      <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/product">
+        Quay lại
+      </a>
+      <a class="btn btn-primary mb-2 mb-sm-0" type="submit" href="/admin/product/save/{{product.id}}">
+        Cập nhật
+      </a>
+    </div>
+  </div>
+  <div class="row g-5">
+    <div class="col-12 col-xl-8">
+      <div class="row mb-7">
+        <div class="col-3">
+          <h4 class="mb-3">
+            Ảnh sản phẩm
+          </h4>
+          <div class="d-flex align-items-end position-relative">
+            <div class="hoverbox" style="width: 150px; height: 150px">
+              <div class="position-relative bg-body-emphasis rounded-circle cursor-pointer d-flex flex-center mb-xxl-7">
+                <div class="avatar avatar-5xl">
+                  <img class="rounded-circle" [src]="Environment.apiBaseUrl + '/images/' + product.thumbnail"
+                       alt="ảnh sản phẩm"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="mb-5">
+            <h4 class="mb-3">Tên sản phẩm</h4>
+            <div class="form-control">{{ product.name }}</div>
+          </div>
+          <div class="mb-5">
+            <h4 class="mb-3">Slug</h4>
+            <div class="form-control">{{ product.slug }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <h4 class="mb-3">Mô tả sản phẩm</h4>
+        <div [innerHTML]="getHtmlProductDescription()"></div>
+      </div>
+    </div>
+    <div class="col-12 col-xl-4">
+      <div class="row g-2">
+        <div class="col-12 col-xl-12">
+          <div class="card mb-3">
+            <div class="card-body pb-1">
+              <div class="row gx-3">
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Giá bán</h5>
+                    </div>
+                    <div class="form-control">{{ product.price | currency:'VND':true:'1.0-0' }}</div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Danh mục</h5>
+                    </div>
+                    <div class="form-control">{{ product.categoryName }}</div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Xuất xứ</h5>
+                    </div>
+                    <div class="form-control">{{ product.originName }}</div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Thương hiệu</h5>
+                    </div>
+                    <div class="form-control">{{ product.brandName }}</div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Hình dạng</h5>
+                    </div>
+                    <div class="form-control">{{ product.shapeName }}</div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Chất liệu</h5>
+                    </div>
+                    <div class="form-control">{{ product.materialName }}</div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Trạng thái mở bán</h5>
+                    </div>
+                    <div class="m-auto">
+                      <div class="form-control" *ngIf="product.status">Mở bán</div>
+                      <div class="form-control" *ngIf="!product.status">Ngưng bán</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-xl-12">
+      <h4 class="mb-3">Danh sách ảnh sản phẩm</h4>
+      <div class="d-inline-flex">
+        <div class="position-relative d-inline-block d-flex justify-content-center mb-2 border rounded-1 me-2"
+             style="width: 100px; height: 100px;" *ngFor="let image of product.images">
+          <img class="w-100 h-auto rounded-1 object-fit-contain" src="{{Environment.apiBaseUrl}}/images/{{image}}"
+               alt="">
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-xl-12">
+      <div class="row g-2">
+        <div class="col-12 col-xl-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title mb-4">Chi tiết sản phẩm</h4>
+              <div class="row g-3">
+                <div class="col-3 col-sm-3 col-xl-3" *ngFor="let details of product.productDetails; let i = index">
+                  <div class="border-bottom border-translucent border-dashed border-sm-0 border-bottom-xl pb-4">
+                    <div class="d-flex flex-wrap mb-2">
+                      <span class="text-body-highlight me-2 fs-9 fw-bold">
+                        Màu sắc {{ i + 1 }}
+                      </span>
+                    </div>
+                    <div class="form-control">{{ details.color }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-end mt-3 mb-5">
+    <div class="col-auto">
+      <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/product">
+        Quay lại
+      </a>
+      <a class="btn btn-primary mb-2 mb-sm-0" type="submit" href="/admin/product/save/{{product.id}}">
+        Cập nhật
+      </a>
+    </div>
+  </div>
+</div>

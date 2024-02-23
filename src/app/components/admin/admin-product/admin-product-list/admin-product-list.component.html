@@ -11,33 +11,33 @@
       <h2 class="mb-0">Danh sách sản phẩm</h2>
     </div>
   </div>
-<!--  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">-->
-<!--    <li class="nav-item">-->
-<!--      <a class="nav-link" routerLink="/admin/product"-->
-<!--         [class.active]="isStatusAll">-->
-<!--        <span>Tất cả </span>-->
-<!--        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>-->
-<!--      </a>-->
-<!--    </li>-->
-<!--    <li class="nav-item">-->
-<!--      <button class="nav-link" (click)="findAllByStatus(true)" [class.active]="isStatusTrue">-->
-<!--        <span>Đang bán </span>-->
-<!--        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>-->
-<!--      </button>-->
-<!--    </li>-->
-<!--    <li class="nav-item">-->
-<!--      <button class="nav-link" (click)="findAllByStatus(false)" [class.active]="isStatusFalse">-->
-<!--        <span>Ngưng bán </span>-->
-<!--        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>-->
-<!--      </button>-->
-<!--    </li>-->
-<!--    <li class="nav-item">-->
-<!--      <a class="nav-link" href="#">-->
-<!--        <span>Đang giảm giá </span>-->
-<!--        <span class="text-700 fw-semi-bold">({{ countProductSale }})</span>-->
-<!--      </a>-->
-<!--    </li>-->
-<!--  </ul>-->
+  <!--  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">-->
+  <!--    <li class="nav-item">-->
+  <!--      <a class="nav-link" routerLink="/admin/product"-->
+  <!--         [class.active]="isStatusAll">-->
+  <!--        <span>Tất cả </span>-->
+  <!--        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--    <li class="nav-item">-->
+  <!--      <button class="nav-link" (click)="findAllByStatus(true)" [class.active]="isStatusTrue">-->
+  <!--        <span>Đang bán </span>-->
+  <!--        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>-->
+  <!--      </button>-->
+  <!--    </li>-->
+  <!--    <li class="nav-item">-->
+  <!--      <button class="nav-link" (click)="findAllByStatus(false)" [class.active]="isStatusFalse">-->
+  <!--        <span>Ngưng bán </span>-->
+  <!--        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>-->
+  <!--      </button>-->
+  <!--    </li>-->
+  <!--    <li class="nav-item">-->
+  <!--      <a class="nav-link" href="#">-->
+  <!--        <span>Đang giảm giá </span>-->
+  <!--        <span class="text-700 fw-semi-bold">({{ countProductSale }})</span>-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--  </ul>-->
   <div id="products">
     <div class="mb-4">
       <div class="row g-3">
@@ -154,7 +154,7 @@
               {{ product.categoryName }}
             </td>
             <td class="align-middle white-space-nowrap text-600 ps-4">
-              <span class="text-success" *ngIf="product.status">Đang bán</span>
+              <span class="text-success" *ngIf="product.status">Mở bán</span>
               <span class="text-danger" *ngIf="!product.status">Ngưng bán</span>
             </td>
             <td class="vendor align-middle white-space-nowrap ps-4">
@@ -171,14 +171,14 @@
                   <span class="fas fa-ellipsis-h fs--2"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
-                  <a class="dropdown-item" href="#!">Chi tiết</a>
+                  <a class="dropdown-item" href="/admin/product/{{product.id}}">Chi tiết</a>
                   <a class="dropdown-item" href="/admin/product/save/{{product.id}}">Cập nhật</a>
-                  <!--<button class="dropdown-item" (click)="updateStatus(category)">-->
-                  <!--  <span *ngIf="category.status">Ẩn</span>-->
-                  <!--  <span *ngIf="!category.status">Hiển thị</span>-->
-                  <!--</button>-->
+                  <button class="dropdown-item" (click)="updateStatus(product.id)">
+                    <span *ngIf="product.status">Ngưng bán</span>
+                    <span *ngIf="!product.status">Mở bán</span>
+                  </button>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item text-danger" href="#!">Xóa</a>
+                  <button type="button" class="dropdown-item text-danger" (click)="delete(product.id)">Xóa</button>
                 </div>
               </div>
             </td>

@@ -149,23 +149,18 @@ export class AdminProductListComponent implements OnInit {
     }).then();
   }
 
-  // updateStatus(category: CategoryDto) {
-  //   this.productForm.patchValue({
-  //     id: category.id,
-  //     name: category.name,
-  //     slug: category.slug,
-  //     status: !category.status
-  //   });
-  //   this.categoryService.update(this.productForm.value).subscribe({
-  //     next: () => {
-  //       this.updateTable();
-  //       this.toastr.success('Cập nhật trạng thái thành công', 'Thông báo');
-  //     },
-  //     error: (error: any) => {
-  //       this.toastr.error('Cập nhật trạng thái thất bại', 'Thất bại');
-  //     }
-  //   });
-  // }
+  updateStatus(id: number) {
+    this.productService.updateStatus(id).subscribe({
+      next: () => {
+        this.updateTable();
+        this.toastr.success('Cập nhật trạng thái sản phẩm thành công', 'Thông báo');
+      },
+      error: (error: any) => {
+        this.toastr.error(error.error, 'Thất bại');
+      }
+    });
+
+  }
 
   delete(id: number) {
     Swal.fire({

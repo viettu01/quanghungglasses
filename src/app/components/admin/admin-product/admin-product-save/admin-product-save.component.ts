@@ -155,7 +155,36 @@ export class AdminProductSaveComponent implements OnInit {
 
   removeProductDetails(index: number) {
     const productDetails = this.productForm.get('productDetails') as FormArray;
-    productDetails.removeAt(index);
+
+    if (productDetails.at(index).get('id')?.value !== null) {
+      Swal.fire({
+        title: 'Bạn có chắc chắn muốn xóa?',
+        text: 'Dữ liệu sẽ không thể phục hồi sau khi xóa!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'btn btn-danger me-1',
+          cancelButton: 'btn btn-secondary'
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.productService.deleteProductDetails(productDetails.at(index).get('id')?.value).subscribe({
+            next: () => {
+              this.toastr.success("Xóa chi tiết sản phẩm thành công");
+              productDetails.removeAt(index);
+            },
+            error: (err: any) => {
+              this.toastr.error(err.error, "Thất bại");
+            }
+          });
+        }
+      });
+    } else {
+      productDetails.removeAt(index);
+    }
   }
 
   onSubmit() {
@@ -242,7 +271,7 @@ export class AdminProductSaveComponent implements OnInit {
     this.productService.create(this.productForm.value, this.selectedImageFile, this.selectedImageProductFiles).subscribe({
       next: (data: any) => {
         this.toastr.success("Thêm sản phẩm thành công");
-        // this.router.navigateByUrl("/admin/product");
+        this.router.navigateByUrl("/admin/product");
       },
       error: (err: any) => {
         this.toastr.error(err.error, "Thất bại");
