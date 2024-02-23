@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {RegisterDto} from "../dto/register.dto";
 
 @Injectable({
   providedIn: 'root'
