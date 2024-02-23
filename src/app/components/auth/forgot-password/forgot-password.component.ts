@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import {AuthService} from "../../../service/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {ForgotPasswordDto} from "../../../dto/forgot-password.dto";
 
 @Component({
@@ -16,15 +16,25 @@ export class ForgotPasswordComponent implements OnInit {
   isLoaderDisplayNone: boolean = false;
   isLoaderVerifyCodeDisplayNone: boolean = false;
   forgotPasswordForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    verificationCode: new FormControl('', [Validators.required]),
-    newPassword: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(20),
-      Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{9,}$/)
-    ]),
-  });
+      email: new FormControl('', [Validators.required, Validators.email]),
+      verificationCode: new FormControl('', [Validators.required]),
+      newPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(20),
+        Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{9,}$/)
+      ]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    },
+    {validators: this.matchPassword}
+  );
+
+  matchPassword(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('newPassword')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+
+    return password === confirmPassword ? null : {mismatch: true};
+  }
 
   constructor(private title: Title,
               private authService: AuthService,
