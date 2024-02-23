@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {LoginDto} from "../dto/login.dto";
 import {TokenService} from "./token.service";
 import {RegisterDto} from "../dto/register.dto";
+import {ForgotPasswordDto} from "../dto/forgot-password.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,9 @@ export class AuthService {
 
   register(register: RegisterDto) {
     return this.http.post(`${Environment.apiBaseUrl}/register`, register, this.apiConfigUrl);
+  }
+
+  forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    return this.http.put(`${Environment.apiBaseUrl}/forgot-password`, forgotPasswordDto, this.apiConfigUrl);
   }
 }
