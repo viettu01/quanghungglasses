@@ -60,7 +60,10 @@ export class ChangePasswordComponent implements OnInit {
       },
       error: (error: any) => {
         this.isLoaderDisplayNone = false;
-        this.toastr.error(error.error, "Thất bại");
+        if (error.status === 0)
+          this.toastr.error("Đổi mật khẩu thất bại", "Thông báo");
+        else
+          this.toastr.error(error.error, "Thất bại");
       }
     });
   }

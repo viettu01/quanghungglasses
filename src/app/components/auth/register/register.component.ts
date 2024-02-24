@@ -67,7 +67,12 @@ export class RegisterComponent implements OnInit {
           this.router.navigateByUrl("/login");
         },
         error: (error: any) => {
-          this.toastr.error(error.error, "Thông báo");
+          console.log(error);
+          if (error.status === 0)
+            this.toastr.error("Đăng ký tài khoản thất bại", "Thông báo");
+          else
+            this.toastr.error(error.error, "Thông báo");
+
           this.isLoaderDisplayNone = false;
         }
       }

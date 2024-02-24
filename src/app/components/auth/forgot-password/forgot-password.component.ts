@@ -60,8 +60,11 @@ export class ForgotPasswordComponent implements OnInit {
         this.toastr.success("Đã gửi mã xác minh", "Thông báo");
         this.isLoaderVerifyCodeDisplayNone = false;
       },
-      error: (error) => {
-        this.toastr.error(error.error, "Thất bại");
+      error: (error: any) => {
+        if (error.status === 0)
+          this.toastr.error("Không thể gửi mã xác thực", "Thông báo");
+        else
+          this.toastr.error(error.error, "Thất bại");
         this.isLoaderVerifyCodeDisplayNone = false;
       }
     });
@@ -75,8 +78,8 @@ export class ForgotPasswordComponent implements OnInit {
         this.isLoaderDisplayNone = false;
         this.router.navigateByUrl("/login");
       },
-      error: (error) => {
-        this.toastr.error(error.error, "Thất bại");
+      error: () => {
+        this.toastr.error("Lấy lại mật khẩu thất bại", "Thất bại");
         this.isLoaderDisplayNone = false;
       }
     });

@@ -38,10 +38,13 @@ export class LoginComponent implements OnInit {
         } else {
           window.location.href = "/";
         }
-        this.toastr.success('Đăng nhập thành công', 'Thông báo');
+        // this.toastr.success('Đăng nhập thành công', 'Thông báo');
       },
       error: (error: any) => {
-        this.toastr.error(error.error, 'Thông báo');
+        if (error.status === 0)
+          this.toastr.error("Đăng nhập thất bại", "Thông báo");
+        else
+          this.toastr.error(error.error, 'Thông báo');
       }
     });
   }
