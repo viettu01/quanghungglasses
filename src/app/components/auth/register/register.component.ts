@@ -63,7 +63,8 @@ export class RegisterComponent implements OnInit {
           localStorage.setItem("email", this.registerForm.value.email);
           this.isLoaderDisplayNone = false;
 
-          this.router.navigateByUrl("/verify-email");
+          // this.router.navigateByUrl("/verify-email");
+          this.router.navigateByUrl("/login");
         },
         error: (error: any) => {
           this.toastr.error(error.error, "Thông báo");

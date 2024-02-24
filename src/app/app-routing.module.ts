@@ -41,6 +41,8 @@ import {AdminGuard} from "./guard/admin.guard";
 import {ForgotPasswordComponent} from "./components/auth/forgot-password/forgot-password.component";
 import {CustomerDetailsComponent} from "./components/admin/customer/customer-details/customer-details.component";
 import {StaffDetailsComponent} from "./components/admin/staff/staff-details/staff-details.component";
+import {ChangePasswordComponent} from "./components/auth/change-password/change-password.component";
+import {UserGuard} from "./guard/user.guard";
 
 const routes: Routes = [
   {
@@ -87,7 +89,8 @@ const routes: Routes = [
   },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
+  {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [UserGuard]},
+  {path: 'change-password', component: ChangePasswordComponent, canActivate: [UserGuard]},
   {path: 'verify-email', component: VerifyEmailComponent},
   {path: 'access-denied', component: AccessDeniedComponent},
   {path: 'server-error', component: InternalServerErrorComponent},

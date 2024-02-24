@@ -63,6 +63,7 @@ import {EditorModule, TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {ForgotPasswordComponent} from './components/auth/forgot-password/forgot-password.component';
 import {NgxDropzoneModule} from "ngx-dropzone";
+import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import {NgxDropzoneModule} from "ngx-dropzone";
     StaffListComponent,
     StaffSaveComponent,
     StaffDetailsComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

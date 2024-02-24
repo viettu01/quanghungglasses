@@ -5,6 +5,7 @@ import {LoginDto} from "../dto/login.dto";
 import {TokenService} from "./token.service";
 import {RegisterDto} from "../dto/register.dto";
 import {ForgotPasswordDto} from "../dto/forgot-password.dto";
+import {ChangePasswordDto} from "../dto/change-password.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,10 @@ export class AuthService {
 
   forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
     return this.http.put(`${Environment.apiBaseUrl}/forgot-password`, forgotPasswordDto, this.apiConfigUrl);
+  }
+
+  changePassword(changePasswordDto: ChangePasswordDto) {
+    changePasswordDto.email = this.tokenService.getUserEmail();
+    return this.http.put(`${Environment.apiBaseUrl}/change-password`, changePasswordDto, this.apiConfigUrl);
   }
 }

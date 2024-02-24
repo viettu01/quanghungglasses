@@ -51,9 +51,13 @@
               <span *ngIf="registerForm['controls']['password'].errors?.['required']">
                 Mật khẩu không được để trống
               </span>
-              <span *ngIf="registerForm['controls']['password'].errors?.['pattern']">
+              <div
+                *ngIf="registerForm['controls']['password'].errors?.['minlength'] || registerForm['controls']['password'].errors?.['maxlength']">
+                Mật khẩu phải dài từ 6 đến 20 ký tự
+              </div>
+              <div *ngIf="registerForm['controls']['password'].errors?.['pattern']">
                 Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và dài hơn 8 ký tự
-              </span>
+              </div>
             </small>
           </div>
           <div class="col-sm-6">
