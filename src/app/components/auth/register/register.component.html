@@ -61,17 +61,17 @@
             </small>
           </div>
           <div class="col-sm-6">
-            <label class="form-label" for="confirmPassword">Xác nhận Mật khẩu</label>
+            <label class="form-label" for="confirmPassword">Xác nhận mật khẩu</label>
             <input class="form-control form-icon-input" id="confirmPassword" type="password"
                    placeholder="Xác nhận Mật khẩu" formControlName="confirmPassword"/>
             <small class="text-danger mt-1" *ngIf="registerForm['controls']['confirmPassword'].dirty">
               <span
                 *ngIf="registerForm['controls']['confirmPassword'].errors?.['required']">
-                Mật khẩu không được để trống
+                Xác nhận mật khẩu không được để trống
               </span>
               <span
                 *ngIf="!registerForm['controls']['confirmPassword'].errors?.['required'] && registerForm.errors?.['mismatch']">
-                Mật khẩu không khớp
+                Mật khẩu xác nhận không khớp
               </span>
             </small>
           </div>
