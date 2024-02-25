@@ -89,7 +89,7 @@ const routes: Routes = [
   },
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [UserGuard]},
+  {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'change-password', component: ChangePasswordComponent, canActivate: [UserGuard]},
   {path: 'verify-email', component: VerifyEmailComponent},
   {path: 'access-denied', component: AccessDeniedComponent},
