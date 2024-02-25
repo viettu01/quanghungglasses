@@ -20,7 +20,7 @@ export class ForgotPasswordComponent implements OnInit {
       verificationCode: new FormControl('', [Validators.required]),
       newPassword: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
+        Validators.minLength(8),
         Validators.maxLength(20),
         Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{9,}$/)
       ]),
