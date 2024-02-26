@@ -11,14 +11,14 @@
       <h2 class="mb-0">{{ titleString }}</h2>
     </div>
   </div>
-  <div id="products"
-       data-list='{"valueNames":["customer","email","total-orders","total-spent","city","last-seen","last-order"],"page":10,"pagination":true}'>
+  <div id="products">
     <div class="mb-4">
       <div class="row g-3">
         <div class="col-auto">
           <div class="search-box">
-            <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-              <input class="form-control search-input search" type="search" placeholder="Tìm kiếm nhân viên"/>
+            <form class="position-relative">
+              <input class="form-control search-input search" type="search" placeholder="Tìm kiếm nhân viên"
+                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp"/>
               <span class="fas fa-search search-box-icon"></span>
             </form>
           </div>
@@ -32,49 +32,132 @@
     </div>
     <div
       class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
-      <div class="table-responsive scrollbar-overlay mx-n1 px-1">
-        <table class="table table-sm fs-9 mb-0">
+      <div class="table-responsive scrollbar mx-n1 px-1">
+        <table class="table fs--1 mb-0">
           <thead>
           <tr>
-            <th class="sort align-middle pe-5" scope="col" data-sort="customer" style="width:10%;">Nhân viên</th>
-            <th class="sort align-middle pe-5" scope="col" data-sort="email" style="width:20%;">Số điện thoại</th>
-            <th class="sort align-middle text-end" scope="col" data-sort="total-orders" style="width:10%">Đơn hàng</th>
-            <th class="sort align-middle text-end ps-3" scope="col" data-sort="total-spent" style="width:10%">
+            <th class="align-middle white-space-nowrap" scope="col" style="width:10%;"
+                (click)="sortByField('fullname')">
+              Nhân viên
+              <label [class.d-none]="sortBy === 'fullname' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'fullname' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'fullname' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+            <th class="align-middle white-space-nowrap" scope="col" style="width:10%;"
+                (click)="sortByField('phone')">
+              Số điện thoại
+              <label [class.d-none]="sortBy === 'phone' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'phone' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'phone' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+            <th class="align-middle white-space-nowrap" scope="col" style="width:10%">
+              Đơn hàng
+            </th>
+            <th class="align-middle white-space-nowrap" scope="col" style="width:12%">
               Tồng tiền hàng
             </th>
-            <th class="sort align-middle text-end ps-3" scope="col" data-sort="total-spent" style="width:10%">
-              Tài khoản
+            <th class="align-middle white-space-nowrap" scope="col" style="width:10%"
+                (click)="sortByField('status')">
+              Trạng thái làm việc
+              <label [class.d-none]="sortBy === 'status' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'status' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'status' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
             </th>
-            <th class="sort align-middle text-end" scope="col" data-sort="last-seen" style="width:15%;">
+            <th class="align-middle white-space-nowrap" scope="col" style="width:15%;"
+                (click)="sortByField('createdDate')">
               Ngày tạo
+              <label [class.d-none]="sortBy === 'createdDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'createdDate' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'createdDate' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
             </th>
-            <th class="sort align-middle text-end pe-0" scope="col" data-sort="last-order"
-                style="width:10%;min-width: 150px;">
+            <th class="align-middle white-space-nowrap" scope="col" style="width:15%"
+                (click)="sortByField('updatedDate')">
               Ngày cập nhật
+              <label [class.d-none]="sortBy === 'updatedDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'updatedDate' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'updatedDate' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
             </th>
-            <th class="text-end align-middle pe-0 ps-4" scope="col"></th>
+            <th class="text-end align-middle pe-0 ps-4" scope="col" style="width:0%"></th>
           </tr>
           </thead>
           <tbody class="list" id="customers-table-body">
-          <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+          <tr *ngIf="paginationDTO.content.length <= 0">
+            <td colspan="8" class="text-center">
+              <span class="fs-7">Không có dữ liệu</span>
+            </td>
+          </tr>
+          <tr class="hover-actions-trigger btn-reveal-trigger position-static"
+              *ngFor="let staff of paginationDTO.content">
             <td class="customer align-middle white-space-nowrap pe-5 py-3">
-              <a class="d-flex align-items-center text-body-emphasis" href="customer-details.html">
+              <div class="d-flex align-items-center text-body-emphasis">
                 <div class="avatar avatar-m">
-                  <img class="rounded-circle" src="/assets/img/products/2.png" alt=""/>
+                  <div *ngIf="staff.account">
+                    <img class="rounded-circle" alt="" *ngIf="staff.account.avatar"
+                         [src]="baseUrl + '/images/' + staff.account.avatar"/>
+                    <img class="rounded-circle" alt="" *ngIf="!staff.account.avatar"
+                         src="/assets/img/avatar/avatar-placeholder.webp"/>
+                  </div>
+                  <div *ngIf="!staff.account">
+                    <img class="rounded-circle" alt="" src="/assets/img/avatar/avatar-placeholder.webp"/>
+                  </div>
                 </div>
-                <p class="mb-0 ms-3 text-body-emphasis fw-bold">Carry Anna</p>
-              </a>
+                <p class="mb-0 ms-3 text-body-emphasis fw-bold">{{ staff.fullname }}</p>
+              </div>
             </td>
-            <td class="email align-middle white-space-nowrap pe-5">
-              <a class="fw-semibold" href="mailto:annac34@gmail.com">annac34@gmail.com</a>
+            <td class="phone align-middle white-space-nowrap pe-5">
+              {{ staff.phone }}
             </td>
-            <td class="total-orders align-middle white-space-nowrap fw-semibold text-end text-body-highlight">89</td>
-            <td class="total-spent align-middle white-space-nowrap fw-bold text-end ps-3 text-body-emphasis">
-              $ 23987
+            <td class="total-orders align-middle white-space-nowrap fw-semibold text-body-highlight">
+              {{ staff.totalOrder }}
             </td>
-            <td class="last-seen align-middle white-space-nowrap text-body-tertiary text-end">Bình thường</td>
-            <td class="last-seen align-middle white-space-nowrap text-body-tertiary text-end">Dec 12, 12:56 PM</td>
-            <td class="last-order align-middle white-space-nowrap text-body-tertiary text-end">Dec 12, 12:56 PM</td>
+            <td class="total-spent align-middle white-space-nowrap fw-bold ps-3 text-body-emphasis">
+              {{ staff.totalMoney | currency: 'VND': true: '1.0-0' }}
+            </td>
+            <td class="last-seen align-middle white-space-nowrap text-body-tertiary">
+              <!--              <span *ngIf="!staff.account" class="badge bg-danger">Không có</span>-->
+              <!--              <div *ngIf="staff.account">-->
+              <!--                <span *ngIf="staff.account.status" class="badge bg-success">Bình thường</span>-->
+              <!--                <span *ngIf="!staff.account.status" class="badge bg-danger">Khóa</span>-->
+              <!--              </div>-->
+              <span *ngIf="staff.status" class="text-success">Đang làm việc</span>
+              <span *ngIf="!staff.status" class="text-danger">Nghỉ việc</span>
+            </td>
+            <td class="last-seen align-middle white-space-nowrap text-body-tertiary">
+              {{ staff.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
+            </td>
+            <td class="last-order align-middle white-space-nowrap text-body-tertiary">
+              {{ staff.updatedDate | date:'dd/MM/yyyy HH:mm:ss' }}
+            </td>
             <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
               <div class="font-sans-serif btn-reveal-trigger position-static">
                 <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
@@ -83,14 +166,10 @@
                   <span class="fas fa-ellipsis-h fs--2"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
-                  <!--                  <a class="dropdown-item" href="/admin/staff/{{staff.id}}">Chi tiết</a>-->
-                  <!--                  <a class="dropdown-item" href="/admin/staff/save/{{staff.id}}">Cập nhật</a>-->
-                  <!--                  <button class="dropdown-item" (click)="updateStatus(staff.id)">-->
-                  <!--                    <span *ngIf="staff.status">Ngưng bán</span>-->
-                  <!--                    <span *ngIf="!staff.status">Mở bán</span>-->
-                  <!--                  </button>-->
+                  <a class="dropdown-item" href="/admin/staff/{{staff.id}}">Chi tiết</a>
+                  <a class="dropdown-item" href="/admin/staff/save/{{staff.id}}">Cập nhật</a>
                   <div class="dropdown-divider"></div>
-                  <!--                  <button type="button" class="dropdown-item text-danger" (click)="delete(staff.id)">Xóa</button>-->
+                  <button type="button" class="dropdown-item text-danger" (click)="delete(staff.id)">Xóa</button>
                 </div>
               </div>
             </td>

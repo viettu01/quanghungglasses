@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {PaginationDTO} from "../../../../dto/pagination.dto";
-import {CustomerDto} from "../../../../dto/customer.dto";
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {Utils} from 'src/app/utils/utils';
 import {StaffService} from "../../../../service/staff.service";
+import {StaffDto} from "../../../../dto/staff.dto";
+import {Environment} from "../../../../environment/environment";
 
 @Component({
   selector: 'app-staff-list',
@@ -14,9 +15,10 @@ import {StaffService} from "../../../../service/staff.service";
 })
 export class StaffListComponent implements OnInit {
   protected readonly Utils = Utils;
+  protected readonly baseUrl: string = `${Environment.apiBaseUrl}`;
   titleString: string = "Danh sách nhân viên";
 
-  paginationDTO: PaginationDTO<CustomerDto> = PaginationDTO.createEmpty();
+  paginationDTO: PaginationDTO<StaffDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
   sortDir: string = "ASC";
   sortBy: string = "";
@@ -30,19 +32,19 @@ export class StaffListComponent implements OnInit {
     this.title.setTitle(this.titleString);
 
     this.activatedRoute.queryParams.subscribe(params => {
-      const name = params['name'] || "";
+      const fullname = params['fullname'] || "";
       const status = params['status'] || "";
       const pageSize = +params['page-size'] || 10;
       const pageNumber = +params['page-number'] || 1;
       const sortDir = params['sort-direction'] || "";
       const sortBy = params['sort-by'] || "";
 
-      this.findAll(name, status, pageSize, pageNumber, sortDir, sortBy);
+      this.findAll(fullname, status, pageSize, pageNumber, sortDir, sortBy);
     });
   }
 
-  findAll(name: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.staffService.findAll(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
+  findAll(fullname: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    this.staffService.findAll(fullname, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         this.paginationDTO.totalPages = response.totalPages;
@@ -54,6 +56,7 @@ export class StaffListComponent implements OnInit {
         this.paginationDTO.lastElementOnPage = response.lastElementOnPage;
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
+        console.log(this.paginationDTO.content);
       },
       error: (error: any) => {
         console.log(error);
@@ -62,21 +65,21 @@ export class StaffListComponent implements OnInit {
   }
 
   changePageNumber(pageNumber: number): void {
-    this.router.navigate(['/admin/customer'], {
+    this.router.navigate(['/admin/staff'], {
       queryParams: {"page-number": pageNumber},
       queryParamsHandling: 'merge'
     }).then();
   }
 
   changePageSize(pageSize: number): void {
-    this.router.navigate(['/admin/customer'], {
+    this.router.navigate(['/admin/staff'], {
       queryParams: {'page-size': pageSize, 'page-number': 1},
       queryParamsHandling: 'merge'
     }).then();
   }
 
   sortByField(sortBy: string): void {
-    this.router.navigate(['/admin/customer'], {
+    this.router.navigate(['/admin/staff'], {
       queryParams: {"sort-by": sortBy, "sort-direction": this.sortDir},
       queryParamsHandling: 'merge'
     }).then();
@@ -85,9 +88,13 @@ export class StaffListComponent implements OnInit {
   }
 
   search() {
-    this.router.navigate(['/admin/customer'], {
-      queryParams: {"name": this.searchTemp, "page-number": 1},
+    this.router.navigate(['/admin/staff'], {
+      queryParams: {"fullname": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
     }).then();
+  }
+
+  delete(id: number) {
+
   }
 }

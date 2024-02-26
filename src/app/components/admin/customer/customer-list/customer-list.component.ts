@@ -6,6 +6,7 @@ import {Title} from "@angular/platform-browser";
 import {PaginationDTO} from "../../../../dto/pagination.dto";
 import {CustomerDto} from "../../../../dto/customer.dto";
 import {Utils} from "../../../../utils/utils";
+import {Environment} from "../../../../environment/environment";
 
 @Component({
   selector: 'app-customer-list',
@@ -14,6 +15,7 @@ import {Utils} from "../../../../utils/utils";
 })
 export class CustomerListComponent implements OnInit {
   protected readonly Utils = Utils;
+  protected readonly baseUrl: string = `${Environment.apiBaseUrl}`;
   titleString: string = "Danh sách khách hàng";
 
   paginationDTO: PaginationDTO<CustomerDto> = PaginationDTO.createEmpty();
@@ -30,7 +32,7 @@ export class CustomerListComponent implements OnInit {
     this.title.setTitle(this.titleString);
 
     this.activatedRoute.queryParams.subscribe(params => {
-      const name = params['name'] || "";
+      const name = params['fullname'] || "";
       const status = params['status'] || "";
       const pageSize = +params['page-size'] || 10;
       const pageNumber = +params['page-number'] || 1;
@@ -41,8 +43,8 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
-  findAll(name: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.customerService.findAll(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
+  findAll(fullname: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    this.customerService.findAll(fullname, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         this.paginationDTO.totalPages = response.totalPages;
@@ -54,6 +56,8 @@ export class CustomerListComponent implements OnInit {
         this.paginationDTO.lastElementOnPage = response.lastElementOnPage;
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
+
+        console.log(this.paginationDTO.content);
       },
       error: (error: any) => {
         console.log(error);
@@ -86,8 +90,12 @@ export class CustomerListComponent implements OnInit {
 
   search() {
     this.router.navigate(['/admin/customer'], {
-      queryParams: {"name": this.searchTemp, "page-number": 1},
+      queryParams: {"fullname": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
     }).then();
+  }
+
+  delete(id: number) {
+
   }
 }

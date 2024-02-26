@@ -15,7 +15,7 @@ export class CustomerService {
 
   findAll(nameSearch: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("name", nameSearch);
+    queryParams = queryParams.append("fullname", nameSearch);
     queryParams = queryParams.append("status", status);
     queryParams = queryParams.append("page-size", pageSize);
     queryParams = queryParams.append("page-number", pageNumber);
