@@ -21,16 +21,18 @@ export class VerifyEmailComponent implements OnInit {
 
   }
 
-// this called only if user entered full code
   onCodeCompleted(code: string) {
     this.authService.verifyEmail(localStorage.getItem("email") || "", code).subscribe({
-      next: (response: any) => {
+      next: () => {
         localStorage.removeItem("email");
-        this.toastr.success("Xác thực email thành công", "Thông báo");
+        this.toastr.success("Xác thực email thành công");
         this.router.navigateByUrl("/login");
       },
       error: (error: any) => {
-        this.toastr.error(error.error, "Thông báo");
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
@@ -38,10 +40,13 @@ export class VerifyEmailComponent implements OnInit {
   resendVerificationCode() {
     this.authService.resendVerificationCode(localStorage.getItem("email") || "").subscribe({
       next: (response: any) => {
-        this.toastr.success(response.message, "Thông báo");
+        this.toastr.success(response.message);
       },
       error: (error: any) => {
-        this.toastr.error("Gửi lại mã xác thực thất bại", "Thông báo");
+        if (error.status === 400)
+          this.toastr.error("Gửi lại mã xác thực thất bại");
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }

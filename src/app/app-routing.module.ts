@@ -43,6 +43,21 @@ import {CustomerDetailsComponent} from "./components/admin/customer/customer-det
 import {StaffDetailsComponent} from "./components/admin/staff/staff-details/staff-details.component";
 import {ChangePasswordComponent} from "./components/auth/change-password/change-password.component";
 import {UserGuard} from "./guard/user.guard";
+import {AdminOrderSaveComponent} from "./components/admin/admin-order/admin-order-save/admin-order-save.component";
+import {
+  AdminOrderDetailsComponent
+} from "./components/admin/admin-order/admin-order-details/admin-order-details.component";
+import {
+  AdminWarrantyListComponent
+} from "./components/admin/admin-warranty/admin-warranty-list/admin-warranty-list.component";
+import {
+  AdminWarrantyDetailsComponent
+} from "./components/admin/admin-warranty/admin-warranty-details/admin-warranty-details.component";
+import {
+  AdminWarrantySaveComponent
+} from "./components/admin/admin-warranty/admin-warranty-save/admin-warranty-save.component";
+import {ReceiptSaveComponent} from "./components/admin/receipt/receipt-save/receipt-save.component";
+import {ReceiptDetailsComponent} from "./components/admin/receipt/receipt-details/receipt-details.component";
 
 const routes: Routes = [
   {
@@ -63,8 +78,6 @@ const routes: Routes = [
 
       {path: 'banner', component: BannerComponent},
       {path: 'sale', component: SaleComponent},
-      {path: 'order', component: AdminOrderListComponent},
-      {path: 'receipt', component: ReceiptListComponent},
       {path: 'report', component: ReportComponent},
       {path: 'supplier', component: SupplierComponent},
       {path: 'material', component: MaterialComponent},
@@ -77,6 +90,21 @@ const routes: Routes = [
       {path: 'product/save', component: AdminProductSaveComponent},
       {path: 'product/save/:id', component: AdminProductSaveComponent},
       {path: 'product/:id', component: AdminProductDetailsComponent},
+
+      {path: 'receipt', component: ReceiptListComponent},
+      {path: 'receipt/save', component: ReceiptSaveComponent},
+      {path: 'receipt/save/:id', component: ReceiptSaveComponent},
+      {path: 'receipt/:id', component: ReceiptDetailsComponent},
+
+      {path: 'order', component: AdminOrderListComponent},
+      {path: 'order/save', component: AdminOrderSaveComponent},
+      {path: 'order/save/:id', component: AdminOrderSaveComponent},
+      {path: 'order/:id', component: AdminOrderDetailsComponent},
+
+      {path: 'warranty', component: AdminWarrantyListComponent},
+      {path: 'warranty/save', component: AdminWarrantySaveComponent},
+      {path: 'warranty/save/:id', component: AdminWarrantySaveComponent},
+      {path: 'warranty/:id', component: AdminWarrantyDetailsComponent},
     ],
     canActivate: [AdminGuard], // Thêm guard vào đây
   },

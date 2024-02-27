@@ -26,7 +26,6 @@ export class BrandComponent implements OnInit {
   titleModal: string = "";
   btnSave: string = "";
   isDisplayNone: boolean = false;
-  errorMessage: string = "";
   brandForm: FormGroup = new FormGroup(
     {
       id: new FormControl(null),
@@ -70,8 +69,7 @@ export class BrandComponent implements OnInit {
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
       }
     });
   }
@@ -107,9 +105,8 @@ export class BrandComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.brandForm.invalid) {
+    if (this.brandForm.invalid)
       return;
-    }
     if (this.brandForm.value.id == null)
       this.create();
     else
@@ -123,10 +120,13 @@ export class BrandComponent implements OnInit {
         this.brandForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Thêm thương hiệu thành công', 'Thông báo');
+        this.toastr.success('Thêm thương hiệu thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -139,10 +139,13 @@ export class BrandComponent implements OnInit {
         this.brandForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Cập nhật thương hiệu thành công', 'Thông báo');
+        this.toastr.success('Cập nhật thương hiệu thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -166,10 +169,13 @@ export class BrandComponent implements OnInit {
         this.brandService.delete(id).subscribe({
           next: () => {
             this.updateTable();
-            this.toastr.success('Xóa thương hiệu thành công', 'Thông báo');
+            this.toastr.success('Xóa thương hiệu thành công');
           },
           error: (error: any) => {
-            this.toastr.error(error.error, 'Thất bại');
+            if (error.status === 400)
+              this.toastr.error(error.error);
+            else
+              this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
           }
         });
       }
@@ -193,7 +199,6 @@ export class BrandComponent implements OnInit {
 
   updateTable() {
     this.isDisplayNone = false;
-    this.errorMessage = "";
     this.findAll("", this.paginationDTO.pageSize, 1, "", "");
   }
 }

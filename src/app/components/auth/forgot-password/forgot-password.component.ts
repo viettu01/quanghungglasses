@@ -57,14 +57,14 @@ export class ForgotPasswordComponent implements OnInit {
     this.isLoaderVerifyCodeDisplayNone = true;
     return this.authService.resendVerificationCode(this.forgotPasswordForm.get('email')?.value).subscribe({
       next: () => {
-        this.toastr.success("Đã gửi mã xác minh", "Thông báo");
+        this.toastr.success("Đã gửi mã xác minh");
         this.isLoaderVerifyCodeDisplayNone = false;
       },
       error: (error: any) => {
-        if (error.status === 0)
-          this.toastr.error("Không thể gửi mã xác minh", "Thông báo");
+        if (error.status === 400)
+          this.toastr.error(error.error);
         else
-          this.toastr.error(error.error, "Thất bại");
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isLoaderVerifyCodeDisplayNone = false;
       }
     });
@@ -74,15 +74,15 @@ export class ForgotPasswordComponent implements OnInit {
     this.isLoaderDisplayNone = true;
     return this.authService.forgotPassword(forgotPasswordDto).subscribe({
       next: (response: any) => {
-        this.toastr.success(response.message, "Thông báo");
+        this.toastr.success(response.message);
         this.isLoaderDisplayNone = false;
         this.router.navigateByUrl("/login");
       },
       error: (error: any) => {
-        if (error.status === 0)
-          this.toastr.error("Lấy lại mật khẩu thất bại", "Thất bại");
+        if (error.status === 400)
+          this.toastr.error(error.error);
         else
-          this.toastr.error(error.error, "Thất bại");
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isLoaderDisplayNone = false;
       }
     });

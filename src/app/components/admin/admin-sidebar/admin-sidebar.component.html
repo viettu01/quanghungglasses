@@ -38,15 +38,15 @@
           </a>
         </div>
         <!-- parent pages-->
-        <div class="nav-item-wrapper py-2">
-          <a class="nav-link label-1" role="button" data-bs-toggle="" aria-expanded="false" href="/admin/banner"
-             [class.active]="isExactRouteStartWith('/admin/banner')">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><span data-feather="image"></span></span>
-              <span class="nav-link-text-wrapper"><span class="nav-link-text">Quản lý banner</span></span>
-            </div>
-          </a>
-        </div>
+        <!--        <div class="nav-item-wrapper py-2">-->
+        <!--          <a class="nav-link label-1" role="button" data-bs-toggle="" aria-expanded="false" href="/admin/banner"-->
+        <!--             [class.active]="isExactRouteStartWith('/admin/banner')">-->
+        <!--            <div class="d-flex align-items-center">-->
+        <!--              <span class="nav-link-icon"><span data-feather="image"></span></span>-->
+        <!--              <span class="nav-link-text-wrapper"><span class="nav-link-text">Quản lý banner</span></span>-->
+        <!--            </div>-->
+        <!--          </a>-->
+        <!--        </div>-->
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
           <a class="nav-link dropdown-indicator label-1" href="#nv-category" role="button"
@@ -132,15 +132,25 @@
                   <div class="d-flex align-items-center"><span class="nav-link-text">Sản phẩm</span></div>
                 </a>
               </li>
-              <!--              <li class="nav-item">-->
-              <!--                <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/sale"-->
-              <!--                   [class.active]="isExactRouteStartWith('/admin/sale')">-->
-              <!--                  <div class="d-flex align-items-center"><span class="nav-link-text">Chương trình khuyến mãi</span>-->
-              <!--                  </div>-->
-              <!--                </a>-->
-              <!--              </li>-->
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/sale"
+                   [class.active]="isExactRouteStartWith('/admin/sale')">
+                  <div class="d-flex align-items-center"><span class="nav-link-text">Chương trình khuyến mãi</span>
+                  </div>
+                </a>
+              </li>
             </ul>
           </div>
+        </div>
+        <!-- parent pages-->
+        <div class="nav-item-wrapper py-2">
+          <a class="nav-link label-1" href="/admin/receipt" role="button" data-bs-toggle="" aria-expanded="false"
+             [class.active]="isExactRouteStartWith('/admin/receipt')">
+            <div class="d-flex align-items-center">
+              <span class="nav-link-icon"><span data-feather="download"></span></span>
+              <span class="nav-link-text-wrapper"><span class="nav-link-text">Hóa đơn nhập hàng</span></span>
+            </div>
+          </a>
         </div>
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
@@ -154,11 +164,11 @@
         </div>
         <!-- parent pages-->
         <div class="nav-item-wrapper py-2">
-          <a class="nav-link label-1" href="/admin/receipt" role="button" data-bs-toggle="" aria-expanded="false"
-             [class.active]="isExactRouteStartWith('/admin/receipt')">
+          <a class="nav-link label-1" href="/admin/warranty" role="button" data-bs-toggle="" aria-expanded="false"
+             [class.active]="isExactRouteStartWith('/admin/warranty')">
             <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><span data-feather="download"></span></span>
-              <span class="nav-link-text-wrapper"><span class="nav-link-text">Hóa đơn nhập hàng</span></span>
+              <span class="nav-link-icon"><span data-feather="clipboard"></span></span>
+              <span class="nav-link-text-wrapper"><span class="nav-link-text">Phiếu bảo hành</span></span>
             </div>
           </a>
         </div>

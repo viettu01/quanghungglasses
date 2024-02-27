@@ -7,6 +7,14 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CodeInputModule} from "angular-code-input";
+import {JwtModule} from "@auth0/angular-jwt";
+import {Environment} from "./environment/environment";
+import {TokenInterceptor} from "./interceptors/token.interceptor";
+import {EditorModule, TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {ForgotPasswordComponent} from './components/auth/forgot-password/forgot-password.component';
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/auth/login/login.component';
@@ -55,15 +63,16 @@ import {StaffSaveComponent} from './components/admin/staff/staff-save/staff-save
 import {StaffDetailsComponent} from './components/admin/staff/staff-details/staff-details.component';
 import {ClientMenuComponent} from './components/client/client-menu/client-menu.component';
 import {VerifyEmailComponent} from './components/auth/verify-email/verify-email.component';
-import {CodeInputModule} from "angular-code-input";
-import {JwtModule} from "@auth0/angular-jwt";
-import {Environment} from "./environment/environment";
-import {TokenInterceptor} from "./interceptors/token.interceptor";
-import {EditorModule, TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
-import {NgSelectModule} from "@ng-select/ng-select";
-import {ForgotPasswordComponent} from './components/auth/forgot-password/forgot-password.component';
-import {NgxDropzoneModule} from "ngx-dropzone";
-import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
+import {ChangePasswordComponent} from './components/auth/change-password/change-password.component';
+import {
+  AdminWarrantyListComponent
+} from './components/admin/admin-warranty/admin-warranty-list/admin-warranty-list.component';
+import {
+  AdminWarrantyDetailsComponent
+} from './components/admin/admin-warranty/admin-warranty-details/admin-warranty-details.component';
+import {
+  AdminWarrantySaveComponent
+} from './components/admin/admin-warranty/admin-warranty-save/admin-warranty-save.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +116,10 @@ import { ChangePasswordComponent } from './components/auth/change-password/chang
     StaffSaveComponent,
     StaffDetailsComponent,
     ForgotPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    AdminWarrantyListComponent,
+    AdminWarrantyDetailsComponent,
+    AdminWarrantySaveComponent
   ],
   imports: [
     BrowserModule,

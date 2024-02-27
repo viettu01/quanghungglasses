@@ -26,7 +26,6 @@ export class SupplierComponent implements OnInit {
   titleModal: string = "";
   btnSave: string = "";
   isDisplayNone: boolean = false;
-  errorMessage: string = "";
   supplierForm: FormGroup = new FormGroup(
     {
       id: new FormControl(null),
@@ -76,8 +75,8 @@ export class SupplierComponent implements OnInit {
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
+
       }
     });
   }
@@ -86,24 +85,21 @@ export class SupplierComponent implements OnInit {
     this.router.navigate(['/admin/supplier'], {
       queryParams: {"page-number": pageNumber},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   changePageSize(pageSize: number): void {
     this.router.navigate(['/admin/supplier'], {
       queryParams: {'page-size': pageSize, 'page-number': 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   sortByField(sortBy: string): void {
     this.router.navigate(['/admin/supplier'], {
       queryParams: {"sort-by": sortBy, "sort-direction": this.sortDir},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
     this.sortDir = this.sortDir === "ASC" ? "DESC" : "ASC";
     this.sortBy = sortBy;
   }
@@ -112,8 +108,7 @@ export class SupplierComponent implements OnInit {
     this.router.navigate(['/admin/supplier'], {
       queryParams: {"name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
-    }).then(r => {
-    });
+    }).then();
   }
 
   onSubmit() {
@@ -129,14 +124,17 @@ export class SupplierComponent implements OnInit {
   create() {
     this.isDisplayNone = true;
     this.supplierService.create(this.supplierForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.supplierForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Thêm nhà cung cấp thành công', 'Thông báo');
+        this.toastr.success('Thêm nhà cung cấp thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -145,14 +143,17 @@ export class SupplierComponent implements OnInit {
   update() {
     this.isDisplayNone = true;
     this.supplierService.update(this.supplierForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.supplierForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Cập nhật nhà cung cấp thành công', 'Thông báo');
+        this.toastr.success('Cập nhật nhà cung cấp thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -174,12 +175,15 @@ export class SupplierComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.supplierService.delete(id).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.updateTable();
-            this.toastr.success('Xóa nhà cung cấp thành công', 'Thông báo');
+            this.toastr.success('Xóa nhà cung cấp thành công');
           },
           error: (error: any) => {
-            this.toastr.error(error.error, 'Thất bại');
+            if (error.status === 400)
+              this.toastr.error(error.error);
+            else
+              this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
           }
         });
       }
@@ -205,7 +209,6 @@ export class SupplierComponent implements OnInit {
 
   updateTable() {
     this.isDisplayNone = false;
-    this.errorMessage = "";
     this.findAll("", this.paginationDTO.pageSize, 1, "", "");
   }
 }

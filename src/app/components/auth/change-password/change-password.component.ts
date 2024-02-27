@@ -54,16 +54,16 @@ export class ChangePasswordComponent implements OnInit {
     this.isLoaderDisplayNone = true;
     return this.authService.changePassword(changePasswordDto).subscribe({
       next: () => {
-        this.toastr.success("Đổi mật khẩu thành công", "Thông báo");
+        this.toastr.success("Đổi mật khẩu thành công");
         this.router.navigate(['/login']);
         this.authService.logout();
       },
       error: (error: any) => {
         this.isLoaderDisplayNone = false;
-        if (error.status === 0)
-          this.toastr.error("Đổi mật khẩu thất bại", "Thông báo");
+        if (error.status === 400)
+          this.toastr.error(error.error);
         else
-          this.toastr.error(error.error, "Thất bại");
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }

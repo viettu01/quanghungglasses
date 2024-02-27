@@ -9,17 +9,17 @@ import {CategoryDto} from "../../../dto/category.dto";
 })
 export class ClientMenuComponent {
   categoryDto: CategoryDto[] = [];
+
   constructor(private categoryService: CategoryService) {
     this.getCategories();
   }
 
   getCategories() {
     this.categoryService.findAll().subscribe({
-      next: (data: any) => {
-        this.categoryDto = data;
+      next: (response: any) => {
+        this.categoryDto = response;
       },
-      error: err => {
-        console.log(err);
+      error: () => {
       }
     });
   }

@@ -11,26 +11,26 @@
       <h2 class="mb-0">Danh sách danh mục sản phẩm</h2>
     </div>
   </div>
-<!--  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">-->
-<!--    <li class="nav-item">-->
-<!--      <a class="nav-link active" aria-current="page" routerLink="/admin/category">-->
-<!--        <span>Tất cả </span>-->
-<!--        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>-->
-<!--      </a>-->
-<!--    </li>-->
-<!--    <li class="nav-item">-->
-<!--      <button class="nav-link" (click)="findAllByStatus(true)">-->
-<!--        <span>Hiển thị </span>-->
-<!--        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>-->
-<!--      </button>-->
-<!--    </li>-->
-<!--    <li class="nav-item">-->
-<!--      <button class="nav-link" (click)="findAllByStatus(false)">-->
-<!--        <span>Ẩn </span>-->
-<!--        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>-->
-<!--      </button>-->
-<!--    </li>-->
-<!--  </ul>-->
+  <!--  <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">-->
+  <!--    <li class="nav-item">-->
+  <!--      <a class="nav-link active" aria-current="page" routerLink="/admin/category">-->
+  <!--        <span>Tất cả </span>-->
+  <!--        <span class="text-700 fw-semi-bold">({{ countStatusAll }})</span>-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--    <li class="nav-item">-->
+  <!--      <button class="nav-link" (click)="findAllByStatus(true)">-->
+  <!--        <span>Hiển thị </span>-->
+  <!--        <span class="text-700 fw-semi-bold">({{ countStatusTrue }})</span>-->
+  <!--      </button>-->
+  <!--    </li>-->
+  <!--    <li class="nav-item">-->
+  <!--      <button class="nav-link" (click)="findAllByStatus(false)">-->
+  <!--        <span>Ẩn </span>-->
+  <!--        <span class="text-700 fw-semi-bold">({{ countStatusFalse }})</span>-->
+  <!--      </button>-->
+  <!--    </li>-->
+  <!--  </ul>-->
   <div id="category">
     <div class="mb-4">
       <div class="row g-3">
@@ -56,12 +56,12 @@
         <table class="table fs--1 mb-0">
           <thead>
           <tr>
-<!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
-<!--              <div class="form-check mb-0 fs-0">-->
-<!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
-<!--                       (input)="toggleSelectAll()"/>-->
-<!--              </div>-->
-<!--            </th>-->
+            <!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
+            <!--              <div class="form-check mb-0 fs-0">-->
+            <!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
+            <!--                       (input)="toggleSelectAll()"/>-->
+            <!--              </div>-->
+            <!--            </th>-->
             <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width: 250px;"
                 (click)="sortByField('name')">
               Tên danh mục
@@ -75,7 +75,8 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:250px;" (click)="sortByField('slug')">
+            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:250px;"
+                (click)="sortByField('slug')">
               Slug
               <label [class.d-none]="sortBy === 'slug' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
@@ -133,12 +134,12 @@
             </td>
           </tr>
           <tr class="position-static" *ngFor="let category of paginationDTO.content">
-<!--            <td class="fs&#45;&#45;1 align-middle">-->
-<!--              <div class="form-check mb-0 fs-0">-->
-<!--                <input class="form-check-input" type="checkbox" [value]="category.id"-->
-<!--                       [checked]="selectAll"/>-->
-<!--              </div>-->
-<!--            </td>-->
+            <!--                        <td class="fs&#45;&#45;1 align-middle">-->
+            <!--                          <div class="form-check mb-0 fs-0">-->
+            <!--                            <input class="form-check-input" type="checkbox" [value]="category.id"-->
+            <!--                                   [checked]="selectAll"/>-->
+            <!--                          </div>-->
+            <!--                        </td>-->
             <td class="align-middle ps-4">{{ category.name }}</td>
             <td class="align-middle white-space-nowrap text-700 ps-4">{{ category.slug }}</td>
             <td class="align-middle white-space-nowrap text-600 ps-4">
@@ -159,9 +160,9 @@
                   <span class="fas fa-ellipsis-h fs--2"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
-                  <button class="dropdown-item" data-bs-target="#modalDetailsCategory" data-bs-toggle="modal"
-                          (click)="detail(category.slug)">Chi tiết
-                  </button>
+                  <!--                  <button class="dropdown-item" data-bs-target="#modalDetailsCategory" data-bs-toggle="modal"-->
+                  <!--                          (click)="detail(category.slug)">Chi tiết-->
+                  <!--                  </button>-->
                   <button class="dropdown-item" data-bs-target="#modalCategory" data-bs-toggle="modal"
                           (click)="openModalUpdate(category)">Cập nhật
                   </button>
@@ -239,11 +240,6 @@
       </div>
       <form class="form" [formGroup]="categoryForm" (submit)="onSubmit()">
         <div class="modal-body">
-          <div class="row px-3" *ngIf="errorMessage != ''">
-            <label class="col-sm-12 col-form-label fs-9 alert alert-subtle-danger p-2" role="alert">
-              {{ errorMessage }}
-            </label>
-          </div>
           <div class="row mb-3">
             <label class="col-sm-3 col-form-label fs-9" for="name">Tên danh mục</label>
             <div class="col-sm-9">
@@ -270,10 +266,10 @@
                   *ngIf="categoryForm['controls']['slug'].dirty && categoryForm['controls']['slug'].errors?.['required']">
                   Slug không được để trống
                 </span>
-                <span
+                <div
                   *ngIf="categoryForm['controls']['slug'].invalid && categoryForm['controls']['slug'].errors?.['maxlength']">
                   Slug không được vượt quá 50 ký tự
-                </span>
+                </div>
                 <span
                   *ngIf="categoryForm['controls']['slug'].invalid && categoryForm['controls']['slug'].errors?.['pattern']">
                   Slug phải không được có dấu và khoảng trắng
@@ -371,13 +367,13 @@
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9">Ngày tạo</label>
             <div class="col-sm-8 col-form-label fs-9 fw-medium">
-              {{ categoryDetails.createdDate | date:'dd/MM/yyyy HH:mm:ss'}}
+              {{ categoryDetails.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
             </div>
           </div>
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9">Ngày sửa</label>
             <div class="col-sm-8 col-form-label fs-9 fw-medium">
-              {{ categoryDetails.updatedDate | date:'dd/MM/yyyy HH:mm:ss'}}
+              {{ categoryDetails.updatedDate | date:'dd/MM/yyyy HH:mm:ss' }}
             </div>
           </div>
         </div>

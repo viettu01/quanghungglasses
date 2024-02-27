@@ -29,7 +29,6 @@ export class BannerComponent implements OnInit {
   titleModal: string = "";
   btnSave: string = "";
   isDisplayNone: boolean = false;
-  errorMessage: string = "";
   selectedImageUrl: string = "";
   selectedImageFile: File = new File([""], "filename");
   bannerForm: FormGroup = new FormGroup(
@@ -79,7 +78,6 @@ export class BannerComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.selectedImageUrl = e.target.result;
-        // console.log(this.selectedImageFile);
       };
       reader.readAsDataURL(file);
     }
@@ -103,8 +101,7 @@ export class BannerComponent implements OnInit {
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
       }
     });
   }
@@ -156,10 +153,13 @@ export class BannerComponent implements OnInit {
         this.bannerForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Thêm banner thành công', 'Thông báo');
+        this.toastr.success('Thêm banner thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -172,10 +172,13 @@ export class BannerComponent implements OnInit {
         this.bannerForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Cập nhật banner thành công', 'Thông báo');
+        this.toastr.success('Cập nhật banner thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -191,8 +194,11 @@ export class BannerComponent implements OnInit {
       next: () => {
         this.updateTable();
       },
-      error: () => {
-        this.toastr.error('Cập nhật trạng thái thất bại', 'Thất bại');
+      error: (error: any) => {
+        if (error.status === 400)
+          this.toastr.error('Cập nhật trạng thái thất bại');
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
@@ -215,10 +221,13 @@ export class BannerComponent implements OnInit {
         this.bannerService.delete(id).subscribe({
           next: () => {
             this.updateTable();
-            this.toastr.success('Xóa banner thành công', 'Thông báo');
+            this.toastr.success('Xóa banner thành công');
           },
           error: (error: any) => {
-            this.toastr.error(error.error, 'Thất bại');
+            if (error.status === 400)
+              this.toastr.error(error.error);
+            else
+              this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
           }
         });
       }
@@ -232,7 +241,10 @@ export class BannerComponent implements OnInit {
         this.bannerDetails = response;
       },
       error: (error: any) => {
-        console.log(error);
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
@@ -262,7 +274,6 @@ export class BannerComponent implements OnInit {
 
   updateTable() {
     this.isDisplayNone = false;
-    this.errorMessage = "";
     this.findAll("", this.paginationDTO.pageSize, 1, "", "");
   }
 }

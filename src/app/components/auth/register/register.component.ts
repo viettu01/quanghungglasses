@@ -12,6 +12,7 @@ import {Utils} from "../../../utils/utils";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  protected readonly Utils = Utils;
   isLoaderDisplayNone: boolean = false;
   registerForm: FormGroup = new FormGroup(
     {
@@ -59,25 +60,21 @@ export class RegisterComponent implements OnInit {
     this.isLoaderDisplayNone = true;
     return this.authService.register(this.registerForm.value).subscribe({
         next: (response: any) => {
-          this.toastr.success(response.message, "Thông báo");
+          this.toastr.success(response.message);
           localStorage.setItem("email", this.registerForm.value.email);
           this.isLoaderDisplayNone = false;
-
           // this.router.navigateByUrl("/verify-email");
           this.router.navigateByUrl("/login");
         },
         error: (error: any) => {
-          console.log(error);
-          if (error.status === 0)
-            this.toastr.error("Đăng ký tài khoản thất bại", "Thông báo");
+          if (error.status === 400)
+            this.toastr.error(error.error);
           else
-            this.toastr.error(error.error, "Thông báo");
+            this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
 
           this.isLoaderDisplayNone = false;
         }
       }
     );
   }
-
-  protected readonly Utils = Utils;
 }

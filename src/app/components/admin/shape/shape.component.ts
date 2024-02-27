@@ -26,7 +26,6 @@ export class ShapeComponent implements OnInit {
   titleModal: string = "";
   btnSave: string = "";
   isDisplayNone: boolean = false;
-  errorMessage: string = "";
   shapeForm: FormGroup = new FormGroup(
     {
       id: new FormControl(null),
@@ -70,8 +69,8 @@ export class ShapeComponent implements OnInit {
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
+
       }
     });
   }
@@ -107,9 +106,8 @@ export class ShapeComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.shapeForm.invalid) {
+    if (this.shapeForm.invalid)
       return;
-    }
     if (this.shapeForm.value.id == null)
       this.create();
     else
@@ -123,10 +121,13 @@ export class ShapeComponent implements OnInit {
         this.shapeForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Thêm hình dạng thành công', 'Thông báo');
+        this.toastr.success('Thêm hình dạng thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -139,10 +140,13 @@ export class ShapeComponent implements OnInit {
         this.shapeForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Cập nhật hình dạng thành công', 'Thông báo');
+        this.toastr.success('Cập nhật hình dạng thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -166,10 +170,13 @@ export class ShapeComponent implements OnInit {
         this.shapeService.delete(id).subscribe({
           next: () => {
             this.updateTable();
-            this.toastr.success('Xóa hình dạng thành công', 'Thông báo');
+            this.toastr.success('Xóa hình dạng thành công');
           },
           error: (error: any) => {
-            this.toastr.error(error.error, 'Thất bại');
+            if (error.status === 400)
+              this.toastr.error(error.error);
+            else
+              this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
           }
         });
       }
@@ -193,7 +200,6 @@ export class ShapeComponent implements OnInit {
 
   updateTable() {
     this.isDisplayNone = false;
-    this.errorMessage = "";
     this.findAll("", this.paginationDTO.pageSize, 1, "", "");
   }
 }

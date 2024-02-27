@@ -31,7 +31,6 @@ export class CategoryComponent implements OnInit {
   titleModal: string = "";
   btnSave: string = "";
   isDisplayNone: boolean = false;
-  errorMessage: string = "";
   categoryForm: FormGroup = new FormGroup(
     {
       id: new FormControl(null),
@@ -86,8 +85,8 @@ export class CategoryComponent implements OnInit {
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
+
       }
     });
   }
@@ -100,8 +99,8 @@ export class CategoryComponent implements OnInit {
         else
           this.countStatusFalse = response.totalElements;
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
+
       }
     });
   }
@@ -111,8 +110,8 @@ export class CategoryComponent implements OnInit {
       next: (response: any) => {
         this.countStatusAll = response.totalElements;
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
+
       }
     });
   }
@@ -152,10 +151,8 @@ export class CategoryComponent implements OnInit {
   }
 
   onSubmit() {
-    // debugger;
-    if (this.categoryForm.invalid) {
+    if (this.categoryForm.invalid)
       return;
-    }
     if (this.categoryForm.value.id == null)
       this.create();
     else
@@ -169,10 +166,13 @@ export class CategoryComponent implements OnInit {
         this.categoryForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Thêm danh mục thành công', 'Thông báo');
+        this.toastr.success('Thêm danh mục thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -185,10 +185,13 @@ export class CategoryComponent implements OnInit {
         this.categoryForm.reset();
         this.btnCloseModal.nativeElement.click();
         this.updateTable();
-        this.toastr.success('Cập nhật danh mục thành công', 'Thông báo');
+        this.toastr.success('Cập nhật danh mục thành công');
       },
       error: (error: any) => {
-        this.errorMessage = error.error;
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
         this.isDisplayNone = false;
       }
     });
@@ -204,10 +207,13 @@ export class CategoryComponent implements OnInit {
     this.categoryService.update(this.categoryForm.value).subscribe({
       next: () => {
         this.updateTable();
-        this.toastr.success('Cập nhật trạng thái thành công', 'Thông báo');
+        this.toastr.success('Cập nhật trạng thái thành công');
       },
-      error: () => {
-        this.toastr.error('Cập nhật trạng thái thất bại', 'Thất bại');
+      error: (error: any) => {
+        if (error.status === 400)
+          this.toastr.error('Cập nhật trạng thái thất bại');
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
@@ -230,10 +236,13 @@ export class CategoryComponent implements OnInit {
         this.categoryService.delete(id).subscribe({
           next: () => {
             this.updateTable();
-            this.toastr.success('Xóa danh mục thành công', 'Thông báo');
+            this.toastr.success('Xóa danh mục thành công');
           },
           error: (error: any) => {
-            this.toastr.error(error.error, 'Thất bại');
+            if (error.status === 400)
+              this.toastr.error(error.error);
+            else
+              this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
           }
         });
       }
@@ -246,7 +255,10 @@ export class CategoryComponent implements OnInit {
         this.categoryDetails = response;
       },
       error: (error: any) => {
-        console.log(error);
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
@@ -287,7 +299,6 @@ export class CategoryComponent implements OnInit {
 
   updateTable() {
     this.isDisplayNone = false;
-    this.errorMessage = "";
     this.countByStatus(true);
     this.countByStatus(false);
     this.countAll();

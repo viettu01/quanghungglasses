@@ -181,14 +181,9 @@
       </div>
       <form class="form" [formGroup]="brandForm" (submit)="onSubmit()">
         <div class="modal-body">
-          <div class="row px-3" *ngIf="errorMessage != ''">
-            <label class="col-sm-12 col-form-label fs-9 alert alert-subtle-danger p-2" role="alert">
-              {{ errorMessage }}
-            </label>
-          </div>
           <div class="row mb-3">
-            <label class="col-sm-3 col-form-label fs-9" for="name">Tên thương hiệu</label>
-            <div class="col-sm-9">
+            <label class="col-sm-4 col-form-label fs-9" for="name">Tên thương hiệu</label>
+            <div class="col-sm-8">
               <input class="form-control" id="name" type="text" formControlName="name" placeholder="Tên thương hiệu">
               <small class="text-danger mt-1" *ngIf="brandForm['controls']['name'].dirty">
                 <span *ngIf="brandForm['controls']['name'].errors?.['required']">
