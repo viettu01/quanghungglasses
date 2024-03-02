@@ -17,6 +17,7 @@ import {MaterialDto} from "../../../../dto/material.dto";
 import {Environment} from "../../../../environment/environment";
 import {StorageService} from "../../../../service/storage.service";
 import Swal from "sweetalert2";
+import slugify from 'slugify';
 
 @Component({
   selector: 'app-save',
@@ -24,7 +25,7 @@ import Swal from "sweetalert2";
   styleUrls: ['./admin-product-save.component.css']
 })
 export class AdminProductSaveComponent implements OnInit {
-  protected readonly Environment = Environment;
+  protected readonly baseUrl = Environment.apiBaseUrl;
   titleString: string = "";
   selectedImageUrl: string = "";
   selectedImageFile: File = new File([""], "filename");
@@ -36,7 +37,7 @@ export class AdminProductSaveComponent implements OnInit {
   shapes: ShapeDto[] = [];
   materials: MaterialDto[] = [];
   editorConfig = {
-    height: 314,
+    height: 398,
     selector: 'textarea',
     base_url: '/tinymce',
     suffix: '.min',
@@ -52,6 +53,11 @@ export class AdminProductSaveComponent implements OnInit {
       id: new FormControl(null),
       name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       price: new FormControl('', [
+        Validators.required,
+        Validators.min(1),
+        Validators.pattern(/^-?\d+\.?\d*$/)
+      ]),
+      timeWarranty: new FormControl('', [
         Validators.required,
         Validators.min(1),
         Validators.pattern(/^-?\d+\.?\d*$/)
@@ -85,10 +91,9 @@ export class AdminProductSaveComponent implements OnInit {
   }
 
   constructor(private title: Title,
-              private categoryService: CategoryService, private storageService: StorageService,
-              private originService: OriginService, private brandService: BrandService,
-              private shapeService: ShapeService, private materialService: MaterialService,
-              private productService: ProductService,
+              private categoryService: CategoryService, private originService: OriginService,
+              private brandService: BrandService, private shapeService: ShapeService,
+              private materialService: MaterialService, private productService: ProductService,
               private activatedRoute: ActivatedRoute, private router: Router,
               private toastr: ToastrService) {
   }
@@ -117,6 +122,19 @@ export class AdminProductSaveComponent implements OnInit {
     this.findAllBrand();
     this.findAllShape();
     this.findAllMaterial();
+  }
+
+  slugify() {
+    this.productForm.patchValue({
+      slug: slugify(this.productForm.value.name, {
+          lower: true,
+          remove: /[*+~.,()'"!:@]/g,
+          locale: 'en',
+          trim: true,
+          strict: true
+        },
+      )
+    });
   }
 
   onFileChange(event: any) {
@@ -273,8 +291,11 @@ export class AdminProductSaveComponent implements OnInit {
         this.toastr.success("Thêm sản phẩm thành công");
         this.router.navigateByUrl("/admin/product");
       },
-      error: (err: any) => {
-        this.toastr.error(err.error, "Thất bại");
+      error: (error: any) => {
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
@@ -285,8 +306,11 @@ export class AdminProductSaveComponent implements OnInit {
         this.toastr.success("Cập nhật sản phẩm thành công");
         this.router.navigateByUrl("/admin/product");
       },
-      error: (err: any) => {
-        this.toastr.error(err.error, "Thất bại");
+      error: (error: any) => {
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
@@ -319,8 +343,11 @@ export class AdminProductSaveComponent implements OnInit {
               return image !== imageName;
             });
           },
-          error: (err: any) => {
-            this.toastr.error(err.error, "Thất bại");
+          error: (error: any) => {
+            if (error.status === 400)
+              this.toastr.error(error.error);
+            else
+              this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
           }
         });
       }

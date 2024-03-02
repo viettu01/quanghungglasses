@@ -54,6 +54,7 @@ export class ProductService {
     formData.append('slug', product.slug);
     formData.append('description', product.description);
     formData.append('price', product.price.toString());
+    formData.append('timeWarranty', product.timeWarranty.toString());
     formData.append('categoryId', product.categoryId.toString());
     formData.append('materialId', product.materialId.toString());
     formData.append('originId', product.originId.toString());
@@ -80,6 +81,7 @@ export class ProductService {
     formData.append('slug', product.slug);
     formData.append('description', product.description);
     formData.append('price', product.price.toString());
+    formData.append('timeWarranty', product.timeWarranty.toString());
     formData.append('categoryId', product.categoryId.toString());
     formData.append('materialId', product.materialId.toString());
     formData.append('originId', product.originId.toString());

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
-import {NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgOptimizedImage} from "@angular/common";
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastrModule} from "ngx-toastr";
@@ -73,6 +73,7 @@ import {
 import {
   AdminWarrantySaveComponent
 } from './components/admin/admin-warranty/admin-warranty-save/admin-warranty-save.component';
+import { ClientBannerComponent } from './components/client/client-banner/client-banner.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import {
     ChangePasswordComponent,
     AdminWarrantyListComponent,
     AdminWarrantyDetailsComponent,
-    AdminWarrantySaveComponent
+    AdminWarrantySaveComponent,
+    ClientBannerComponent
   ],
   imports: [
     BrowserModule,
@@ -165,6 +167,7 @@ import {
       provide: TINYMCE_SCRIPT_SRC,
       useValue: 'tinymce/tinymce.min.js'
     },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

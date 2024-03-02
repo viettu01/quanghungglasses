@@ -20,24 +20,35 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.maxLength(30)
       ]),
-      email: new FormControl('', [
+      phone: new FormControl('', [
         Validators.required,
-        Validators.maxLength(50),
-        Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(20),
-        Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/)
+        Validators.maxLength(10),
+        Validators.minLength(10),
+        Validators.pattern("^0[0-9]{9}$")
       ]),
-      confirmPassword: new FormControl('', [Validators.required]),
+      birthday: new FormControl(new Date()),
+      gender: new FormControl('Nam'),
+      address: new FormControl('', [Validators.maxLength(200)]),
+      account: new FormGroup({
+        email: new FormControl('', [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.email]),
+        password: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/)
+        ]),
+        confirmPassword: new FormControl('', [Validators.required])
+      }),
     },
     {validators: this.matchPassword}
   );
 
   matchPassword(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
+    const password = control.get('account')?.get('password')?.value;
+    const confirmPassword = control.get('account')?.get('confirmPassword')?.value;
 
     return password === confirmPassword ? null : {mismatch: true};
   }
@@ -50,9 +61,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.registerForm.invalid) {
+    if (this.registerForm.invalid)
       return;
-    }
+
     this.register();
   }
 

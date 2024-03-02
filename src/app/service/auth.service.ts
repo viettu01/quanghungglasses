@@ -3,10 +3,10 @@ import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {LoginDto} from "../dto/login.dto";
 import {TokenService} from "./token.service";
-import {RegisterDto} from "../dto/register.dto";
 import {ForgotPasswordDto} from "../dto/forgot-password.dto";
 import {ChangePasswordDto} from "../dto/change-password.dto";
 import {ToastrService} from "ngx-toastr";
+import {CustomerDto} from "../dto/customer.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +41,21 @@ export class AuthService {
     return this.http.post(`${this.apiCategoryUrl}/resend-verification-code`, null, {params: queryParams});
   }
 
-  register(register: RegisterDto) {
-    return this.http.post(`${Environment.apiBaseUrl}/register`, register, this.apiConfigUrl);
+  // register(register: RegisterDto) {
+  //   return this.http.post(`${Environment.apiBaseUrl}/register`, register, this.apiConfigUrl);
+  // }
+
+  register(customer: CustomerDto) {
+    const formData = new FormData();
+    formData.append('fullname', customer.fullname);
+    formData.append('phone', customer.phone);
+    formData.append('gender', customer.gender);
+    formData.append('birthday', customer.birthday.toString());
+    formData.append('address', customer.address);
+    formData.append('account.email', customer.account.email);
+    formData.append('account.password', customer.account.password);
+    formData.append('account.status', 'true');
+    return this.http.post(`${Environment.apiBaseUrl}/register`, formData);
   }
 
   forgotPassword(forgotPasswordDto: ForgotPasswordDto) {

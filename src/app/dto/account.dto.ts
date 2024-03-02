@@ -3,18 +3,18 @@ import {BaseDto} from "./base.dto";
 export class AccountDto extends BaseDto {
   id: number;
   email: string;
-  avatar: string;
+  avatarFile: string;
   password: string;
   status: boolean;
-  roles: string[];
+  roleIds: number[];
 
-  constructor(createdDate: Date, updatedDate: Date, id: number, email: string, avatar: string, password: string, status: boolean, roles: string[]) {
+  constructor(createdDate: Date, updatedDate: Date, id: number, email: string, avatarFile: string, password: string, status: boolean, roleIds: number[]) {
     super(createdDate, updatedDate);
     this.id = id;
     this.email = email;
-    this.avatar = avatar;
+    this.avatarFile = avatarFile;
     this.password = password;
     this.status = status;
-    this.roles = roles;
+    this.roleIds = roleIds;
   }
 }

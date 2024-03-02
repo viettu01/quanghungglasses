@@ -10,79 +10,133 @@
         <h3 class="text-body-highlight">Đăng ký</h3>
       </div>
       <form [formGroup]="registerForm" (submit)="onSubmit()">
-        <div class="mb-3 text-start">
-          <label class="form-label" for="fullname">Họ và tên</label>
-          <input class="form-control" id="fullname" type="text" placeholder="Họ và tên" formControlName="fullname"/>
-          <small class="text-danger mt-1">
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <label class="form-label" for="fullname">Họ và tên <sup class="text-danger">*</sup></label>
+            <input class="form-control" id="fullname" type="text" placeholder="Họ và tên" formControlName="fullname"/>
+            <small class="text-danger mt-1">
             <span
               *ngIf="registerForm['controls']['fullname'].dirty && registerForm['controls']['fullname'].errors?.['required']">
               Họ tên không được để trống
             </span>
-            <span
-              *ngIf="registerForm['controls']['fullname'].invalid && registerForm['controls']['fullname'].errors?.['maxlength']">
+              <span
+                *ngIf="registerForm['controls']['fullname'].invalid && registerForm['controls']['fullname'].errors?.['maxlength']">
               Họ tên không được vượt quá 30 ký tự
             </span>
-          </small>
-        </div>
-        <div class="mb-3 text-start">
-          <label class="form-label" for="email">Email</label>
-          <input class="form-control" id="email" type="email" placeholder="email@gmail.com" formControlName="email"/>
-          <small class="text-danger mt-1">
-            <div
-              *ngIf="registerForm['controls']['email'].dirty && registerForm['controls']['email'].errors?.['required']">
-              Email không được để trống
-            </div>
-            <div
-              *ngIf="registerForm['controls']['email'].invalid && registerForm['controls']['email'].errors?.['maxlength']">
-              Email không được vượt quá 30 ký tự
-            </div>
-            <div
-              *ngIf="registerForm['controls']['email'].invalid && registerForm['controls']['email'].errors?.['email']">
-              Email không đúng định dạng
-            </div>
-          </small>
+            </small>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label" for="phone">Số điện thoại <sup class="text-danger">*</sup></label>
+            <input class="form-control" id="phone" type="text" placeholder="Số điện thoại" formControlName="phone"/>
+            <small class="text-danger mt-1" *ngIf="registerForm['controls']['phone'].dirty">
+            <span *ngIf="registerForm['controls']['phone'].errors?.['required']">
+              Số điện thoại không được để trống
+            </span>
+              <span *ngIf="registerForm['controls']['phone'].errors?.['maxlength']
+                        || registerForm['controls']['phone'].errors?.['minlength']">
+              Số điện thoại phải đủ 10 số
+            </span>
+              <span *ngIf="!(registerForm['controls']['phone'].errors?.['maxlength']
+                        || registerForm['controls']['phone'].errors?.['minlength'])
+                        && registerForm['controls']['phone'].errors?.['pattern']">
+              Số điện thoại không hợp lệ
+            </span>
+            </small>
+          </div>
         </div>
         <div class="row g-3 mb-3">
           <div class="col-sm-6">
-            <label class="form-label" for="password">Mật khẩu</label>
-            <input class="form-control form-icon-input" id="password" type="password" placeholder="Password"
-                   formControlName="password"/>
-            <small class="text-danger mt-1" *ngIf="registerForm['controls']['password'].dirty">
-              <span *ngIf="registerForm['controls']['password'].errors?.['required']">
-                Mật khẩu không được để trống
-              </span>
-              <div
-                *ngIf="registerForm['controls']['password'].errors?.['minlength'] || registerForm['controls']['password'].errors?.['maxlength']">
-                Mật khẩu phải dài từ 8 đến 20 ký tự
-              </div>
-              <div *ngIf="registerForm['controls']['password'].errors?.['pattern']">
-                Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và dài hơn 8 ký tự
-              </div>
-            </small>
+            <label class="form-label" for="birthday">Ngày sinh</label>
+            <input class="form-control" id="birthday" type="date" placeholder="Ngày sinh" formControlName="birthday"/>
           </div>
           <div class="col-sm-6">
-            <label class="form-label" for="confirmPassword">Xác nhận mật khẩu</label>
-            <input class="form-control form-icon-input" id="confirmPassword" type="password"
-                   placeholder="Xác nhận Mật khẩu" formControlName="confirmPassword"/>
-            <small class="text-danger mt-1" *ngIf="registerForm['controls']['confirmPassword'].dirty">
-              <span
-                *ngIf="registerForm['controls']['confirmPassword'].errors?.['required']">
-                Xác nhận mật khẩu không được để trống
-              </span>
-              <span
-                *ngIf="!registerForm['controls']['confirmPassword'].errors?.['required'] && registerForm.errors?.['mismatch']">
-                Mật khẩu xác nhận không khớp
-              </span>
-            </small>
+            <label class="form-label">Giới tính</label>
+            <div class="form-control">
+              <div class="form-check form-check-inline align-middle mb-0 min-h-auto">
+                <input class="form-check-input" id="gender1" type="radio" name="gender" value="Nam"
+                       formControlName="gender"/>
+                <label class="form-check-label" for="gender1">Nam</label>
+              </div>
+              <div class="form-check form-check-inline align-middle mb-0 min-h-auto">
+                <input class="form-check-input" id="gender2" type="radio" name="gender" value="Nữ"
+                       formControlName="gender"/>
+                <label class="form-check-label" for="gender2">Nữ</label>
+              </div>
+            </div>
           </div>
         </div>
-        <button class="btn btn-primary w-100 mb-3" [disabled]="registerForm.invalid">
-          <span [class.d-none]="isLoaderDisplayNone">Đăng ký</span>
-          <span class="indicator-progress" [class.d-none]="!isLoaderDisplayNone">
+        <div class="mb-3 text-start">
+          <label class="form-label" for="address">Địa chỉ</label>
+          <input class="form-control" id="address" type="text" placeholder="Địa chỉ" formControlName="address"/>
+          <small class="text-danger mt-1">
+            <span
+              *ngIf="registerForm['controls']['address'].invalid && registerForm['controls']['address'].errors?.['maxlength']">
+              Địa chỉ không được vượt quá 200 ký tự
+            </span>
+          </small>
+        </div>
+        <ng-container formGroupName="account">
+          <div class="mb-3 text-start">
+            <label class="form-label" for="email">Email <sup class="text-danger">*</sup></label>
+            <input class="form-control" id="email" type="email" placeholder="email@gmail.com" formControlName="email"/>
+            <small class="text-danger mt-1">
+              <div
+                *ngIf="registerForm.get('account.email')?.dirty && registerForm.get('account.email')?.hasError('required')">
+                Email không được để trống
+              </div>
+              <div
+                *ngIf="registerForm.get('account.email')?.invalid && registerForm.get('account.email')?.hasError('maxlength')">
+                Email không được vượt quá 30 ký tự
+              </div>
+              <div
+                *ngIf="registerForm.get('account.email')?.invalid && registerForm.get('account.email')?.hasError('email')">
+                Email không đúng định dạng
+              </div>
+            </small>
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label class="form-label" for="password">Mật khẩu <sup class="text-danger">*</sup></label>
+              <input class="form-control form-icon-input" id="password" type="password" placeholder="Password"
+                     formControlName="password"/>
+              <small class="text-danger mt-1" *ngIf="registerForm.get('account.password')?.dirty">
+                <span *ngIf="registerForm.get('account.password')?.hasError('required')">
+                  Mật khẩu không được để trống
+                </span>
+                <div
+                  *ngIf="registerForm.get('account.password')?.hasError('minlength')
+                  || registerForm.get('account.password')?.hasError('maxlength')">
+                  Mật khẩu phải dài từ 8 đến 20 ký tự
+                </div>
+                <div *ngIf="registerForm.get('account.password')?.hasError('pattern')">
+                  Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và dài hơn 8 ký tự
+                </div>
+              </small>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="confirmPassword">Xác nhận mật khẩu <sup class="text-danger">*</sup></label>
+              <input class="form-control form-icon-input" id="confirmPassword" type="password"
+                     placeholder="Xác nhận Mật khẩu" formControlName="confirmPassword"/>
+              <small class="text-danger mt-1" *ngIf="registerForm.get('account.confirmPassword')?.dirty">
+                <span
+                  *ngIf="registerForm.get('account.confirmPassword')?.hasError('required')">
+                  Xác nhận mật khẩu không được để trống
+                </span>
+                  <span
+                    *ngIf="!registerForm.get('account.confirmPassword')?.hasError('required') && registerForm.errors?.['mismatch']">
+                  Mật khẩu xác nhận không khớp
+                </span>
+              </small>
+            </div>
+          </div>
+          <button class="btn btn-primary w-100 mb-3" [disabled]="registerForm.invalid">
+            <span [class.d-none]="isLoaderDisplayNone">Đăng ký</span>
+            <span class="indicator-progress" [class.d-none]="!isLoaderDisplayNone">
               Vui lòng chờ...
               <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
-        </button>
+          </button>
+        </ng-container>
         <div class="text-center fs-9">Bạn đã có tài khoản? <a class="fs-9 fw-bold" routerLink="/login">Đăng nhập</a>
         </div>
       </form>

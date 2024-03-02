@@ -3,7 +3,7 @@ import {AuthService} from "../../../service/auth.service";
 import {Router} from '@angular/router';
 import {Title} from "@angular/platform-browser";
 import {ToastrService} from "ngx-toastr";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TokenService} from 'src/app/service/token.service';
 
 @Component({
@@ -14,8 +14,8 @@ import {TokenService} from 'src/app/service/token.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup(
     {
-      email: new FormControl(''),
-      password: new FormControl('')
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     }
   );
 
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        if (error.status === 400)
+        if (error.status === 403 || error.status === 400)
           this.toastr.error(error.error);
         else
           this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');

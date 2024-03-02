@@ -1,1 +1,218 @@
-<p>staff-save works!</p>
+<nav class="mb-2" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+    <li class="breadcrumb-item">Quản lý nhân viên</li>
+    <li class="breadcrumb-item active">{{ titleString }}</li>
+  </ol>
+</nav>
+<form class="mb-9" [formGroup]="staffForm" enctype="multipart/form-data" (submit)="onSubmit()">
+  <div class="row g-3 flex-between-end mb-3">
+    <div class="col-auto">
+      <h2 class="mb-2">{{ titleString }}</h2>
+    </div>
+    <div class="col-auto">
+      <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/staff">
+        Quay lại
+      </a>
+      <button class="btn btn-primary mb-2 mb-sm-0" type="submit" [disabled]="staffForm.invalid">
+        <span [class.d-none]="isDisplayNone">{{ btnSave }}</span>
+        <span class="indicator-progress" [class.d-none]="!isDisplayNone">
+          Vui lòng chờ...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-xl-6">
+      <div class="row g-2">
+        <div class="col-12 col-xl-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-wrap card-title mb-4">
+                <h4 class="text-body-highlight me-2">Thông tin nhân viên</h4>
+                <a class="fw-bold fs-9 my-auto" href="javascript:void(0);" (click)="addAccount()"
+                   [class.d-none]="!isShowTileDisplayAccount">
+                  {{ titleShowDisplayAccount }}
+                </a>
+              </div>
+              <div class="row g-3">
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                      <span class="text-body-highlight me-2 fs-9 fw-bold">
+                        Tên nhân viên <sup class="text-danger">*</sup>
+                      </span>
+                  </div>
+                  <input class="form-control" type="text" placeholder="Tên khách hàng" formControlName="fullname"/>
+                  <small class="text-danger mt-1" *ngIf="staffForm['controls']['fullname'].dirty">
+                    <span *ngIf="staffForm['controls']['fullname'].errors?.['required']">
+                      Tên khách hàng không được để trống
+                    </span>
+                    <span *ngIf="staffForm['controls']['fullname'].errors?.['maxlength']">
+                      Tên khách hàng không được vượt quá 30 ký tự
+                    </span>
+                  </small>
+                </div>
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Số điện thoại <sup class="text-danger">*</sup>
+                    </span>
+                  </div>
+                  <input class="form-control" type="text" placeholder="Số điện thoại" formControlName="phone"/>
+                  <small class="text-danger mt-1" *ngIf="staffForm['controls']['phone'].dirty">
+                    <span *ngIf="staffForm['controls']['phone'].errors?.['required']">
+                      Số điện thoại không được để trống
+                    </span>
+                    <span *ngIf="staffForm['controls']['phone'].errors?.['maxlength']
+                      || staffForm['controls']['phone'].errors?.['minlength']">
+                      Số điện thoại phải đủ 10 số
+                    </span>
+                    <span *ngIf="!(staffForm['controls']['phone'].errors?.['maxlength']
+                                  || staffForm['controls']['phone'].errors?.['minlength'])
+                                  && staffForm['controls']['phone'].errors?.['pattern']">
+                      Số điện thoại không hợp lệ
+                    </span>
+                  </small>
+                </div>
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Ngày sinh
+                    </span>
+                  </div>
+                  <input class="form-control" type="date" formControlName="birthday"/>
+                </div>
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Giới tính
+                    </span>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="inlineRadio1" type="radio" name="gender" value="Nam"
+                           formControlName="gender"/>
+                    <label class="form-check-label" for="inlineRadio1">Nam</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="inlineRadio2" type="radio" name="gender" value="Nữ"
+                           formControlName="gender"/>
+                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Trạng thái làm việc <sup class="text-danger">*</sup>
+                    </span>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="staffStatus1" type="radio" name="staffStatus" value="true"
+                           formControlName="staffStatus"/>
+                    <label class="form-check-label" for="staffStatus1">Đang làm việc</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="staffStatus2" type="radio" name="staffStatus" value="false"
+                           formControlName="staffStatus"/>
+                    <label class="form-check-label" for="staffStatus2">Nghỉ việc</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-xl-6" [class.d-none]="!isShowDisplayAccount">
+      <div class="row g-2">
+        <div class="col-12 col-xl-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title mb-4">Thông tin tài khoản</h4>
+              <div class="row g-3" formGroupName="account">
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Email <sup class="text-danger">*</sup>
+                    </span>
+                  </div>
+                  <input class="form-control" type="email" placeholder="Email" formControlName="email"/>
+                  <small class="text-danger mt-1" *ngIf="staffForm.get('account.email')?.dirty">
+                    <span *ngIf="staffForm.get('account.email')?.hasError('required')">
+                      Email không được để trống
+                    </span>
+                    <div *ngIf="staffForm.get('account.email')?.hasError('maxlength')">
+                      Email không được vượt quá 50 ký tự
+                    </div>
+                    <span *ngIf="staffForm.get('account.email')?.hasError('email')">
+                      Email không không đúng định dạng
+                    </span>
+                  </small>
+                </div>
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Mật khẩu <sup class="text-danger" *ngIf="isShowTileDisplayAccount">*</sup>
+                    </span>
+                  </div>
+                  <input class="form-control" type="password" placeholder="Mật khẩu" formControlName="password"/>
+                  <small class="text-danger mt-1" *ngIf="staffForm.get('account.password')?.dirty">
+                    <span *ngIf="staffForm.get('account.password')?.hasError('required')">
+                      Mật khẩu không được để trống
+                    </span>
+                    <div *ngIf="staffForm.get('account.password')?.hasError('minlength')
+                      || staffForm.get('account.password')?.hasError('maxlength')">
+                      Mật khẩu phải dài từ 8 đến 20 ký tự
+                    </div>
+                    <div *ngIf="staffForm.get('account.password')?.hasError('pattern')">
+                      Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt và dài hơn 8 ký tự
+                    </div>
+                  </small>
+                </div>
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Trạng thái tài khoản <sup class="text-danger">*</sup>
+                    </span>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="status1" type="radio" name="status" value="true"
+                           formControlName="status"/>
+                    <label class="form-check-label" for="status1">Bình thường</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="status2" type="radio" name="status" value="false"
+                           formControlName="status"/>
+                    <label class="form-check-label" for="status2">Khóa</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-3 col-xl-12">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="text-body-highlight me-2 fs-9 fw-bold">
+                      Quyền hạn <sup class="text-danger">*</sup>
+                    </span>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="roleIds1" type="checkbox" name="roleIds" value="1"
+                           (change)="onCheckboxRoleChange($event)" [checked]="onCheckedRole(1)"/>
+                    <label class="form-check-label" for="status1">Quản trị</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="roleIds2" type="checkbox" name="roleIds" value="2"
+                           (change)="onCheckboxRoleChange($event)" [checked]="onCheckedRole(2)"/>
+                    <label class="form-check-label" for="status2">Nhân viên</label>
+                  </div>
+                  <small class="text-danger mt-1 d-block" *ngIf="staffForm.get('account.roleIds')?.pristine">
+                    <span *ngIf="staffForm.get('account.roleIds')?.hasError('required')">
+                      Quyền hạn không được để trống
+                    </span>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

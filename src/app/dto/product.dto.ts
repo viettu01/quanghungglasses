@@ -5,6 +5,7 @@ export class ProductDto extends BaseDto {
   id: number;
   name: string;
   price: number;
+  timeWarranty: number;
   quantity: number;
   thumbnail: string;
   description: string;
@@ -23,11 +24,12 @@ export class ProductDto extends BaseDto {
   images: string[];
   productDetails: ProductDetailsDto[];
 
-  constructor(createdDate: Date, updatedDate: Date, id: number, name: string, price: number, quantity: number, thumbnail: string, description: string, slug: string, status: boolean, categoryId: number, categoryName: string, materialId: number, materialName: string, originId: number, originName: string, shapeId: number, shapeName: string, brandId: number, brandName: string, images: string[], productDetails: ProductDetailsDto[]) {
+  constructor(createdDate: Date, updatedDate: Date, id: number, name: string, price: number, timeWarranty: number, quantity: number, thumbnail: string, description: string, slug: string, status: boolean, categoryId: number, categoryName: string, materialId: number, materialName: string, originId: number, originName: string, shapeId: number, shapeName: string, brandId: number, brandName: string, images: string[], productDetails: ProductDetailsDto[]) {
     super(createdDate, updatedDate);
     this.id = id;
     this.name = name;
     this.price = price;
+    this.timeWarranty = timeWarranty;
     this.quantity = quantity;
     this.thumbnail = thumbnail;
     this.description = description;
@@ -48,6 +50,6 @@ export class ProductDto extends BaseDto {
   }
 
   static createEmpty(): ProductDto {
-    return new ProductDto(new Date(), new Date(), 0, "", 0, 0, "", "", "", false, 0, "", 0, "", 0, "", 0, "", 0, "", [], []);
+    return new ProductDto(new Date(), new Date(), 0, '', 0, 0, 0, '', '', '', false, 0, '', 0, '', 0, '', 0, '', 0, '', [], []);
   }
 }

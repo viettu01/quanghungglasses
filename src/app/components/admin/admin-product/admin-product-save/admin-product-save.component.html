@@ -26,7 +26,7 @@
   <div class="row g-5">
     <div class="col-12 col-xl-8">
       <div class="row mb-7">
-        <div class="col-3">
+        <div class="col-sm-3">
           <h4 class="mb-3">
             Ảnh sản phẩm
             <sup class="text-danger" *ngIf="productForm['controls']['thumbnailFile'].errors?.['required']">*</sup>
@@ -49,10 +49,10 @@
             </div>
           </div>
         </div>
-        <div class="col-9">
+        <div class="col-sm-9">
           <div class="mb-5">
             <h4 class="mb-3">Tên sản phẩm <sup class="text-danger">*</sup></h4>
-            <input class="form-control" type="text" formControlName="name"/>
+            <input class="form-control" type="text" formControlName="name" (input)="slugify()"/>
             <small class="text-danger mt-1" *ngIf="productForm['controls']['name'].dirty">
               <span *ngIf="productForm['controls']['name'].errors?.['required']">
                 Tên sản phẩm không được để trống
@@ -205,6 +205,24 @@
                 <div class="col-12 col-sm-6 col-xl-12">
                   <div class="mb-4">
                     <div class="d-flex flex-wrap mb-2">
+                      <h5 class="mb-0 text-body-highlight me-2">Thời gian bảo hành <sup class="text-danger">*</sup></h5>
+                    </div>
+                    <input class="form-control" type="text" formControlName="timeWarranty"/>
+                    <small class="text-danger mt-1" *ngIf="productForm['controls']['timeWarranty'].dirty">
+                      <span *ngIf="productForm['controls']['timeWarranty'].errors?.['required']">
+                        Thời gian bảo hành không được để trống
+                      </span>
+                      <span
+                        *ngIf="productForm['controls']['timeWarranty'].errors?.['pattern']
+                        || productForm['controls']['timeWarranty'].errors?.['min']">
+                        Thời gian bảo hành phải là số lớn hơn 0
+                      </span>
+                    </small>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12">
+                  <div class="mb-4">
+                    <div class="d-flex flex-wrap mb-2">
                       <h5 class="mb-0 text-body-highlight me-2">Trạng thái mở bán <sup class="text-danger">*</sup></h5>
                     </div>
                     <div class="m-auto">
@@ -234,7 +252,7 @@
       <div class="d-inline-flex" *ngIf="selectedImageProductUrl.length != 0">
         <div class="position-relative d-inline-block d-flex justify-content-center mb-2 border rounded-1 me-2"
              style="width: 100px; height: 100px;" *ngFor="let image of selectedImageProductUrl">
-          <img class="w-100 h-auto rounded-1 object-fit-contain" src="{{Environment.apiBaseUrl}}/images/{{image}}"
+          <img class="w-100 h-auto rounded-1 object-fit-contain" src="{{baseUrl}}/images/{{image}}"
                alt="">
           <a href="javascript:void(0);" class="position-absolute w-100 d-flex justify-content-end pe-2 pt-2 fs-9"
              (click)="deleteImageProduct(image)">
@@ -277,7 +295,7 @@
               </div>
               <small class="text-danger mt-1">
                 <span *ngIf="productForm['controls']['productDetails'].errors?.['required']">
-                  Màu sắc không được để trống
+                  Chi tiết sản phẩm không được để trống
                 </span>
               </small>
               <button class="btn btn-phoenix-primary w-100" type="button" (click)="addProductDetails()"

@@ -56,10 +56,8 @@ export class StaffListComponent implements OnInit {
         this.paginationDTO.lastElementOnPage = response.lastElementOnPage;
         this.paginationDTO.sortBy = response.sortBy;
         this.paginationDTO.sortDirection = response.sortDirection;
-        console.log(this.paginationDTO.content);
       },
-      error: (error: any) => {
-        console.log(error);
+      error: () => {
       }
     });
   }
