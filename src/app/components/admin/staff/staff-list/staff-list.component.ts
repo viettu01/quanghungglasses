@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {PaginationDTO} from "../../../../dto/pagination.dto";
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
 import {Utils} from 'src/app/utils/utils';
 import {StaffService} from "../../../../service/staff.service";
 import {StaffDto} from "../../../../dto/staff.dto";
@@ -24,8 +23,7 @@ export class StaffListComponent implements OnInit {
   sortBy: string = "";
 
   constructor(private title: Title, private staffService: StaffService,
-              private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private activatedRoute: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -90,9 +88,5 @@ export class StaffListComponent implements OnInit {
       queryParams: {"fullname": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
     }).then();
-  }
-
-  delete(id: number) {
-
   }
 }

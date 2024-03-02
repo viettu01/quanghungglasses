@@ -8,8 +8,6 @@ import {CustomerDto} from "../dto/customer.dto";
 })
 export class CustomerService {
   private apiCustomerAdminUrl = `${Environment.apiBaseUrl}/admin/customer`;
-  private apiCategoryUrl = `${Environment.apiBaseUrl}`;
-  private apiConfigUrl = {headers: {'Content-Type': 'application/json'}};
 
   constructor(private http: HttpClient) {
   }

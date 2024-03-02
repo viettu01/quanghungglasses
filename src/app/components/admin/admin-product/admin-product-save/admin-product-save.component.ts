@@ -15,7 +15,6 @@ import {BrandDto} from "../../../../dto/brand.dto";
 import {ShapeDto} from "../../../../dto/shape.dto";
 import {MaterialDto} from "../../../../dto/material.dto";
 import {Environment} from "../../../../environment/environment";
-import {StorageService} from "../../../../service/storage.service";
 import Swal from "sweetalert2";
 import slugify from 'slugify';
 
