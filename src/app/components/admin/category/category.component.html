@@ -38,7 +38,7 @@
           <div class="search-box">
             <form class="position-relative">
               <input class="form-control search-input search" type="text" placeholder="Tìm kiếm danh mục"
-                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp"/>
+                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp" appNoLeadingSpace/>
               <span class="fas fa-search search-box-icon"></span>
             </form>
           </div>
@@ -244,7 +244,7 @@
             <label class="col-sm-3 col-form-label fs-9" for="name">Tên danh mục</label>
             <div class="col-sm-9">
               <input class="form-control" id="name" type="text" formControlName="name" placeholder="Tên danh mục"
-                     (input)="slugify()">
+                     (input)="slugify()" appNoLeadingSpace>
               <small class="text-danger mt-1">
                 <span
                   *ngIf="categoryForm['controls']['name'].dirty && categoryForm['controls']['name'].errors?.['required']">
@@ -260,7 +260,8 @@
           <div class="row mb-3">
             <label class="col-sm-3 col-form-label fs-9" for="slug">Slug</label>
             <div class="col-sm-9">
-              <input class="form-control" id="slug" type="text" formControlName="slug" placeholder="ten-danh-muc">
+              <input class="form-control" id="slug" type="text" formControlName="slug" placeholder="ten-danh-muc"
+                     appNoLeadingSpace>
               <small class="text-danger mt-1">
                 <span
                   *ngIf="categoryForm['controls']['slug'].dirty && categoryForm['controls']['slug'].errors?.['required']">
@@ -281,7 +282,7 @@
             <label class="col-sm-3 col-form-label fs-9" for="description">Mô tả</label>
             <div class="col-sm-9">
               <textarea class="form-control" id="description" rows="3" placeholder="Mô tả"
-                        formControlName="description"></textarea>
+                        formControlName="description" appNoLeadingSpace></textarea>
               <small class="text-danger mt-1"
                      *ngIf="categoryForm['controls']['description'].dirty && categoryForm['controls']['description'].errors?.['maxlength']">
                 Mô tả không được vượt quá 100 ký tự

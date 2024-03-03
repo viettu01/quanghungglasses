@@ -18,7 +18,7 @@
           <div class="search-box">
             <form class="position-relative">
               <input class="form-control search-input search" type="text" placeholder="Tìm kiếm chất liệu"
-                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp"/>
+                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp" appNoLeadingSpace/>
               <span class="fas fa-search search-box-icon"></span>
             </form>
           </div>
@@ -36,12 +36,12 @@
         <table class="table fs--1 mb-0">
           <thead>
           <tr>
-<!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
-<!--              <div class="form-check mb-0 fs-0">-->
-<!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
-<!--                       (input)="toggleSelectAll()"/>-->
-<!--              </div>-->
-<!--            </th>-->
+            <!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
+            <!--              <div class="form-check mb-0 fs-0">-->
+            <!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
+            <!--                       (input)="toggleSelectAll()"/>-->
+            <!--              </div>-->
+            <!--            </th>-->
             <th class="sort white-space-nowrap align-middle ps-4" scope="col"
                 (click)="sortByField('name')">
               Tên chất liệu
@@ -89,11 +89,11 @@
             </td>
           </tr>
           <tr class="position-static" *ngFor="let material of paginationDTO.content">
-<!--            <td class="fs&#45;&#45;1 align-middle">-->
-<!--              <div class="form-check mb-0 fs-0">-->
-<!--                <input class="form-check-input" type="checkbox" [value]="material.id" [checked]="selectAll"/>-->
-<!--              </div>-->
-<!--            </td>-->
+            <!--            <td class="fs&#45;&#45;1 align-middle">-->
+            <!--              <div class="form-check mb-0 fs-0">-->
+            <!--                <input class="form-check-input" type="checkbox" [value]="material.id" [checked]="selectAll"/>-->
+            <!--              </div>-->
+            <!--            </td>-->
             <td class="align-middle ps-4">{{ material.name }}</td>
             <td class="align-middle white-space-nowrap text-600 ps-4">
               {{ material.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
@@ -184,7 +184,8 @@
           <div class="row mb-3">
             <label class="col-sm-3 col-form-label fs-9" for="name">Tên chất liệu</label>
             <div class="col-sm-9">
-              <input class="form-control" id="name" type="text" formControlName="name" placeholder="Tên chất liệu">
+              <input class="form-control" id="name" type="text" formControlName="name" placeholder="Tên chất liệu"
+                     appNoLeadingSpace>
               <small class="text-danger mt-1" *ngIf="materialForm['controls']['name'].dirty">
                 <span *ngIf="materialForm['controls']['name'].errors?.['required']">
                   Chất liệu không được để trống

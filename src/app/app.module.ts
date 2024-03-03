@@ -74,6 +74,7 @@ import {
   AdminWarrantySaveComponent
 } from './components/admin/admin-warranty/admin-warranty-save/admin-warranty-save.component';
 import { ClientBannerComponent } from './components/client/client-banner/client-banner.component';
+import { NoLeadingSpaceDirective } from './utils/no-leading-space.directive';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { ClientBannerComponent } from './components/client/client-banner/client-
     AdminWarrantyListComponent,
     AdminWarrantyDetailsComponent,
     AdminWarrantySaveComponent,
-    ClientBannerComponent
+    ClientBannerComponent,
+    NoLeadingSpaceDirective
   ],
   imports: [
     BrowserModule,

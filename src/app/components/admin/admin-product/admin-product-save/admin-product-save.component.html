@@ -52,7 +52,7 @@
         <div class="col-sm-9">
           <div class="mb-5">
             <h4 class="mb-3">Tên sản phẩm <sup class="text-danger">*</sup></h4>
-            <input class="form-control" type="text" formControlName="name" (input)="slugify()"/>
+            <input class="form-control" type="text" formControlName="name" (input)="slugify()" appNoLeadingSpace/>
             <small class="text-danger mt-1" *ngIf="productForm['controls']['name'].dirty">
               <span *ngIf="productForm['controls']['name'].errors?.['required']">
                 Tên sản phẩm không được để trống
@@ -64,7 +64,7 @@
           </div>
           <div class="mb-5">
             <h4 class="mb-3">Slug <sup class="text-danger">*</sup></h4>
-            <input class="form-control" type="text" formControlName="slug"/>
+            <input class="form-control" type="text" formControlName="slug" appNoLeadingSpace/>
             <small class="text-danger mt-1" *ngIf="productForm['controls']['slug'].dirty">
               <span *ngIf="productForm['controls']['slug'].errors?.['required']">
                 Slug không được để trống
@@ -100,7 +100,7 @@
                     <div class="d-flex flex-wrap mb-2">
                       <h5 class="mb-0 text-body-highlight me-2">Giá bán <sup class="text-danger">*</sup></h5>
                     </div>
-                    <input class="form-control" type="text" formControlName="price"/>
+                    <input class="form-control" type="text" formControlName="price" appNoLeadingSpace/>
                     <small class="text-danger mt-1" *ngIf="productForm['controls']['price'].dirty">
                       <span *ngIf="productForm['controls']['price'].errors?.['required']">
                         Giá sản phẩm không được để trống
@@ -207,7 +207,7 @@
                     <div class="d-flex flex-wrap mb-2">
                       <h5 class="mb-0 text-body-highlight me-2">Thời gian bảo hành <sup class="text-danger">*</sup></h5>
                     </div>
-                    <input class="form-control" type="text" formControlName="timeWarranty"/>
+                    <input class="form-control" type="text" formControlName="timeWarranty" appNoLeadingSpace/>
                     <small class="text-danger mt-1" *ngIf="productForm['controls']['timeWarranty'].dirty">
                       <span *ngIf="productForm['controls']['timeWarranty'].errors?.['required']">
                         Thời gian bảo hành không được để trống
@@ -284,7 +284,8 @@
                       </span>
                       <a class="fw-bold fs-9" href="javascript:void(0);" (click)="removeProductDetails(i)">Xóa</a>
                     </div>
-                    <input class="form-control" type="text" placeholder="Màu sắc" formControlName="color"/>
+                    <input class="form-control" type="text" placeholder="Màu sắc" formControlName="color"
+                           appNoLeadingSpace/>
                     <small class="text-danger mt-1" *ngIf="details.get('color')?.dirty">
                       <span *ngIf="details.get('color')?.hasError('required')">
                         Màu sắc không được để trống

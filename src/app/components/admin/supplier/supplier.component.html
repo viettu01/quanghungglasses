@@ -18,7 +18,7 @@
           <div class="search-box">
             <form class="position-relative">
               <input class="form-control search-input search" type="text" placeholder="Tìm kiếm nhà cung cấp"
-                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp"/>
+                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp" appNoLeadingSpace/>
               <span class="fas fa-search search-box-icon"></span>
             </form>
           </div>
@@ -36,12 +36,12 @@
         <table class="table fs--1 mb-0">
           <thead>
           <tr>
-<!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
-<!--              <div class="form-check mb-0 fs-0">-->
-<!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
-<!--                       (input)="toggleSelectAll()"/>-->
-<!--              </div>-->
-<!--            </th>-->
+            <!--            <th class="white-space-nowrap fs&#45;&#45;1 align-middle ps-0" style="max-width:20px; width:18px;">-->
+            <!--              <div class="form-check mb-0 fs-0">-->
+            <!--                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox"-->
+            <!--                       (input)="toggleSelectAll()"/>-->
+            <!--              </div>-->
+            <!--            </th>-->
             <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width: 250px;"
                 (click)="sortByField('name')">
               Tên nhà cung cấp
@@ -113,11 +113,11 @@
             </td>
           </tr>
           <tr class="position-static" *ngFor="let supplier of paginationDTO.content">
-<!--            <td class="fs&#45;&#45;1 align-middle">-->
-<!--              <div class="form-check mb-0 fs-0">-->
-<!--                <input class="form-check-input" type="checkbox" [value]="supplier.id" [checked]="selectAll"/>-->
-<!--              </div>-->
-<!--            </td>-->
+            <!--            <td class="fs&#45;&#45;1 align-middle">-->
+            <!--              <div class="form-check mb-0 fs-0">-->
+            <!--                <input class="form-check-input" type="checkbox" [value]="supplier.id" [checked]="selectAll"/>-->
+            <!--              </div>-->
+            <!--            </td>-->
             <td class="align-middle ps-4">{{ supplier.name }}</td>
             <td class="align-middle white-space-nowrap text-700 ps-4">{{ supplier.phone }}</td>
             <td class="align-middle text-600 ps-4">{{ supplier.address }}</td>
@@ -210,7 +210,8 @@
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9" for="name">Tên nhà cung cấp</label>
             <div class="col-sm-8">
-              <input class="form-control" id="name" type="text" formControlName="name" placeholder="Tên nhà cung cấp">
+              <input class="form-control" id="name" type="text" formControlName="name" placeholder="Tên nhà cung cấp"
+                     appNoLeadingSpace>
               <small class="text-danger mt-1" *ngIf="supplierForm['controls']['name'].dirty">
                 <span *ngIf="supplierForm['controls']['name'].errors?.['required']">
                   Tên nhà cung cấp không được để trống
@@ -224,7 +225,8 @@
           <div class="row mb-3">
             <label class="col-sm-4 col-form-label fs-9" for="name">Số điện thoại</label>
             <div class="col-sm-8">
-              <input class="form-control" id="phone" type="text" formControlName="phone" placeholder="Số điện thoại">
+              <input class="form-control" id="phone" type="text" formControlName="phone" placeholder="Số điện thoại"
+                     appNoLeadingSpace>
               <small class="text-danger mt-1" *ngIf="supplierForm['controls']['phone'].dirty">
                 <span *ngIf="supplierForm['controls']['phone'].errors?.['required']">
                   Số điện thoại không được để trống
@@ -245,7 +247,7 @@
             <label class="col-sm-4 col-form-label fs-9" for="address">Địa chỉ</label>
             <div class="col-sm-8">
               <textarea class="form-control" id="address" rows="3" placeholder="Địa chỉ"
-                        formControlName="address"></textarea>
+                        formControlName="address" appNoLeadingSpace></textarea>
               <small class="text-danger mt-1"
                      *ngIf="supplierForm['controls']['address'].dirty && supplierForm['controls']['address'].errors?.['maxlength']">
                 Địa chỉ không được vượt quá 200 ký tự

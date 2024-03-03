@@ -17,6 +17,7 @@ import {MaterialDto} from "../../../../dto/material.dto";
 import {Environment} from "../../../../environment/environment";
 import Swal from "sweetalert2";
 import slugify from 'slugify';
+import {NoWhitespaceValidator} from "../../../../utils/no-white-space-validator";
 
 @Component({
   selector: 'app-save',
@@ -41,7 +42,7 @@ export class AdminProductSaveComponent implements OnInit {
     base_url: '/tinymce',
     suffix: '.min',
     plugins: 'link image table fullscreen',
-    menubar: 'insert format tools table',
+    menubar: 'insert format tools',
     toolbar: 'undo redo | cut copy paste  | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fullscreen',
   };
 
@@ -78,7 +79,7 @@ export class AdminProductSaveComponent implements OnInit {
       productDetails: new FormArray([
         new FormGroup({
           id: new FormControl(null),
-          color: new FormControl('', [Validators.required]),
+          color: new FormControl('', [Validators.required, NoWhitespaceValidator()]),
           quantity: new FormControl(0)
         })
       ], Validators.required)
@@ -151,12 +152,19 @@ export class AdminProductSaveComponent implements OnInit {
   onSelect(event: any) {
     this.selectedImageProductFiles.push(...event.addedFiles);
     this.productForm.get('imageProductFiles')?.setValue(this.selectedImageProductFiles);
-    console.log(this.selectedImageProductFiles);
   }
 
   onRemove(event: any) {
     this.selectedImageProductFiles.splice(this.selectedImageProductFiles.indexOf(event), 1);
     this.productForm.get('imageProductFiles')?.setValue(this.selectedImageProductFiles);
+    // const imageProductFilesControl = this.productForm.get('imageProductFiles');
+    console.log(this.selectedImageProductFiles.length);
+    // if (this.selectedImageProductFiles.length === 0) {
+    //   imageProductFilesControl?.setValidators([Validators.required]);
+    // } else {
+    //   imageProductFilesControl?.setValidators([Validators.nullValidator]);
+    // }
+    // imageProductFilesControl?.updateValueAndValidity();
   }
 
   addProductDetails() {
