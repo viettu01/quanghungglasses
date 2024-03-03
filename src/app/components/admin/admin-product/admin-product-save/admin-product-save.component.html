@@ -100,7 +100,7 @@
                     <div class="d-flex flex-wrap mb-2">
                       <h5 class="mb-0 text-body-highlight me-2">Giá bán <sup class="text-danger">*</sup></h5>
                     </div>
-                    <input class="form-control" type="text" formControlName="price" appNoLeadingSpace/>
+                    <input class="form-control" type="text" formControlName="price" appNoLeadingSpace appOnlyNumberDirective/>
                     <small class="text-danger mt-1" *ngIf="productForm['controls']['price'].dirty">
                       <span *ngIf="productForm['controls']['price'].errors?.['required']">
                         Giá sản phẩm không được để trống
@@ -207,7 +207,7 @@
                     <div class="d-flex flex-wrap mb-2">
                       <h5 class="mb-0 text-body-highlight me-2">Thời gian bảo hành <sup class="text-danger">*</sup></h5>
                     </div>
-                    <input class="form-control" type="text" formControlName="timeWarranty" appNoLeadingSpace/>
+                    <input class="form-control" type="text" formControlName="timeWarranty" appNoLeadingSpace appOnlyNumberDirective/>
                     <small class="text-danger mt-1" *ngIf="productForm['controls']['timeWarranty'].dirty">
                       <span *ngIf="productForm['controls']['timeWarranty'].errors?.['required']">
                         Thời gian bảo hành không được để trống

@@ -27,7 +27,8 @@
           </div>
           <div class="col-sm-6">
             <label class="form-label" for="phone">Số điện thoại <sup class="text-danger">*</sup></label>
-            <input class="form-control" id="phone" type="text" placeholder="Số điện thoại" formControlName="phone"/>
+            <input class="form-control" id="phone" type="text" placeholder="Số điện thoại" formControlName="phone"
+                   appNoLeadingSpace appOnlyNumberDirective/>
             <small class="text-danger mt-1" *ngIf="registerForm['controls']['phone'].dirty">
             <span *ngIf="registerForm['controls']['phone'].errors?.['required']">
               Số điện thoại không được để trống

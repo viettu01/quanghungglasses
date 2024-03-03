@@ -61,7 +61,7 @@
                     </span>
                   </div>
                   <input class="form-control" type="text" placeholder="Số điện thoại" formControlName="phone"
-                         appNoLeadingSpace/>
+                         appNoLeadingSpace appOnlyNumberDirective/>
                   <small class="text-danger mt-1" *ngIf="customerForm['controls']['phone'].dirty">
                     <span *ngIf="customerForm['controls']['phone'].errors?.['required']">
                       Số điện thoại không được để trống

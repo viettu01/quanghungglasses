@@ -43,7 +43,8 @@
                         Tên nhân viên <sup class="text-danger">*</sup>
                       </span>
                   </div>
-                  <input class="form-control" type="text" placeholder="Tên khách hàng" formControlName="fullname" appNoLeadingSpace/>
+                  <input class="form-control" type="text" placeholder="Tên khách hàng" formControlName="fullname"
+                         appNoLeadingSpace/>
                   <small class="text-danger mt-1" *ngIf="staffForm['controls']['fullname'].dirty">
                     <span *ngIf="staffForm['controls']['fullname'].errors?.['required']">
                       Tên khách hàng không được để trống
@@ -59,7 +60,8 @@
                       Số điện thoại <sup class="text-danger">*</sup>
                     </span>
                   </div>
-                  <input class="form-control" type="text" placeholder="Số điện thoại" formControlName="phone"/>
+                  <input class="form-control" type="text" placeholder="Số điện thoại" formControlName="phone"
+                         appNoLeadingSpace appOnlyNumberDirective/>
                   <small class="text-danger mt-1" *ngIf="staffForm['controls']['phone'].dirty">
                     <span *ngIf="staffForm['controls']['phone'].errors?.['required']">
                       Số điện thoại không được để trống
@@ -136,7 +138,8 @@
                       Email <sup class="text-danger">*</sup>
                     </span>
                   </div>
-                  <input class="form-control" type="email" placeholder="Email" formControlName="email" appNoLeadingSpace/>
+                  <input class="form-control" type="email" placeholder="Email" formControlName="email"
+                         appNoLeadingSpace/>
                   <small class="text-danger mt-1" *ngIf="staffForm.get('account.email')?.dirty">
                     <span *ngIf="staffForm.get('account.email')?.hasError('required')">
                       Email không được để trống
@@ -155,7 +158,8 @@
                       Mật khẩu <sup class="text-danger" *ngIf="isShowTileDisplayAccount">*</sup>
                     </span>
                   </div>
-                  <input class="form-control" type="password" placeholder="Mật khẩu" formControlName="password" appNoLeadingSpace/>
+                  <input class="form-control" type="password" placeholder="Mật khẩu" formControlName="password"
+                         appNoLeadingSpace/>
                   <small class="text-danger mt-1" *ngIf="staffForm.get('account.password')?.dirty">
                     <span *ngIf="staffForm.get('account.password')?.hasError('required')">
                       Mật khẩu không được để trống
