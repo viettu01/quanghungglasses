@@ -60,7 +60,7 @@ export class AdminProductSaveComponent implements OnInit {
       ]),
       timeWarranty: new FormControl('', [
         Validators.required,
-        Validators.min(1),
+        Validators.min(0),
         Validators.pattern(/^-?\d+\.?\d*$/)
       ]),
       thumbnailFile: new FormControl(null),
