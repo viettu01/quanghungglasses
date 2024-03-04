@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {SupplierDto} from "../dto/supplier.dto";
+import {MaterialDto} from "../dto/material.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,12 @@ export class MaterialService {
     return this.http.get(this.apiMaterialUrl);
   }
 
-  create(supplierDto: SupplierDto) {
-    return this.http.post(this.apiMaterialAdminUrl, supplierDto, this.apiConfigUrl);
+  create(materialDto: MaterialDto) {
+    return this.http.post(this.apiMaterialAdminUrl, materialDto, this.apiConfigUrl);
   }
 
-  update(supplierDto: SupplierDto) {
-    return this.http.put(this.apiMaterialAdminUrl, supplierDto, this.apiConfigUrl);
+  update(materialDto: MaterialDto) {
+    return this.http.put(this.apiMaterialAdminUrl, materialDto, this.apiConfigUrl);
   }
 
   delete(id: number) {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {SupplierDto} from "../dto/supplier.dto";
+import {BrandDto} from "../dto/brand.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +29,12 @@ export class BrandService {
     return this.http.get(this.apiBrandUrl);
   }
 
-  create(supplierDto: SupplierDto) {
-    return this.http.post(this.apiBrandAdminUrl, supplierDto, this.apiConfigUrl);
+  create(brandDto: BrandDto) {
+    return this.http.post(this.apiBrandAdminUrl, brandDto, this.apiConfigUrl);
   }
 
-  update(supplierDto: SupplierDto) {
-    return this.http.put(this.apiBrandAdminUrl, supplierDto, this.apiConfigUrl);
+  update(brandDto: BrandDto) {
+    return this.http.put(this.apiBrandAdminUrl, brandDto, this.apiConfigUrl);
   }
 
   delete(id: number) {

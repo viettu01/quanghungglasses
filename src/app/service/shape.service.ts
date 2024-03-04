@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {SupplierDto} from "../dto/supplier.dto";
+import {ShapeDto} from "../dto/shape.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,12 @@ export class ShapeService {
     return this.http.get(this.apiShapeUrl);
   }
 
-  create(supplierDto: SupplierDto) {
-    return this.http.post(this.apiShapeAdminUrl, supplierDto, this.apiConfigUrl);
+  create(shapeDto: ShapeDto) {
+    return this.http.post(this.apiShapeAdminUrl, shapeDto, this.apiConfigUrl);
   }
 
-  update(supplierDto: SupplierDto) {
-    return this.http.put(this.apiShapeAdminUrl, supplierDto, this.apiConfigUrl);
+  update(shapeDto: ShapeDto) {
+    return this.http.put(this.apiShapeAdminUrl, shapeDto, this.apiConfigUrl);
   }
 
   delete(id: number) {

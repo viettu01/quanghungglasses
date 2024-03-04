@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {SupplierDto} from "../dto/supplier.dto";
+import {OriginDto} from "../dto/origin.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,12 @@ export class OriginService {
     return this.http.get(this.apiOriginUrl);
   }
 
-  create(supplierDto: SupplierDto) {
-    return this.http.post(this.apiOriginAdminUrl, supplierDto, this.apiConfigUrl);
+  create(originDto: OriginDto) {
+    return this.http.post(this.apiOriginAdminUrl, originDto, this.apiConfigUrl);
   }
 
-  update(supplierDto: SupplierDto) {
-    return this.http.put(this.apiOriginAdminUrl, supplierDto, this.apiConfigUrl);
+  update(originDto: OriginDto) {
+    return this.http.put(this.apiOriginAdminUrl, originDto, this.apiConfigUrl);
   }
 
   delete(id: number) {
