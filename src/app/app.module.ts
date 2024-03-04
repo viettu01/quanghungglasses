@@ -77,6 +77,8 @@ import {ClientBannerComponent} from './components/client/client-banner/client-ba
 import {NoLeadingSpaceDirective} from './utils/no-leading-space.directive';
 import {OnlyNumberDirective} from './utils/only-number.directive';
 import {OnlyNumberFloatDirective} from "./utils/only-number-float.directive";
+import {AdminSaleListComponent} from './components/admin/admin-sale/admin-sale-list/admin-sale-list.component';
+import {AdminSaleSaveComponent} from './components/admin/admin-sale/admin-sale-save/admin-sale-save.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +129,9 @@ import {OnlyNumberFloatDirective} from "./utils/only-number-float.directive";
     ClientBannerComponent,
     NoLeadingSpaceDirective,
     OnlyNumberDirective,
-    OnlyNumberFloatDirective
+    OnlyNumberFloatDirective,
+    AdminSaleListComponent,
+    AdminSaleSaveComponent
   ],
   imports: [
     BrowserModule,

@@ -19,7 +19,6 @@ import {ShapeComponent} from "./components/admin/shape/shape.component";
 import {BrandComponent} from "./components/admin/brand/brand.component";
 import {OriginComponent} from "./components/admin/origin/origin.component";
 import {BannerComponent} from "./components/admin/banner/banner.component";
-import {SaleComponent} from "./components/admin/sale/sale.component";
 import {AdminOrderListComponent} from "./components/admin/admin-order/admin-order-list/admin-order-list.component";
 import {CustomerListComponent} from "./components/admin/customer/customer-list/customer-list.component";
 import {CustomerSaveComponent} from "./components/admin/customer/customer-save/customer-save.component";
@@ -58,6 +57,8 @@ import {
 } from "./components/admin/admin-warranty/admin-warranty-save/admin-warranty-save.component";
 import {ReceiptSaveComponent} from "./components/admin/receipt/receipt-save/receipt-save.component";
 import {ReceiptDetailsComponent} from "./components/admin/receipt/receipt-details/receipt-details.component";
+import {AdminSaleListComponent} from "./components/admin/admin-sale/admin-sale-list/admin-sale-list.component";
+import {AdminSaleSaveComponent} from "./components/admin/admin-sale/admin-sale-save/admin-sale-save.component";
 
 const routes: Routes = [
   {
@@ -77,7 +78,6 @@ const routes: Routes = [
       {path: 'customer/:id', component: CustomerDetailsComponent},
 
       {path: 'banner', component: BannerComponent},
-      {path: 'sale', component: SaleComponent},
       {path: 'report', component: ReportComponent},
       {path: 'supplier', component: SupplierComponent},
       {path: 'material', component: MaterialComponent},
@@ -105,6 +105,10 @@ const routes: Routes = [
       {path: 'warranty/save', component: AdminWarrantySaveComponent},
       {path: 'warranty/save/:id', component: AdminWarrantySaveComponent},
       {path: 'warranty/:id', component: AdminWarrantyDetailsComponent},
+
+      {path: 'sale', component: AdminSaleListComponent},
+      {path: 'sale/save', component: AdminSaleSaveComponent},
+      {path: 'sale/save/:id', component: AdminSaleSaveComponent},
     ],
     canActivate: [AdminGuard], // Thêm guard vào đây
   },
