@@ -202,8 +202,11 @@ export class AdminProductSaveComponent implements OnInit {
               this.toastr.success("Xóa chi tiết sản phẩm thành công");
               productDetails.removeAt(index);
             },
-            error: (err: any) => {
-              this.toastr.error(err.error, "Thất bại");
+            error: (error: any) => {
+              if (error.status === 400)
+                this.toastr.error(error.error);
+              else
+                this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
             }
           });
         }

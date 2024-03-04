@@ -1,1 +1,117 @@
-<p>admin-sale-save works!</p>
+<nav class="mb-2" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+    <li class="breadcrumb-item active">{{ titleString }}</li>
+  </ol>
+</nav>
+<form class="mb-9" [formGroup]="saleForm" enctype="multipart/form-data" (submit)="onSubmit()">
+  <div class="row g-3 flex-between-end mb-5">
+    <div class="col-auto">
+      <h2 class="mb-2">{{ titleString }}</h2>
+    </div>
+  </div>
+  <div class="row g-5">
+    <div class="col-12 col-xl-12">
+      <div class="row">
+        <div class="col-sm-4">
+          <h4 class="mb-3">Tên chương trình <sup class="text-danger">*</sup></h4>
+          <input class="form-control" type="text" formControlName="name" appNoLeadingSpace/>
+          <small class="text-danger mt-1" *ngIf="saleForm['controls']['name'].dirty">
+            <span *ngIf="saleForm['controls']['name'].errors?.['required']">
+              Tên chương trình không được để trống
+            </span>
+            <span *ngIf="saleForm['controls']['name'].errors?.['maxlength']">
+              Tên chương trình không được vượt quá 50 ký tự
+            </span>
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <h4 class="mb-3">Ngày bắt đầu <sup class="text-danger">*</sup></h4>
+          <input class="form-control" type="date" formControlName="startDate"/>
+          <small class="text-danger mt-1" *ngIf="saleForm['controls']['startDate'].dirty">
+            <span *ngIf="saleForm['controls']['startDate'].errors?.['required']">
+              Ngày bắt đầu không được để trống
+            </span>
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <h4 class="mb-3">Ngày kết thúc <sup class="text-danger">*</sup></h4>
+          <input class="form-control" type="date" formControlName="endDate"/>
+          <small class="text-danger mt-1" *ngIf="saleForm['controls']['endDate'].dirty">
+              <span *ngIf="saleForm['controls']['endDate'].errors?.['required']">
+                Ngày kết thúc không được để trống
+              </span>
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-xl-12">
+      <div class="row g-2">
+        <div class="col-12 col-xl-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title mb-4">Danh sách sản phẩm khuyến mãi <sup class="text-danger">*</sup></h4>
+              <div class="row g-3" formArrayName="saleDetails">
+                <div class="col-3 col-sm-3 col-xl-3" *ngFor="let details of saleDetails.controls; let i = index">
+                  <div class="border-bottom border-translucent border-dashed border-sm-0 border-bottom-xl pb-4"
+                       [formGroupName]="i">
+                    <div class="d-flex flex-wrap mb-2">
+                      <span class="text-body-highlight me-2 fs-9 fw-bold">
+                        Sản phẩm {{ i + 1 }}
+                        <sup class="text-danger">*</sup>
+                      </span>
+                      <a class="fw-bold fs-9" href="javascript:void(0);" (click)="removeProductDetails(i)">Xóa</a>
+                    </div>
+                    <ng-select formControlName="productId" placeholder="Chọn sản phẩm" class="fs-9">
+                      <ng-option *ngFor="let product of products" [value]="product.id">
+                        {{ product.id }} - {{ product.name }}
+                      </ng-option>
+                    </ng-select>
+                    <small class="text-danger mt-1" *ngIf="details.get('productId')?.dirty">
+                      <span *ngIf="details.get('productId')?.hasError('required')">
+                        Sản phẩm không được để trống
+                      </span>
+                    </small>
+                    <div class="input-group mt-2">
+                      <input class="form-control" type="text" placeholder="Mức giảm giá" formControlName="discount"
+                             appNoLeadingSpace appOnlyNumberFloatDirective/>
+                      <span class="input-group-text">%</span>
+                    </div>
+                    <small class="text-danger mt-1" *ngIf="details.get('discount')?.dirty">
+                      <span *ngIf="details.get('discount')?.hasError('required')">
+                        Mức giảm giá không được để trống
+                      </span>
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <small class="text-danger mt-1">
+                <span *ngIf="saleForm['controls']['saleDetails'].errors?.['required']">
+                  Danh sách sản phẩm khuyến mãi không được để trống
+                </span>
+              </small>
+              <button class="btn btn-phoenix-primary w-100" type="button" (click)="addProductDetails()"
+                      [disabled]="saleForm['controls']['saleDetails'].invalid && !saleForm['controls']['saleDetails'].errors?.['required']">
+                Thêm sản phẩm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-end mt-3 mb-5">
+    <div class="col-auto">
+      <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/sale">
+        Quay lại
+      </a>
+      <button class="btn btn-primary mb-2 mb-sm-0" type="submit" [disabled]="saleForm.invalid">
+        <span [class.d-none]="isDisplayNone">{{ btnSave }}</span>
+        <span class="indicator-progress" [class.d-none]="!isDisplayNone">
+          Vui lòng chờ...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</form>

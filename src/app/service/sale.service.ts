@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {SupplierDto} from "../dto/supplier.dto";
 import {SaleDto} from "../dto/sale.dto";
 
 @Injectable({
@@ -13,7 +12,6 @@ export class SaleService {
   private apiConfigUrl = {headers: {'Content-Type': 'application/json'}};
 
   constructor(private http: HttpClient) {
-
   }
 
   findAllByName(nameSearch: string = "", pageSize: number, pageNumber: any, sortDir: string, sortBy: string) {
@@ -24,6 +22,10 @@ export class SaleService {
     queryParams = queryParams.append("sort-direction", sortDir);
     queryParams = queryParams.append("sort-by", sortBy);
     return this.http.get(this.apiSaleAdminUrl, {params: queryParams});
+  }
+
+  findById(id: number) {
+    return this.http.get(`${this.apiSaleAdminUrl}/${id}`);
   }
 
   findAll() {
@@ -40,5 +42,9 @@ export class SaleService {
 
   delete(id: number) {
     return this.http.delete(`${this.apiSaleAdminUrl}/${id}`,);
+  }
+
+  deleteSaleDetail(id: number) {
+    return this.http.delete(`${this.apiSaleAdminUrl}/details/${id}`);
   }
 }

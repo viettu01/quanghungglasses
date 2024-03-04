@@ -68,8 +68,6 @@ export class ProductService {
     for (let i = 0; i < imageProductFiles.length; i++) {
       formData.append('imageFiles', imageProductFiles[i]);
     }
-    console.log(product.productDetails);
-    // debugger;
     return this.http.post(this.apiProductAdminUrl, formData);
   }
 
