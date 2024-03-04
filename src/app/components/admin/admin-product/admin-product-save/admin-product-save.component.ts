@@ -18,6 +18,7 @@ import {Environment} from "../../../../environment/environment";
 import Swal from "sweetalert2";
 import slugify from 'slugify';
 import {NoWhitespaceValidator} from "../../../../utils/no-white-space-validator";
+import {greaterThanZeroValidator} from "../../../../utils/greater-than-zero-validator";
 
 @Component({
   selector: 'app-save',
@@ -54,7 +55,7 @@ export class AdminProductSaveComponent implements OnInit {
       name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       price: new FormControl('', [
         Validators.required,
-        Validators.min(1),
+        greaterThanZeroValidator(),
         Validators.pattern(/^-?\d+\.?\d*$/)
       ]),
       timeWarranty: new FormControl('', [

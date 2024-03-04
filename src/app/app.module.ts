@@ -73,9 +73,10 @@ import {
 import {
   AdminWarrantySaveComponent
 } from './components/admin/admin-warranty/admin-warranty-save/admin-warranty-save.component';
-import { ClientBannerComponent } from './components/client/client-banner/client-banner.component';
-import { NoLeadingSpaceDirective } from './utils/no-leading-space.directive';
-import { OnlyNumberDirectiveDirective } from './utils/only-number-directive.directive';
+import {ClientBannerComponent} from './components/client/client-banner/client-banner.component';
+import {NoLeadingSpaceDirective} from './utils/no-leading-space.directive';
+import {OnlyNumberDirective} from './utils/only-number.directive';
+import {OnlyNumberFloatDirective} from "./utils/only-number-float.directive";
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { OnlyNumberDirectiveDirective } from './utils/only-number-directive.dire
     AdminWarrantySaveComponent,
     ClientBannerComponent,
     NoLeadingSpaceDirective,
-    OnlyNumberDirectiveDirective
+    OnlyNumberDirective,
+    OnlyNumberFloatDirective
   ],
   imports: [
     BrowserModule,

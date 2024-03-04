@@ -100,13 +100,13 @@
                     <div class="d-flex flex-wrap mb-2">
                       <h5 class="mb-0 text-body-highlight me-2">Giá bán <sup class="text-danger">*</sup></h5>
                     </div>
-                    <input class="form-control" type="text" formControlName="price" appNoLeadingSpace appOnlyNumberDirective/>
+                    <input class="form-control" type="text" formControlName="price" appNoLeadingSpace appOnlyNumberFloatDirective/>
                     <small class="text-danger mt-1" *ngIf="productForm['controls']['price'].dirty">
-                      <span *ngIf="productForm['controls']['price'].errors?.['required']">
+                      <span class="d-block" *ngIf="productForm['controls']['price'].errors?.['required']">
                         Giá sản phẩm không được để trống
                       </span>
                       <span
-                        *ngIf="productForm['controls']['price'].errors?.['pattern'] || productForm['controls']['price'].errors?.['min']">
+                        *ngIf="productForm['controls']['price'].errors?.['pattern'] || productForm['controls']['price'].errors?.['greaterThanZero']">
                         Giá sản phẩm phải là số lớn hơn 0
                       </span>
                     </small>

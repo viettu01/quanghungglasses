@@ -3,7 +3,7 @@ import {Directive, ElementRef, HostListener, Renderer2} from '@angular/core';
 @Directive({
   selector: '[appOnlyNumberDirective]'
 })
-export class OnlyNumberDirectiveDirective {
+export class OnlyNumberDirective {
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   @HostListener('input', ['$event']) onInput() {
