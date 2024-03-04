@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Environment} from "../environment/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {SupplierDto} from "../dto/supplier.dto";
 import {MaterialDto} from "../dto/material.dto";
 
 @Injectable({
