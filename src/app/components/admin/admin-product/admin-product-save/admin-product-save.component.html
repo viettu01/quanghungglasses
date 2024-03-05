@@ -29,11 +29,11 @@
         <div class="col-sm-3">
           <h4 class="mb-3">
             Ảnh sản phẩm
-            <sup class="text-danger" *ngIf="productForm['controls']['thumbnailFile'].errors?.['required']">*</sup>
+            <sup class="text-danger" *ngIf="idUpdate === 0 || productForm['controls']['thumbnailFile'].errors?.['required']">*</sup>
           </h4>
           <div class="d-flex align-items-end position-relative">
             <input class="d-none" id="upload-avatar" type="file" (change)="onFileChange($event)"
-                   formControlName="thumbnailFile"/>
+                   formControlName="thumbnailFile" accept=".jpg, .jpeg, .png, .gif, .webp"/>
             <div class="hoverbox" style="width: 150px; height: 150px">
               <div class="hoverbox-content rounded-circle d-flex flex-center z-1" style="--phoenix-bg-opacity: .56;">
                 <span class="fa-solid fa-camera fs-1 text-body-quaternary"></span>
@@ -48,6 +48,14 @@
               </div>
             </div>
           </div>
+          <small class="text-danger mt-1" *ngIf="productForm['controls']['thumbnailFile'].dirty">
+            <span *ngIf="productForm['controls']['thumbnailFile'].errors?.['required']" class="d-block">
+              Ảnh sản phẩm không được để trống
+            </span>
+            <span *ngIf="!productForm['controls']['thumbnailFile'].errors?.['required'] && selectedImageUrl == ''">
+              Ảnh sản phẩm phải là định dạng .jpg, .jpeg, .png, .webp và có kích thước tối đa 2MB
+            </span>
+          </small>
         </div>
         <div class="col-sm-9">
           <div class="mb-5">
@@ -73,8 +81,8 @@
                 Slug không được vượt quá 100 ký tự
               </span>
               <span *ngIf="productForm['controls']['slug'].errors?.['pattern']">
-                  Slug phải không được có dấu và khoảng trắng
-                </span>
+                Slug phải không được có dấu và khoảng trắng
+              </span>
             </small>
           </div>
         </div>
@@ -266,10 +274,12 @@
         </div>
       </div>
 
-      <ngx-dropzone (change)="onSelect($event)" formControlName="imageProductFiles">
+      <ngx-dropzone (change)="onSelect($event)" formControlName="imageProductFiles" accept=".jpg, .jpeg, .png, .gif, .webp">
         <ngx-dropzone-label>Kéo ảnh của bạn vào đây hoặc Duyệt từ thiết bị</ngx-dropzone-label>
         <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of selectedImageProductFiles"
-                                    [file]="f" [removable]="true" (removed)="onRemove(f)"/>
+                                    [file]="f" [removable]="true" (removed)="onRemove(f)">
+          <ngx-dropzone-label class="text-dark bg-body-emphasis bottom-0">{{ f.size / 1024 / 1024 | number:'1.2-2' }} MB</ngx-dropzone-label>
+        </ngx-dropzone-image-preview>
       </ngx-dropzone>
     </div>
     <div class="col-12 col-xl-12">

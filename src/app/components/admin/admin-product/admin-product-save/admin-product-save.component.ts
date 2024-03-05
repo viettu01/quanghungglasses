@@ -50,6 +50,8 @@ export class AdminProductSaveComponent implements OnInit {
   isDisplayNone: boolean = false;
   btnSave: string = "";
 
+  idUpdate: number = 0;
+
   productForm: FormGroup = new FormGroup({
       id: new FormControl(null),
       name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
@@ -95,7 +97,7 @@ export class AdminProductSaveComponent implements OnInit {
               private categoryService: CategoryService, private originService: OriginService,
               private brandService: BrandService, private shapeService: ShapeService,
               private materialService: MaterialService, private productService: ProductService,
-              private activatedRoute: ActivatedRoute, private router: Router,
+              protected activatedRoute: ActivatedRoute, private router: Router,
               private toastr: ToastrService) {
   }
 
@@ -105,11 +107,13 @@ export class AdminProductSaveComponent implements OnInit {
     if (this.activatedRoute.snapshot.params["id"] === undefined) {
       this.titleString = "Thêm sản phẩm";
       this.btnSave = "Thêm mới";
+      this.idUpdate = 0;
       thumbnailFileControl?.setValidators([Validators.required]);
       imageProductFilesControl?.setValidators([Validators.required]);
     } else {
       this.titleString = "Cập nhật sản phẩm";
       this.btnSave = "Cập nhật";
+      this.idUpdate = this.activatedRoute.snapshot.params["id"];
       thumbnailFileControl?.setValidators([Validators.nullValidator]);
       imageProductFilesControl?.setValidators([Validators.nullValidator]);
       this.findProductById(this.activatedRoute.snapshot.params["id"]);
@@ -142,11 +146,15 @@ export class AdminProductSaveComponent implements OnInit {
     const file = event.target.files[0];
     this.selectedImageFile = file;
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.selectedImageUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      if ((file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/webp') && file.size <= 2 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.selectedImageUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.selectedImageUrl = '';
+      }
     }
   }
 

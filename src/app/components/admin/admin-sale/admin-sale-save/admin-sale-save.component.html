@@ -81,6 +81,9 @@
                       <span *ngIf="details.get('discount')?.hasError('required')">
                         Mức giảm giá không được để trống
                       </span>
+                      <span *ngIf="details.get('discount')?.hasError('max')">
+                        Mức giảm giá không được quá 100%
+                      </span>
                     </small>
                   </div>
                 </div>

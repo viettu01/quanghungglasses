@@ -79,6 +79,7 @@ import {OnlyNumberDirective} from './utils/only-number.directive';
 import {OnlyNumberFloatDirective} from "./utils/only-number-float.directive";
 import {AdminSaleListComponent} from './components/admin/admin-sale/admin-sale-list/admin-sale-list.component';
 import {AdminSaleSaveComponent} from './components/admin/admin-sale/admin-sale-save/admin-sale-save.component';
+import { ImageTypeDirective } from './utils/image-type.directive';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import {AdminSaleSaveComponent} from './components/admin/admin-sale/admin-sale-s
     OnlyNumberDirective,
     OnlyNumberFloatDirective,
     AdminSaleListComponent,
-    AdminSaleSaveComponent
+    AdminSaleSaveComponent,
+    ImageTypeDirective
   ],
   imports: [
     BrowserModule,
