@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
@@ -80,6 +80,10 @@ import {OnlyNumberFloatDirective} from "./utils/only-number-float.directive";
 import {AdminSaleListComponent} from './components/admin/admin-sale/admin-sale-list/admin-sale-list.component';
 import {AdminSaleSaveComponent} from './components/admin/admin-sale/admin-sale-save/admin-sale-save.component';
 import { ImageTypeDirective } from './utils/image-type.directive';
+import { register } from 'swiper/element/bundle';
+import { SwiperDirective } from './utils/swiper.directive';
+
+register();
 
 @NgModule({
   declarations: [
@@ -133,7 +137,8 @@ import { ImageTypeDirective } from './utils/image-type.directive';
     OnlyNumberFloatDirective,
     AdminSaleListComponent,
     AdminSaleSaveComponent,
-    ImageTypeDirective
+    ImageTypeDirective,
+    SwiperDirective
   ],
   imports: [
     BrowserModule,
@@ -181,7 +186,10 @@ import { ImageTypeDirective } from './utils/image-type.directive';
     },
     DatePipe
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule {
 }

@@ -94,8 +94,4 @@ export class CustomerListComponent implements OnInit {
       queryParamsHandling: 'merge'
     }).then();
   }
-
-  delete(id: number) {
-
-  }
 }

@@ -8,7 +8,6 @@ import {SupplierDto} from "../dto/supplier.dto";
 })
 export class SupplierService {
   private apiSupplierAdminUrl = `${Environment.apiBaseUrl}/admin/supplier`;
-  private apiSupplierUrl = `${Environment.apiBaseUrl}/supplier`;
   private apiConfigUrl = {headers: {'Content-Type': 'application/json'}};
 
   constructor(private http: HttpClient) {
@@ -26,7 +25,7 @@ export class SupplierService {
   }
 
   findAll() {
-    return this.http.get(this.apiSupplierUrl);
+    return this.http.get(this.apiSupplierAdminUrl);
   }
 
   create(supplierDto: SupplierDto) {

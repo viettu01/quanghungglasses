@@ -15,7 +15,7 @@ export class ClientMenuComponent {
   }
 
   getCategories() {
-    this.categoryService.findAll().subscribe({
+    this.categoryService.findAllCategoryAndProduct().subscribe({
       next: (response: any) => {
         this.categoryDto = response;
       },

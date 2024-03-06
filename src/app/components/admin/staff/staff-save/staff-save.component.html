@@ -43,14 +43,14 @@
                         Tên nhân viên <sup class="text-danger">*</sup>
                       </span>
                   </div>
-                  <input class="form-control" type="text" placeholder="Tên khách hàng" formControlName="fullname"
+                  <input class="form-control" type="text" placeholder="Tên nhân viên" formControlName="fullname"
                          appNoLeadingSpace/>
                   <small class="text-danger mt-1" *ngIf="staffForm['controls']['fullname'].dirty">
                     <span *ngIf="staffForm['controls']['fullname'].errors?.['required']">
-                      Tên khách hàng không được để trống
+                      Tên nhân viên không được để trống
                     </span>
                     <span *ngIf="staffForm['controls']['fullname'].errors?.['maxlength']">
-                      Tên khách hàng không được vượt quá 30 ký tự
+                      Tên nhân viên không được vượt quá 30 ký tự
                     </span>
                   </small>
                 </div>

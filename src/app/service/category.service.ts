@@ -26,7 +26,7 @@ export class CategoryService {
     return this.http.get(this.apiCategoryAdminUrl, {params: queryParams});
   };
 
-  findAll() {
+  findAllCategoryAndProduct() {
     return this.http.get(this.apiCategoryUrl);
   };
 
