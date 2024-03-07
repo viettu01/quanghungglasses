@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import {NoWhitespaceValidator} from "../../../../utils/no-white-space-validator";
 import {Title} from "@angular/platform-browser";
 import {ProductService} from "../../../../service/product.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {SupplierService} from "../../../../service/supplier.service";
-import {ProductDto} from "../../../../dto/product.dto";
 import {SupplierDto} from "../../../../dto/supplier.dto";
 import {ReceiptService} from "../../../../service/receipt.service";
 
@@ -18,22 +16,18 @@ import {ReceiptService} from "../../../../service/receipt.service";
 export class ReceiptSaveComponent implements OnInit {
   titleString: string = "";
   suppliers: SupplierDto[] = [];
-  products: ProductDto[] = [];
 
   isDisplayNone: boolean = false;
   btnSave: string = "";
+  searchTemp: any = "";
+  isUpdate: boolean = false;
 
   receiptForm: FormGroup = new FormGroup({
       id: new FormControl(null),
+      productDetailsIdSearch: new FormControl(null),
       supplierId: new FormControl(null, [Validators.required]),
       status: new FormControl('false', [Validators.required]),
-      receiptDetails: new FormArray([
-        new FormGroup({
-          id: new FormControl(null),
-          color: new FormControl('', [Validators.required, NoWhitespaceValidator()]),
-          quantity: new FormControl(0)
-        })
-      ], Validators.required)
+      receiptDetails: new FormArray([], Validators.required)
     }
   );
 
@@ -56,21 +50,53 @@ export class ReceiptSaveComponent implements OnInit {
       this.titleString = "Cập nhật hóa đơn nhập hàng";
       this.btnSave = "Cập nhật";
       this.findReceiptById(this.activatedRoute.snapshot.params["id"]);
+      this.isUpdate = true;
     }
     this.title.setTitle(this.titleString);
     this.findAllSupplier();
-    this.findAllProduct();
   }
 
   addReceiptDetails() {
-    const receiptDetails = this.receiptForm.get('receiptDetails') as FormArray;
-    receiptDetails.push(
-      new FormGroup({
-        id: new FormControl(null),
-        color: new FormControl('', [Validators.required]),
-        quantity: new FormControl(0)
-      })
-    );
+    this.productService.findProductDetailsById(this.receiptForm.get('productDetailsIdSearch')?.value).subscribe({
+      next: (data: any) => {
+        this.receiptForm.get('productDetailsIdSearch')?.setValue(null);
+        for (let i = 0; i < this.receiptDetails.length; i++) {
+          if (this.receiptDetails.at(i).get('productDetailsId')?.value === data.id) {
+            this.receiptDetails.at(i).get('quantity')?.setValue(this.receiptDetails.at(i).get('quantity')?.value + 1);
+            const totalPrice = this.receiptDetails.at(i).get('price')?.value * this.receiptDetails.at(i).get('quantity')?.value;
+            this.receiptDetails.at(i).get('totalOneProduct')?.setValue(totalPrice);
+            return;
+          }
+        }
+        this.receiptDetails.push(
+          new FormGroup({
+            id: new FormControl(null),
+            productDetailsId: new FormControl(data.id),
+            productName: new FormControl(data.name),
+            color: new FormControl(data.color),
+            quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
+            price: new FormControl(1, [Validators.required, Validators.min(1)]),
+            totalOneProduct: new FormControl(1),
+          })
+        );
+      },
+      error: (err: any) => {
+        if (err.status == 400)
+          this.toastr.error(err.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
+      }
+    });
+  }
+
+  quantityChange(index: number) {
+    const totalPrice = this.receiptDetails.at(index).get('price')?.value * this.receiptDetails.at(index).get('quantity')?.value;
+    this.receiptDetails.at(index).get('totalOneProduct')?.setValue(totalPrice);
+  }
+
+  priceChange(index: number) {
+    const totalPrice = this.receiptDetails.at(index).get('price')?.value * this.receiptDetails.at(index).get('quantity')?.value;
+    this.receiptDetails.at(index).get('totalOneProduct')?.setValue(totalPrice);
   }
 
   removeReceiptDetails(index: number) {
@@ -83,7 +109,7 @@ export class ReceiptSaveComponent implements OnInit {
       return;
     }
     if (this.activatedRoute.snapshot.params["id"] === undefined) {
-      this.createProduct();
+      this.createReceipt();
     } else {
       this.updateStatus();
     }
@@ -92,47 +118,52 @@ export class ReceiptSaveComponent implements OnInit {
   findAllSupplier() {
     this.supplierService.findAll().subscribe({
       next: (data: any) => {
-        console.log(data);
         this.suppliers = data.content;
       }
     });
   }
 
-  findAllProduct() {
-    this.productService.findAll().subscribe(
-      (data: any) => {
-        this.products = data.content;
-      }
-    );
-  }
-
   findReceiptById(id: number) {
-    this.productService.findById(id).subscribe({
+    this.receiptService.findById(id).subscribe({
       next: (data: any) => {
+        console.log(data)
         this.receiptForm.patchValue(data);
         this.receiptForm.get('status')?.setValue(data.status.toString());
-        this.receiptForm.setControl('productDetails', new FormArray([]));
-        data.productDetails.forEach((productDetail: any) => {
+        this.receiptForm.get('supplierId')?.disable();
+        this.receiptDetails.clear();
+        data.receiptDetails.forEach((receiptDetail: any) => {
           this.receiptDetails.push(
             new FormGroup({
-              id: new FormControl(productDetail.id),
-              color: new FormControl(productDetail.color, [Validators.required]),
-              quantity: new FormControl(productDetail.quantity)
+              id: new FormControl(receiptDetail.id),
+              productName: new FormControl(receiptDetail.productName),
+              color: new FormControl(receiptDetail.productColor),
+              quantity: new FormControl(receiptDetail.quantity),
+              price: new FormControl(receiptDetail.price),
+              totalOneProduct: new FormControl(1)
             })
           );
         });
+        for (let i = 0; i < this.receiptDetails.length; i++) {
+          const totalPrice = this.receiptDetails.at(i).get('price')?.value * this.receiptDetails.at(i).get('quantity')?.value;
+          this.receiptDetails.at(i).get('totalOneProduct')?.setValue(totalPrice);
+          this.receiptDetails.at(i).get('quantity')?.disable();
+          this.receiptDetails.at(i).get('price')?.disable();
+        }
       },
       error: (err: any) => {
-        this.toastr.error(err.error, "Thất bại");
+        if (err.status == 400)
+          this.toastr.error(err.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
 
-  createProduct() {
+  createReceipt() {
     this.receiptService.create(this.receiptForm.value).subscribe({
       next: () => {
         this.toastr.success("Thêm hóa đơn thành công");
-        this.router.navigateByUrl("/admin/product");
+        this.router.navigateByUrl("/admin/receipt");
       },
       error: (error: any) => {
         if (error.status === 400)

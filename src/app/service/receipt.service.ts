@@ -33,6 +33,6 @@ export class ReceiptService {
   }
 
   updateStatus(id: number, status: boolean) {
-    return this.http.put(this.apiReceiptAdminUrl + "/status", {id, status}, this.apiConfigUrl);
+    return this.http.put(`${this.apiReceiptAdminUrl}/${id}/${status}`, null, this.apiConfigUrl);
   }
 }

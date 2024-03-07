@@ -15,7 +15,7 @@
     <div class="col-12 col-xl-12">
       <div class="row">
         <div class="col-sm-6">
-          <h4 class="mb-3">Nhà cung cấp <sup class="text-danger">*</sup></h4>
+          <h4 class="mb-3">Nhà cung cấp <sup class="text-danger" *ngIf="!isUpdate">*</sup></h4>
           <ng-select formControlName="supplierId">
             <ng-option *ngFor="let supplier of suppliers" [value]="supplier.id">
               {{ supplier.name }}
@@ -45,54 +45,109 @@
       </div>
     </div>
     <div class="col-12 col-xl-12">
-      <div class="row g-2">
-        <div class="col-12 col-xl-12">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title mb-4">Chi tiết hóa đơn <sup class="text-danger">*</sup></h4>
-              <div class="row g-3" formArrayName="receiptDetails">
-                <div class="col-3 col-sm-3 col-xl-3" *ngFor="let details of receiptDetails.controls; let i = index">
-                  <div class="border-bottom border-translucent border-dashed border-sm-0 border-bottom-xl pb-4"
-                       [formGroupName]="i">
-                    <div class="d-flex flex-wrap mb-2">
-                      <span class="text-body-highlight me-2 fs-9 fw-bold">
-                        Sản phẩm {{ i + 1 }}
-                        <sup class="text-danger">*</sup>
-                      </span>
-                      <a class="fw-bold fs-9" href="javascript:void(0);" (click)="removeReceiptDetails(i)">Xóa</a>
-                    </div>
-                    <ng-select formControlName="supplierId">
-                      <ng-option *ngFor="let supplier of products" [value]="supplier.id">
-                        {{ supplier.name }}
-                      </ng-option>
-                    </ng-select>
-                    <small class="text-danger mt-1" *ngIf="details.get('color')?.dirty">
-                      <span *ngIf="details.get('color')?.hasError('required')">
-                        Màu sắc không được để trống
-                      </span>
-                    </small>
-                  </div>
-                </div>
-              </div>
-              <small class="text-danger mt-1">
-                <span *ngIf="receiptForm['controls']['receiptDetails'].errors?.['required']">
-                  Chi tiết hóa đơn không được để trống
-                </span>
-              </small>
-              <button class="btn btn-phoenix-primary w-100" type="button" (click)="addReceiptDetails()"
-                      [disabled]="receiptForm['controls']['receiptDetails'].invalid
-                      && !receiptForm['controls']['receiptDetails'].errors?.['required']">
-                Thêm sản phẩm
-              </button>
+      <h4 class="mb-3">Danh sách sản phẩm <sup class="text-danger" *ngIf="!isUpdate">*</sup></h4>
+      <div class="row" *ngIf="!isUpdate">
+        <div class="col-auto">
+          <div class="search-box">
+            <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
+              <input class="form-control search-input search" type="search" placeholder="Nhập mã chi tiết sản phẩm"
+                     name="productDetailsId" formControlName="productDetailsIdSearch" appNoLeadingSpace/>
+              <span class="fas fa-search search-box-icon"></span>
             </div>
           </div>
         </div>
+        <div class="col-auto ps-0">
+          <button type="button" class="btn btn-primary" (click)="addReceiptDetails()">Thêm</button>
+        </div>
+      </div>
+      <div class="table-responsive scrollbar mx-n1 px-1 mt-3">
+        <table class="table table-bordered fs--1 mb-0 bg-body-emphasis">
+          <thead>
+          <tr>
+            <th class="align-middle white-space-nowrap text-center" scope="col" style="width: 0">
+              STT
+            </th>
+            <th class="align-middle text-wrap" scope="col">
+              Tên sản phẩm
+            </th>
+            <th class="align-middle white-space-nowrap" scope="col">
+              Màu sắc
+            </th>
+            <th class="align-middle white-space-nowrap" scope="col" style="width: 90px;">
+              Số lượng
+            </th>
+            <th class="align-middle white-space-nowrap" scope="col" style="width: 200px">
+              Giá nhập
+            </th>
+            <th class="align-middle white-space-nowrap" scope="col">
+              Thành tiền
+            </th>
+            <th class="text-end align-middle pe-0 ps-4" scope="col" style="width: 60px;"
+                *ngIf="!isUpdate"></th>
+          </tr>
+          </thead>
+          <tbody class="list" id="customers-table-body" formArrayName="receiptDetails">
+          <tr *ngIf="receiptForm['controls']['receiptDetails'].errors?.['required']">
+            <td class="text-danger mt-1 text-center" colspan="7">
+              Danh sách sản phẩm không được để trống
+            </td>
+          </tr>
+          <tr class="hover-actions-trigger btn-reveal-trigger position-static"
+              *ngFor="let details of receiptDetails.controls; let i = index"
+              [formGroupName]="i">
+            <td class="customer align-middle white-space-nowrap py-3 pe-0 text-center fw-bold">
+              {{ i + 1 }}
+            </td>
+            <td class="phone align-middle white-space-nowrap pe-5">
+              {{ details.get('productName')?.value }}
+            </td>
+            <td class="total-orders align-middle white-space-nowrap fw-semibold text-body-highlight">
+              {{ details.get('color')?.value }}
+            </td>
+            <td class="total-spent align-middle white-space-nowrap text-body-emphasis">
+              <div class="col-auto">
+                <input class="form-control" type="text" formControlName="quantity" (input)="quantityChange(i)"
+                       *ngIf="!isUpdate" appNoLeadingSpace appOnlyNumberDirective/>
+                <span *ngIf="isUpdate">{{ details.get('quantity')?.value }}</span>
+              </div>
+              <small class="text-danger mt-1" *ngIf="details.get('quantity')?.dirty">
+                <span *ngIf="details.get('quantity')?.hasError('required')">
+                  Số lượng không được để trống
+                </span>
+              </small>
+            </td>
+            <td class="last-seen align-middle white-space-nowrap fw-bold text-body-tertiary">
+              <div class="col-auto">
+                <input class="form-control" type="text" formControlName="price" (input)="priceChange(i)"
+                       *ngIf="!isUpdate" appNoLeadingSpace appOnlyNumberFloatDirective/>
+                <span *ngIf="isUpdate">{{ details.get('price')?.value  | currency:'VND':true:'1.0-0' }}</span>
+              </div>
+              <small class="text-danger mt-1" *ngIf="details.get('price')?.dirty">
+                <span *ngIf="details.get('price')?.hasError('required')">
+                  Giá nhập không được để trống
+                </span>
+              </small>
+            </td>
+            <td class="last-order align-middle white-space-nowrap text-body-tertiary">
+              {{ details.get('totalOneProduct')?.value | currency:'VND':true:'1.0-0' }}
+            </td>
+            <td class="align-middle white-space-nowrap text-center ps-0 btn-reveal-trigger" *ngIf="!isUpdate">
+              <div class="font-sans-serif btn-reveal-trigger position-static">
+                <button class="btn btn-sm btn-outline-danger fs--2" type="button"
+                        (click)="removeReceiptDetails(i)">
+                  <span class="fa-solid fa-trash fs--2"></span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
   <div class="row justify-content-end mt-3 mb-5">
     <div class="col-auto">
-      <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/product">
+      <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/receipt">
         Quay lại
       </a>
       <button class="btn btn-primary mb-2 mb-sm-0" type="submit" [disabled]="receiptForm.invalid">
