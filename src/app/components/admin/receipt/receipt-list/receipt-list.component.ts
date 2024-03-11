@@ -19,7 +19,7 @@ export class ReceiptListComponent implements OnInit {
   titleString: string = "Danh sách hóa đơn nhập hàng";
 
   paginationDTO: PaginationDTO<ReceiptDto> = PaginationDTO.createEmpty();
-  searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
+  searchTemp: any = this.activatedRoute.snapshot.queryParams['supplier-name'] || "";
   sortDir: string = "ASC";
   sortBy: string = "";
 
@@ -32,7 +32,7 @@ export class ReceiptListComponent implements OnInit {
     this.title.setTitle(this.titleString);
 
     this.activatedRoute.queryParams.subscribe(params => {
-      const name = params['fullname'] || "";
+      const name = params['supplier-name'] || "";
       const status = params['status'] || "";
       const pageSize = +params['page-size'] || 10;
       const pageNumber = +params['page-number'] || 1;
@@ -43,8 +43,8 @@ export class ReceiptListComponent implements OnInit {
     });
   }
 
-  findAll(fullname: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.receiptService.findAll(fullname, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
+  findAll(supplierName: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    this.receiptService.findAll(supplierName, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         this.paginationDTO.totalPages = response.totalPages;
@@ -85,7 +85,7 @@ export class ReceiptListComponent implements OnInit {
 
   search() {
     this.router.navigate(['/admin/receipt'], {
-      queryParams: {"fullname": this.searchTemp, "page-number": 1},
+      queryParams: {"supplier-name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
     }).then();
   }
