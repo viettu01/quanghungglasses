@@ -47,17 +47,24 @@
     <div class="col-12 col-xl-12">
       <h4 class="mb-3">Danh sách sản phẩm <sup class="text-danger" *ngIf="!isUpdate">*</sup></h4>
       <div class="row" *ngIf="!isUpdate">
-        <div class="col-auto">
-          <div class="search-box">
-            <div class="position-relative" data-bs-toggle="search" data-bs-display="static">
-              <input class="form-control search-input search" type="search" placeholder="Nhập mã chi tiết sản phẩm"
-                     name="productDetailsId" formControlName="productDetailsIdSearch" appNoLeadingSpace/>
-              <span class="fas fa-search search-box-icon"></span>
-            </div>
-          </div>
+        <div class="col-auto col-5">
+          <ng-select (change)="changeProduct()" formControlName="product" placeholder="Vui lòng chọn sản phẩm">
+            <ng-option *ngFor="let product of products" [value]="product">
+              {{product.id}} - {{ product.name }}
+            </ng-option>
+          </ng-select>
+        </div>
+        <div class="col-auto col-2 ps-0">
+          <ng-select formControlName="productDetails" placeholder="Chi tiết sản phẩm">
+            <ng-option *ngFor="let productDetail of productDetails" [value]="productDetail">
+              {{ productDetail.color }}
+            </ng-option>
+          </ng-select>
         </div>
         <div class="col-auto ps-0">
-          <button type="button" class="btn btn-primary" (click)="addReceiptDetails()">Thêm</button>
+          <button type="button" class="btn btn-primary" (click)="addReceiptDetails()"
+          [disabled]="receiptForm['controls']['product'].value == null || receiptForm['controls']['productDetails'].value === null"
+          >Thêm</button>
         </div>
       </div>
       <div class="table-responsive scrollbar mx-n1 px-1 mt-3">
@@ -114,6 +121,9 @@
                 <span *ngIf="details.get('quantity')?.hasError('required')">
                   Số lượng không được để trống
                 </span>
+                <span *ngIf="details.get('quantity')?.hasError('min')">
+                  Số lượng sản phẩm phải là số nguyên lớn hơn 0
+                </span>
               </small>
             </td>
             <td class="last-seen align-middle white-space-nowrap fw-bold text-body-tertiary">
@@ -125,6 +135,9 @@
               <small class="text-danger mt-1" *ngIf="details.get('price')?.dirty">
                 <span *ngIf="details.get('price')?.hasError('required')">
                   Giá nhập không được để trống
+                </span>
+                <span *ngIf="!details.get('price')?.hasError('required') && details.get('price')?.hasError('greaterThanZero')">
+                  Giá sản phẩm phải là số lớn hơn 0
                 </span>
               </small>
             </td>

@@ -11,4 +11,8 @@ export class ProductDetailsDto extends BaseDto {
     this.color = color;
     this.quantity = quantity;
   }
+
+  static createEmpty(): ProductDetailsDto {
+    return new ProductDetailsDto(new Date(), new Date(), 0, "", 0);
+  }
 }

@@ -14,10 +14,9 @@ export class ProductService {
 
   }
 
-  findAllByName(nameSearch: string = "", status: boolean, pageSize: number, pageNumber: any, sortDir: string, sortBy: string) {
+  findAllByName(nameSearch: string = "", pageSize: number, pageNumber: any, sortDir: string, sortBy: string) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("name", nameSearch);
-    queryParams = queryParams.append("status", status);
     queryParams = queryParams.append("page-size", pageSize);
     queryParams = queryParams.append("page-number", pageNumber);
     queryParams = queryParams.append("sort-direction", sortDir);
@@ -35,10 +34,6 @@ export class ProductService {
 
   findById(id: number) {
     return this.http.get(`${this.apiProductAdminUrl}/${id}`);
-  }
-
-  findProductDetailsById(id: number) {
-    return this.http.get(`${this.apiProductAdminUrl}/details/${id}`);
   }
 
   countByStatus(status: boolean) {

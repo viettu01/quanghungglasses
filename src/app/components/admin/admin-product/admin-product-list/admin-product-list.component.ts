@@ -64,12 +64,12 @@ export class AdminProductListComponent implements OnInit {
         this.isStatusFalse = false;
       }
 
-      this.findAll(name, status, pageSize, pageNumber, sortDir, sortBy);
+      this.findAll(name, pageSize, pageNumber, sortDir, sortBy);
     });
   }
 
-  findAll(name: string, status: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.productService.findAllByName(name, status, pageSize, pageNumber, sortDir, sortBy).subscribe({
+  findAll(name: string, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    this.productService.findAllByName(name, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         this.paginationDTO.totalPages = response.totalPages;
@@ -192,6 +192,6 @@ export class AdminProductListComponent implements OnInit {
     this.countByStatus(true);
     this.countByStatus(false);
     this.countAll();
-    this.findAll("", "", this.paginationDTO.pageSize, 1, "", "");
+    this.findAll("", this.paginationDTO.pageSize, 1, "", "");
   }
 }

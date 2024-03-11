@@ -7,6 +7,10 @@ import {ToastrService} from "ngx-toastr";
 import {SupplierService} from "../../../../service/supplier.service";
 import {SupplierDto} from "../../../../dto/supplier.dto";
 import {ReceiptService} from "../../../../service/receipt.service";
+import {greaterThanZeroValidator} from "../../../../utils/greater-than-zero-validator";
+import {ProductDto} from "../../../../dto/product.dto";
+import {ProductDetailsDto} from "../../../../dto/product-details.dto";
+import {ThisReceiver} from "@angular/compiler";
 
 @Component({
   selector: 'app-receipt-save',
@@ -16,6 +20,9 @@ import {ReceiptService} from "../../../../service/receipt.service";
 export class ReceiptSaveComponent implements OnInit {
   titleString: string = "";
   suppliers: SupplierDto[] = [];
+  products: ProductDto[] = [];
+  productDetails: ProductDetailsDto[] = [];
+  productDetail: ProductDetailsDto = ProductDetailsDto.createEmpty();
 
   isDisplayNone: boolean = false;
   btnSave: string = "";
@@ -24,7 +31,8 @@ export class ReceiptSaveComponent implements OnInit {
 
   receiptForm: FormGroup = new FormGroup({
       id: new FormControl(null),
-      productDetailsIdSearch: new FormControl(null),
+      product: new FormControl(null),
+      productDetails: new FormControl(null),
       supplierId: new FormControl(null, [Validators.required]),
       status: new FormControl('false', [Validators.required]),
       receiptDetails: new FormArray([], Validators.required)
@@ -54,39 +62,33 @@ export class ReceiptSaveComponent implements OnInit {
     }
     this.title.setTitle(this.titleString);
     this.findAllSupplier();
+    this.findAllProduct();
   }
 
   addReceiptDetails() {
-    this.productService.findProductDetailsById(this.receiptForm.get('productDetailsIdSearch')?.value).subscribe({
-      next: (data: any) => {
-        this.receiptForm.get('productDetailsIdSearch')?.setValue(null);
-        for (let i = 0; i < this.receiptDetails.length; i++) {
-          if (this.receiptDetails.at(i).get('productDetailsId')?.value === data.id) {
-            this.receiptDetails.at(i).get('quantity')?.setValue(this.receiptDetails.at(i).get('quantity')?.value + 1);
-            const totalPrice = this.receiptDetails.at(i).get('price')?.value * this.receiptDetails.at(i).get('quantity')?.value;
-            this.receiptDetails.at(i).get('totalOneProduct')?.setValue(totalPrice);
-            return;
-          }
-        }
-        this.receiptDetails.push(
-          new FormGroup({
-            id: new FormControl(null),
-            productDetailsId: new FormControl(data.id),
-            productName: new FormControl(data.name),
-            color: new FormControl(data.color),
-            quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-            price: new FormControl(1, [Validators.required, Validators.min(1)]),
-            totalOneProduct: new FormControl(1),
-          })
-        );
-      },
-      error: (err: any) => {
-        if (err.status == 400)
-          this.toastr.error(err.error);
-        else
-          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
+    this.receiptForm.get('productDetailsIdSearch')?.setValue(null);
+    for (let i = 0; i < this.receiptDetails.length; i++) {
+      if (this.receiptDetails.at(i).get('productDetailsId')?.value === this.receiptForm.get('productDetails')?.value.id) {
+        this.receiptDetails.at(i).get('quantity')?.setValue(this.receiptDetails.at(i).get('quantity')?.value + 1);
+        const totalPrice = this.receiptDetails.at(i).get('price')?.value * this.receiptDetails.at(i).get('quantity')?.value;
+        this.receiptDetails.at(i).get('totalOneProduct')?.setValue(totalPrice);
+        return;
       }
-    });
+    }
+    this.receiptDetails.push(
+      new FormGroup({
+        id: new FormControl(null),
+        productDetailsId: new FormControl(this.receiptForm.get('productDetails')?.value.id),
+        productName: new FormControl(this.receiptForm.get('product')?.value.name),
+        color: new FormControl(this.receiptForm.get('productDetails')?.value.color),
+        quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
+        price: new FormControl(1, [Validators.required, greaterThanZeroValidator()]),
+        totalOneProduct: new FormControl(1),
+      })
+    );
+
+    this.receiptForm.get('product')?.setValue(null);
+    this.receiptForm.get('productDetails')?.setValue(null);
   }
 
   quantityChange(index: number) {
@@ -121,6 +123,23 @@ export class ReceiptSaveComponent implements OnInit {
         this.suppliers = data.content;
       }
     });
+  }
+
+  findAllProduct() {
+    this.productService.findAllByName("", Math.pow(2, 31) - 1, 1, "", "").subscribe({
+      next: (data: any) => {
+        this.products = data.content;
+      }
+    });
+  }
+
+  changeProduct() {
+    let product = this.receiptForm.get('product')?.value as ProductDto;
+    if (product === null) {
+      this.productDetails = [];
+      return;
+    }
+    this.productDetails = product.productDetails;
   }
 
   findReceiptById(id: number) {
