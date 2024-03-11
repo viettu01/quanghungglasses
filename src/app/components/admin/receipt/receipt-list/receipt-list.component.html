@@ -78,6 +78,20 @@
             <th class="align-middle white-space-nowrap" scope="col" style="width:100px">
               Tổng tiền
             </th>
+            <th class="align-middle white-space-nowrap" scope="col" style="width:100px"
+                (click)="sortByField('status')">
+              Trạng thái
+              <label [class.d-none]=" sortBy===
+            'status' && (sortDir === 'DESC' || sortDir === 'ASC')">
+            <span class="fas fa-sort align-middle fs-9"></span>
+            </label>
+            <label [class.d-none]="sortBy !== 'status' || sortDir !== 'ASC'">
+              <span class="fas fa-sort-up align-middle fs-9"></span>
+            </label>
+            <label [class.d-none]="sortBy !== 'status' || sortDir !== 'DESC'">
+              <span class="fas fa-sort-down align-middle fs-9"></span>
+            </label>
+            </th>
             <th class="align-middle white-space-nowrap" scope="col" style="width:200px;"
                 (click)="sortByField('createdDate')">
               Ngày tạo
@@ -123,11 +137,15 @@
             <td class="phone align-middle white-space-nowrap pe-5">
               {{ receipt.staffFullname }}
             </td>
-            <td class="total-orders align-middle white-space-nowrap fw-semibold text-body-highlight">
+            <td class="total-orders align-middle fw-semibold text-body-highlight">
               {{ receipt.supplierName }}
             </td>
-            <td class="total-spent align-middle white-space-nowrap fw-bold ps-3 text-body-emphasis">
+            <td class="total-spent align-middle white-space-nowrap fw-bold text-body-emphasis">
               {{ receipt.totalMoney | currency: 'VND': true: '1.0-0' }}
+            </td>
+            <td class="total-spent align-middle white-space-nowrap fw-bold text-body-emphasis">
+              <span class="text-success" *ngIf="receipt.status">Đã thanh toán</span>
+              <span class="text-danger" *ngIf="!receipt.status">Chưa thanh toán</span>
             </td>
             <td class="last-seen align-middle white-space-nowrap text-body-tertiary">
               {{ receipt.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
@@ -143,6 +161,7 @@
                   <span class="fas fa-ellipsis-h fs--2"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
+                  <a class="dropdown-item" href="javascript:void(0)">In</a>
                   <a class="dropdown-item" href="/admin/receipt/{{receipt.id}}">Chi tiết</a>
                   <a class="dropdown-item" href="/admin/receipt/save/{{receipt.id}}">Cập nhật</a>
                 </div>
