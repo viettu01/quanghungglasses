@@ -28,7 +28,7 @@
         <div class="col-sm-4">
           <h4 class="mb-3">Ngày bắt đầu <sup class="text-danger">*</sup></h4>
           <input class="form-control" type="date" formControlName="startDate"/>
-          <small class="text-danger mt-1" *ngIf="saleForm['controls']['startDate'].dirty">
+          <small class="text-danger mt-1" *ngIf="saleForm['controls']['startDate'].touched">
             <span *ngIf="saleForm['controls']['startDate'].errors?.['required']">
               Ngày bắt đầu không được để trống
             </span>
@@ -37,7 +37,7 @@
         <div class="col-sm-4">
           <h4 class="mb-3">Ngày kết thúc <sup class="text-danger">*</sup></h4>
           <input class="form-control" type="date" formControlName="endDate"/>
-          <small class="text-danger mt-1" *ngIf="saleForm['controls']['endDate'].dirty">
+          <small class="text-danger mt-1" *ngIf="saleForm['controls']['endDate'].touched">
               <span *ngIf="saleForm['controls']['endDate'].errors?.['required']">
                 Ngày kết thúc không được để trống
               </span>
