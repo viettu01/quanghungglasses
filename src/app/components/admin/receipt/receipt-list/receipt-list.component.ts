@@ -3,7 +3,6 @@ import {Environment} from "../../../../environment/environment";
 import {PaginationDTO} from "../../../../dto/pagination.dto";
 import {Title} from "@angular/platform-browser";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
 import {Utils} from 'src/app/utils/utils';
 import {ReceiptDto} from "../../../../dto/receipt.dto";
 import {ReceiptService} from "../../../../service/receipt.service";
@@ -24,8 +23,7 @@ export class ReceiptListComponent implements OnInit {
   sortBy: string = "";
 
   constructor(private title: Title, private receiptService: ReceiptService,
-              private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private activatedRoute: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {

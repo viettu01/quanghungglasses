@@ -10,7 +10,6 @@ import {ReceiptService} from "../../../../service/receipt.service";
 import {greaterThanZeroValidator} from "../../../../utils/greater-than-zero-validator";
 import {ProductDto} from "../../../../dto/product.dto";
 import {ProductDetailsDto} from "../../../../dto/product-details.dto";
-import {ThisReceiver} from "@angular/compiler";
 
 @Component({
   selector: 'app-receipt-save',
