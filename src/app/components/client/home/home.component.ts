@@ -5,18 +5,17 @@ import {CategoryProductDto} from "../../../dto/category-product.dto";
 
 import {SwiperOptions} from "swiper/types";
 import {SwiperContainer} from "swiper/element/swiper-element";
+import {Environment} from "../../../environment/environment";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
 
-  @ViewChild('swiper') swiper!: ElementRef<SwiperContainer>;
+  baseUrl = Environment.apiBaseUrl + '/images';
   categoryAndProducts: CategoryProductDto[] = [];
-
-  index = 0;
 
   // Swiper
   swiperThumbsConfig: SwiperOptions = {
@@ -29,14 +28,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     },
     freeMode: true,
     watchSlidesProgress: true,
-  }
-
-  ngAfterViewInit() {
-    this.swiper.nativeElement.swiper.activeIndex = this.index;
-  }
-
-  slideChange(swiper: any) {
-    this.index = swiper.detail[0].activeIndex;
   }
   // End Swiper
 
@@ -52,7 +43,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.categoryService.findAllCategoryAndProduct().subscribe({
       next: (data: any) => {
         this.categoryAndProducts = data;
-        console.log(this.categoryAndProducts);
       }
     });
   }

@@ -66,4 +66,8 @@ export class AuthService {
     changePasswordDto.email = this.tokenService.getUserEmail();
     return this.http.put(`${Environment.apiBaseUrl}/change-password`, changePasswordDto, this.apiConfigUrl);
   }
+
+  getProfile(email: string) {
+    return this.http.get(`${Environment.apiBaseUrl}/profile/${email}`, this.apiConfigUrl);
+  }
 }

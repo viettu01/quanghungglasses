@@ -16,13 +16,15 @@
           <div class="col-auto order-md-1">
             <ul class="navbar-nav navbar-nav-icons flex-row me-n2">
               <li class="nav-item">
-                <a class="nav-link px-2 icon-indicator icon-indicator-primary" href="/cart" role="button">
+                <a class="nav-link px-2 icon-indicator icon-indicator-primary" href="/cart"
+                   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Giỏ hàng">
                   <span class="text-body-tertiary" data-feather="shopping-cart" style="height:20px;width:20px;"></span>
-                  <span class="icon-indicator-number">3</span>
+                  <span class="icon-indicator-number">{{ cartNumber }}</span>
                 </a>
               </li>
               <li class="nav-item" *ngIf="!isLogin()">
-                <a class="nav-link px-2" href="/login">
+                <a class="nav-link px-2" href="/login" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                   title="Đăng nhập">
                   <span class="text-body-tertiary" data-feather="log-in" style="height:20px;width:20px;"></span>
                 </a>
               </li>
@@ -40,7 +42,7 @@
                         <div class="avatar avatar-xl">
                           <img class="rounded-circle" src="/assets/img/avatar/avatar-placeholder.webp" alt=""/>
                         </div>
-                        <h6 class="mt-2 text-body-emphasis">Việt Tú</h6>
+                        <h6 class="mt-2 text-body-emphasis">{{ fullName }}</h6>
                       </div>
                     </div>
                     <div class="overflow-auto scrollbar border-top ">

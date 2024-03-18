@@ -1,0 +1,185 @@
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<section class="py-0">
+  <div class="container-small">
+    <nav class="mb-3" aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="#">{{ product.categoryName }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+      </ol>
+    </nav>
+    <div class="row g-5 mb-5 mb-lg-8" data-product-details="data-product-details">
+      <div class="col-12 col-lg-6">
+        <div class="row g-3">
+          <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="p-5 m-auto border border-translucent rounded-3">
+              <img class="w-100" [src]="baseUrl + productImageSelected" alt="">
+            </div>
+          </div>
+          <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+            <swiper-container [config]="swiperThumbsConfig" swiperThumbs appSwiper>
+              <swiper-slide class="product-thumb-container" style="max-height: min-content"
+                            *ngFor="let image of product.images"
+                            [class.border-primary-light]="productImageSelected === image">
+                <div class="py-3 p-sm-3 p-xl-2">
+                  <img [src]="baseUrl + image" alt="" (click)="changeImage(image)">
+                </div>
+              </swiper-slide>
+            </swiper-container>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div>
+            <!--              <div class="d-flex flex-wrap">-->
+            <!--                <div class="me-2"><span class="fa fa-star text-warning"></span><span-->
+            <!--                  class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span-->
+            <!--                  class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span></div>-->
+            <!--                <p class="text-primary fw-semibold mb-2">6548 People rated and reviewed </p>-->
+            <!--              </div>-->
+            <h3 class="mb-3 lh-sm">{{ product.name }}</h3>
+            <!--              <div class="d-flex flex-wrap align-items-start mb-3"><span-->
+            <!--                class="badge text-bg-success fs-9 rounded-pill me-2 fw-semibold">#1 Best seller</span><a-->
+            <!--                class="fw-semibold" href="#!">in Phoenix sell analytics 2021</a></div>-->
+            <div class="mb-3 d-flex flex-wrap align-items-center">
+              <h1 class="me-3">
+                  <span *ngIf="product.discount !== null">
+                    {{ product.priceDiscount  | currency:'VND':true:'1.0-0' }}
+                  </span>
+                <span *ngIf="product.discount === null">
+                    {{ product.price  | currency:'VND':true:'1.0-0' }}
+                  </span>
+              </h1>
+              <p class="text-body-quaternary text-decoration-line-through fs-6 mb-0 me-3"
+                 *ngIf="product.discount !== null">
+                {{ product.price  | currency:'VND':true:'1.0-0' }}
+              </p>
+              <p class="text-warning fw-bolder fs-7 mb-0" *ngIf="product.discount !== null">
+                -{{ product.discount }}%</p>
+            </div>
+            <!--            <p class="text-danger-dark fw-bold mb-5 mb-lg-0">Special offer ends in 23:00:45 hours</p>-->
+
+            <div class="row gx-3">
+              <div class="col-12 col-sm-6 col-xl-12">
+                <div class="mb-4">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="mb-0 text-body-highlight me-2">Danh mục: {{ product.categoryName }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-3">
+              <div class="col-12 col-sm-6 col-xl-12">
+                <div class="mb-4">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="mb-0 text-body-highlight me-2">Thương hiệu: {{ product.brandName }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-3">
+              <div class="col-12 col-sm-6 col-xl-12">
+                <div class="mb-4">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="mb-0 text-body-highlight me-2">Chất liệu: {{ product.materialName }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-3">
+              <div class="col-12 col-sm-6 col-xl-12">
+                <div class="mb-4">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="mb-0 text-body-highlight me-2">Hình dạng: {{ product.shapeName }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-3">
+              <div class="col-12 col-sm-6 col-xl-12">
+                <div class="mb-4">
+                  <div class="d-flex flex-wrap mb-2">
+                    <span class="mb-0 text-body-highlight me-2">Xuất xứ: {{ product.originName }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-3">
+              <div class="col-12 col-sm-6 col-xl-12">
+                <div class="mb-4">
+                  <div class="d-flex flex-wrap mb-2">
+                        <span class="mb-0 text-body-highlight me-2">Thời gian bảo hành: {{ product.timeWarranty }}
+                          tháng</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="mb-3">
+              <p class="fw-semibold mb-2 text-body">Màu sắc :</p>
+              <div class="d-flex product-color-variants">
+                <div class="rounded-1 border border-translucent me-2 p-1 px-3"
+                     [class.active]="productDetails.id === productDetailsId"
+                     *ngFor="let productDetails of product.productDetails">
+                  <a href="javascript:void(0)" class="text-decoration-none text-body"
+                     (click)="changeProductDetailsId(productDetails.id)">{{ productDetails.color }}
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="row g-3 mb-7 g-sm-5 align-items-end">
+              <div class="col-12 col-sm">
+                <p class="fw-semibold mb-2 text-body">Số lượng : </p>
+                <div class="d-flex justify-content-between align-items-end">
+                  <div class="d-flex flex-between-center" data-quantity="data-quantity">
+                    <button class="btn btn-phoenix-primary px-3" data-type="minus">
+                      <span class="fas fa-minus"></span>
+                    </button>
+                    <input class="form-control text-center input-spin-none bg-transparent border-0 outline-none"
+                           style="width:50px;" type="number" min="1" value="1"/>
+                    <button class="btn btn-phoenix-primary px-3" data-type="plus">
+                      <span class="fas fa-plus"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex">
+              <button class="btn btn-lg btn-outline-primary rounded-pill w-100 me-3 px-2 px-sm-4 fs-9 fs-sm-8"
+                      (click)="addToCart(product.id, 1)">
+                <span class="fas fa-shopping-cart me-2"></span>Thêm vào giỏ hàng
+              </button>
+              <button class="btn btn-lg btn-danger rounded-pill w-100 fs-9 fs-sm-8">
+                <span class="me-2 far fa-heart"></span>Mua ngay
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end of .container-->
+</section>
+<!-- <section> close ============================-->
+<!-- ============================================-->
+
+
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<section class="py-0">
+  <div class="container-small scrollbar-overlay">
+    <div class="row gx-3 gy-7">
+      <div class="col-12 col-lg-12 col-xl-12">
+        <div class="tab-content" id="productTabContent" [innerHTML]="getHtmlProductDescription()">
+
+        </div>
+      </div>
+    </div>
+  </div><!-- end of .container-->
+</section>
+<!-- <section> close ============================-->
+<!-- ============================================-->

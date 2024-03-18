@@ -121,7 +121,8 @@ export class AdminSaleSaveComponent implements OnInit {
   }
 
   findAllProduct() {
-    this.productService.findAll().subscribe({
+    // 2^53 − 1 -> pow(2, 53) - 1
+    this.productService.findAllByName("", Math.pow(2, 31) - 1, 0, "asc", "id").subscribe({
       next: (response: any) => {
         this.products = response.content;
       }

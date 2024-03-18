@@ -14,44 +14,44 @@
           <a class="btn btn-link btn-lg p-0 d-none d-md-block" href="#!">Xem tất cả<span
             class="fas fa-chevron-right fs-9 ms-1"></span></a>
         </div>
-        <div class="swiper-theme-container products-slider" *ngIf="category.products.length !== 0">
-          <div class="swiper swiper-container theme-slider">
-            <swiper-container appSwiper #swiper [config]="swiperThumbsConfig">
-              <swiper-slide *ngFor="let product of category.products">
-                <div class="swiper-slide">
-                  <div class="position-relative text-decoration-none product-card h-100">
-                    <div class="d-flex flex-column justify-content-between h-100">
-                      <div>
-                        <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
-                          <img class="img-fluid" src="/assets/img/products/6.png" alt=""/></div>
-                        <a class="stretched-link" href="product-details.html">
-                          <h6 class="mb-2 lh-sm line-clamp-3 product-name">{{ product.name }}</h6>
-                        </a>
-                      </div>
-                      <div>
-                        <div class="d-flex align-items-center mb-1">
-                          <p class="me-2 text-decoration-line-through text-body mb-0" *ngIf="product.discount !== null">
-                            {{ product.price  | currency:'VND':true:'1.0-0' }}
-                          </p>
-                          <h3 class="text-body-emphasis mb-0">
+        <!--        <div class="swiper-theme-container products-slider" *ngIf="category.products.length !== 0">-->
+        <!--          <div class="swiper swiper-container theme-slider">-->
+        <swiper-container appSwiper [config]="swiperThumbsConfig" *ngIf="category.products.length !== 0">
+          <swiper-slide *ngFor="let product of category.products">
+            <div class="swiper-slide">
+              <div class="position-relative text-decoration-none product-card h-100">
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div>
+                    <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
+                      <img class="img-fluid" [src]="baseUrl + '/' + product.thumbnail" alt=""/></div>
+                    <a class="stretched-link" href="/san-pham/{{product.slug}}">
+                      <h6 class="mb-2 lh-sm line-clamp-3 product-name">{{ product.name }}</h6>
+                    </a>
+                  </div>
+                  <div>
+                    <div class="d-flex align-items-center mb-1">
+                      <p class="me-2 text-decoration-line-through text-body mb-0" *ngIf="product.discount !== null">
+                        {{ product.price  | currency:'VND':true:'1.0-0' }}
+                      </p>
+                      <h3 class="text-body-emphasis mb-0">
                             <span *ngIf="product.discount !== null">
                               {{ product.priceDiscount  | currency:'VND':true:'1.0-0' }}
                             </span>
-                            <span *ngIf="product.discount === null">
+                        <span *ngIf="product.discount === null">
                               {{ product.price  | currency:'VND':true:'1.0-0' }}
                             </span>
-                          </h3>
-                        </div>
-                        <p class="text-body-tertiary fw-semibold fs-9 lh-1 mb-0">Màu
-                          sắc {{ product.productDetails.length }}</p>
-                      </div>
+                      </h3>
                     </div>
+                    <p class="text-body-tertiary fw-semibold fs-9 lh-1 mb-0">Màu
+                      sắc {{ product.productDetails.length }}</p>
                   </div>
                 </div>
-              </swiper-slide>
-            </swiper-container>
-          </div>
-        </div>
+              </div>
+            </div>
+          </swiper-slide>
+        </swiper-container>
+        <!--          </div>-->
+        <!--        </div>-->
       </div>
     </div>
   </div>

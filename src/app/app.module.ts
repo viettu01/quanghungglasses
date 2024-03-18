@@ -82,6 +82,8 @@ import {AdminSaleSaveComponent} from './components/admin/admin-sale/admin-sale-s
 import { ImageTypeDirective } from './utils/image-type.directive';
 import { register } from 'swiper/element/bundle';
 import { SwiperDirective } from './utils/swiper.directive';
+import { ClientProductDetailsComponent } from './components/client/client-product/client-product-details/client-product-details.component';
+import { ClientProductByCategoryComponent } from './components/client/client-product/client-product-by-category/client-product-by-category.component';
 
 register();
 
@@ -138,7 +140,9 @@ register();
     AdminSaleListComponent,
     AdminSaleSaveComponent,
     ImageTypeDirective,
-    SwiperDirective
+    SwiperDirective,
+    ClientProductDetailsComponent,
+    ClientProductByCategoryComponent
   ],
   imports: [
     BrowserModule,

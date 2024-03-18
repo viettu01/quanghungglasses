@@ -59,6 +59,12 @@ import {ReceiptSaveComponent} from "./components/admin/receipt/receipt-save/rece
 import {ReceiptDetailsComponent} from "./components/admin/receipt/receipt-details/receipt-details.component";
 import {AdminSaleListComponent} from "./components/admin/admin-sale/admin-sale-list/admin-sale-list.component";
 import {AdminSaleSaveComponent} from "./components/admin/admin-sale/admin-sale-save/admin-sale-save.component";
+import {
+  ClientProductDetailsComponent
+} from "./components/client/client-product/client-product-details/client-product-details.component";
+import {
+  ClientProductByCategoryComponent
+} from "./components/client/client-product/client-product-by-category/client-product-by-category.component";
 
 const routes: Routes = [
   {
@@ -116,7 +122,9 @@ const routes: Routes = [
     path: '',
     component: ClientLayoutComponent,
     children: [
-      {path: '', component: HomeComponent}
+      {path: '', component: HomeComponent},
+      {path: ':slug', component: ClientProductByCategoryComponent},
+      {path: 'san-pham/:slug', component: ClientProductDetailsComponent},
     ]
   },
   {path: 'login', component: LoginComponent},
