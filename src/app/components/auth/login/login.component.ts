@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response: any) => {
+        localStorage.removeItem('carts');
         this.tokenService.setToken(response.token);
         const roles = this.tokenService.getUserRoles();
         const requiredRole = ['ROLE_ADMIN', 'ROLE_STAFF'];

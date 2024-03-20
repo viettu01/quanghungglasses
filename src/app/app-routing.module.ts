@@ -65,6 +65,7 @@ import {
 import {
   ClientProductByCategoryComponent
 } from "./components/client/client-product/client-product-by-category/client-product-by-category.component";
+import {CartComponent} from "./components/client/cart/cart.component";
 
 const routes: Routes = [
   {
@@ -123,7 +124,8 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       {path: '', component: HomeComponent},
-      {path: ':slug', component: ClientProductByCategoryComponent},
+      {path: 'gio-hang', component: CartComponent},
+      {path: 'danh-muc/:slug', component: ClientProductByCategoryComponent},
       {path: 'san-pham/:slug', component: ClientProductDetailsComponent},
     ]
   },

@@ -84,6 +84,7 @@ import { register } from 'swiper/element/bundle';
 import { SwiperDirective } from './utils/swiper.directive';
 import { ClientProductDetailsComponent } from './components/client/client-product/client-product-details/client-product-details.component';
 import { ClientProductByCategoryComponent } from './components/client/client-product/client-product-by-category/client-product-by-category.component';
+import { CartComponent } from './components/client/cart/cart.component';
 
 register();
 
@@ -142,7 +143,8 @@ register();
     ImageTypeDirective,
     SwiperDirective,
     ClientProductDetailsComponent,
-    ClientProductByCategoryComponent
+    ClientProductByCategoryComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

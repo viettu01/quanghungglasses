@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../service/auth.service";
 import {TokenService} from "../../../service/token.service";
 import {CartService} from "../../../service/cart.service";
+import {CartDto} from "../../../dto/cart.dto";
 
 @Component({
   selector: 'app-client-header',
@@ -18,10 +19,14 @@ export class ClientHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProfile();
-    this.cartService.itemCount$.subscribe({
-      next: (value: any) => {
-        this.cartNumber = value.length;
+    if (this.tokenService.isLogin()) {
+      this.getProfile();
+      this.cartService.getCartItemsServer();
+    }
+
+    this.cartService.cartItems$.subscribe({
+      next: (items: CartDto[]) => {
+        this.cartNumber = items.length;
       }
     });
   }

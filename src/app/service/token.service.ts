@@ -54,12 +54,9 @@ export class TokenService {
   }
 
   isLogin(): boolean {
-    if (this.isTokenExpired()) {
-      return false;
-    }
-
     let authToken = localStorage.getItem('token');
-    return authToken !== null;
+
+    return !(authToken === null || this.isTokenExpired());
   }
 
   messageError(messageError: string): string {

@@ -36,6 +36,10 @@ export class ProductService {
     return this.http.get(`${this.apiProductAdminUrl}/${id}`);
   }
 
+  findProductDetailsById(id: number) {
+    return this.http.get(`${this.apiProductUrl}/details/${id}`);
+  }
+
   countByStatus(status: boolean) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);
