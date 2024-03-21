@@ -4,6 +4,7 @@ import {TokenService} from "./token.service";
 import {CartDto} from "../dto/cart.dto";
 import {Environment} from "../environment/environment";
 import {HttpClient} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CartService {
   private cartItemsSubject = new BehaviorSubject<CartDto[]>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
-  constructor(private tokenService: TokenService, private http: HttpClient) {
+  constructor(private tokenService: TokenService, private http: HttpClient, private toastr: ToastrService) {
     // Load cart items from localStorage on service initialization
     this.loadCartItems();
   }
@@ -40,6 +41,7 @@ export class CartService {
       currentItems.push(cartItem);
     }
     // currentItems.push(cartItem);
+    this.toastr.success('Sản phẩm đã được thêm vào giỏ hàng');
     this.saveCartItems(currentItems);
   }
 
@@ -63,16 +65,32 @@ export class CartService {
     this.http.post(`${this.apiCartUrl}/add-product-to-cart`, cartItem).subscribe({
       next: (response: any) => {
         this.cartItemsSubject.next(response.cartDetails);
+        this.toastr.success('Sản phẩm đã được thêm vào giỏ hàng');
+      },
+      error: (error: any) => {
+        if (error.status === 400)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }
 
-  updateProductQuantity(cartItem: CartDto) {
+  updateProductQuantityOnServer(cartItem: CartDto) {
     this.http.put(`${this.apiCartUrl}/update-product-quantity`, cartItem).subscribe({
       next: (response: any) => {
         this.cartItemsSubject.next(response.cartDetails);
       }
     });
+  }
+
+  updateProductQuantityOnLocalStorage(cartItem: CartDto) {
+    let currentItems = this.cartItemsSubject.value;
+    let existingItem = currentItems.find(item => item.id === cartItem.id);
+    if (existingItem) {
+      existingItem.quantity = cartItem.quantity;
+    }
+    this.saveCartItems(currentItems);
   }
 
   plusQuantityOnServer(cartItemId: number) {

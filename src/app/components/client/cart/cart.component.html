@@ -1,0 +1,111 @@
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<section class="py-0">
+  <div class="container-small cart">
+    <h2 class="mb-6">Giỏ hàng</h2>
+    <div class="row g-5">
+      <div class="col-12 col-lg-8">
+        <div id="cartTable">
+          <div class="table-responsive scrollbar mx-n1 px-1">
+            <table class="table fs-9 mb-0 border-top border-translucent">
+              <thead>
+              <tr>
+                <th class="sort white-space-nowrap align-middle fs-10" scope="col">
+                  <div class="form-check fs-8 mb-0">
+                    <input class="form-check-input" type="checkbox"
+                           [checked]="masterSelected"
+                           (change)="checkUncheckAll($event)">
+                  </div>
+                </th>
+                <th class="sort white-space-nowrap align-middle text-center" scope="col">Ảnh</th>
+                <th class="sort white-space-nowrap align-middle" scope="col" style="min-width:250px;">Sản phẩm</th>
+                <th class="sort white-space-nowrap align-middle" scope="col" style="width:80px;">Màu sắc</th>
+                <th class="sort white-space-nowrap align-middle text-end" scope="col" style="width:300px;">Giá</th>
+                <th class="sort white-space-nowrap align-middle ps-5" scope="col" style="width:350px;">Số lượng</th>
+                <th class="sort white-space-nowrap align-middle text-end" scope="col" style="width:250px;">Thành tiền
+                </th>
+                <th class="sort text-end align-middle pe-0" scope="col"></th>
+              </tr>
+              </thead>
+              <tbody class="list" id="cart-table-body">
+              <tr class="cart-table-row btn-reveal-trigger" *ngIf="cartsItems.length <= 0">
+                <td class="sort white-space-nowrap align-middle fs-10 text-center" colspan="7">
+                  <h4 class="text-body-emphasis fw-semibold">Không có sản phẩm nào trong giỏ hàng</h4>
+                </td>
+              </tr>
+              <tr class="cart-table-row btn-reveal-trigger" *ngFor="let item of cartsItems; index as index">
+                <td class="sort white-space-nowrap align-middle fs-10 ps-2">
+                  <div class="form-check fs-8 mb-0">
+                    <input class="form-check-input" type="checkbox" [value]="item.id"
+                           [checked]="item.isSelected" (change)="isAllSelected($event, index)">
+                  </div>
+                </td>
+                <td class="align-middle white-space-nowrap py-0">
+                  <img [src]="baseUrl + item.productDetailsThumbnails" alt="" width="53"/>
+                </td>
+                <td class="products align-middle">
+                  <a class="fw-semibold mb-0 line-clamp-2" href="/san-pham/{{item.productSlug}}">
+                    {{ item.productName }}
+                  </a>
+                </td>
+                <td class="color align-middle white-space-nowrap fs-9 text-body">{{ item.productColor }}</td>
+                <td class="price align-middle text-body fs-9 fw-semibold text-end">
+                  {{ item.productPrice | currency:'VND':true:'1.0-0' }}
+                </td>
+                <td class="quantity align-middle fs-8 ps-5">
+                  <div class="input-group input-group-sm flex-nowrap">
+                    <button class="btn btn-sm px-2 border-0" (click)="minusQuantity(index, item.id)"
+                            [disabled]="item.quantity <= 1">
+                      -
+                    </button>
+                    <input class="form-control text-center input-spin-none bg-transparent border-0 px-0" type="number"
+                           min="1" [value]="item.quantity" [(ngModel)]="item.quantity" [disabled]="item.btnPlusDisabled"
+                           (change)="updateProductQuantity($event, item)"/>
+                    <button class="btn btn-sm px-2 border-0" (click)="plusQuantity(index, item.id)"
+                            [disabled]="item.btnPlusDisabled">
+                      +
+                    </button>
+                  </div>
+                </td>
+                <td class="total align-middle fw-bold text-body-highlight text-end">
+                  {{ item.productPrice * item.quantity | currency:'VND':true:'1.0-0' }}
+                </td>
+                <td class="align-middle white-space-nowrap text-end pe-0 ps-3">
+                  <button class="btn btn-sm text-body-tertiary text-opacity-85 text-body-tertiary-hover me-2"
+                          (click)="removeCartItem(item.id)">
+                    <span class="fas fa-trash"></span>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-between-center mb-3">
+              <h3 class="card-title mb-0">Tóm tắt đơn hàng</h3>
+            </div>
+            <div>
+              <div class="d-flex justify-content-between">
+                <p class="text-body fw-semibold">Tổng số sản phẩm :</p>
+                <p class="text-body-emphasis fw-semibold">{{ selectedItems.length }}</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between border-y border-dashed py-3 mb-4">
+              <h4 class="mb-0">Tổng tiền :</h4>
+              <h4 class="mb-">{{ totalMoneySelectedItems | currency:'VND':true:'1.0-0' }}</h4>
+            </div>
+            <button class="btn btn-primary w-100">
+              Thanh toán<span class="fas fa-chevron-right ms-1 fs-10"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end of .container-->
+</section>
+<!-- <section> close ============================-->
+<!-- ============================================-->

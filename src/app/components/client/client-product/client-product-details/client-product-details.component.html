@@ -132,16 +132,21 @@
             </div>
             <div class="row g-3 mb-7 g-sm-5 align-items-end">
               <div class="col-12 col-sm">
-                <p class="fw-semibold mb-2 text-body">Số lượng : </p>
+                <p class="fw-semibold mb-2 text-body">
+                  Số lượng:
+                  <span class="text-danger" *ngIf="quantityMax > 0">(Kho: {{ quantityMax }} sản phẩm)</span>
+                  <span class="text-danger" *ngIf="quantityMax <= 0">(Hết hàng)</span>
+                </p>
                 <div class="d-flex justify-content-between align-items-end">
                   <div class="d-flex flex-between-center" data-quantity="data-quantity">
-                    <button class="btn btn-phoenix-primary px-3" (click)="minusQuantity()">
+                    <button class="btn btn-phoenix-primary px-3" (click)="minusQuantity()" [disabled]="quantity <= 1">
                       <span class="fas fa-minus"></span>
                     </button>
                     <input class="form-control text-center input-spin-none bg-transparent border-0 outline-none"
-                           style="width:50px;" type="number" min="1" id="quantity" name="quantity"
-                           [(ngModel)]="quantity"/>
-                    <button class="btn btn-phoenix-primary px-3" (click)="plusQuantity()">
+                           style="width:50px;" type="number" min="1" max="{{quantityMax}}" id="quantity" name="quantity"
+                           [(ngModel)]="quantity" [disabled]="quantity >= quantityMax" (change)="quantityChange($event)"/>
+                    <button class="btn btn-phoenix-primary px-3" (click)="plusQuantity()"
+                            [disabled]="quantity >= quantityMax">
                       <span class="fas fa-plus"></span>
                     </button>
                   </div>
@@ -153,12 +158,12 @@
                       (click)="addToCart()" [disabled]="quantityMax <= 0">
                 <span class="fas fa-shopping-cart me-2"></span>Thêm vào giỏ hàng
               </button>
-              <button class="btn btn-lg btn-danger rounded-pill w-100 fs-9 fs-sm-8">
+              <button class="btn btn-lg btn-danger rounded-pill w-100 fs-9 fs-sm-8"
+                      [disabled]="quantityMax <= 0">
                 <span class="me-2 far fa-heart"></span>Mua ngay
               </button>
             </div>
           </div>
-
         </div>
       </div>
     </div>

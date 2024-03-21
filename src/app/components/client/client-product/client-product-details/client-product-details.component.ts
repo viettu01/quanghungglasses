@@ -9,6 +9,7 @@ import {SwiperContainer} from "swiper/element/swiper-element";
 import {CartService} from "../../../../service/cart.service";
 import {CartDto} from "../../../../dto/cart.dto";
 import {TokenService} from "../../../../service/token.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-client-product-details',
@@ -40,7 +41,7 @@ export class ClientProductDetailsComponent implements OnInit {
   quantityMax: number = 0;
 
   constructor(private productService: ProductService, private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer,
-              private tokenService: TokenService, private cartService: CartService) {
+              private tokenService: TokenService, private cartService: CartService, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -66,6 +67,7 @@ export class ClientProductDetailsComponent implements OnInit {
   changeProductDetailsId(id: number) {
     this.productDetailsId = id;
     this.quantityMax = this.product.productDetails.find(item => item.id === id)!.quantity;
+    this.quantity = 1;
     console.log(this.quantityMax);
   }
 
@@ -74,12 +76,26 @@ export class ClientProductDetailsComponent implements OnInit {
   }
 
   plusQuantity() {
-    this.quantity++;
+    if (this.quantity + 1 <= this.quantityMax) {
+      this.quantity++;
+    }
+    return;
+    // this.quantity++;
   }
 
   minusQuantity() {
     if (this.quantity > 1) {
       this.quantity--;
+    }
+  }
+
+  quantityChange(event: any) {
+    if (event.target.value > this.quantityMax) {
+      this.quantity = this.quantityMax;
+    } else if (event.target.value < 1) {
+      this.quantity = 1;
+    } else {
+      this.quantity = event.target.value;
     }
   }
 
@@ -92,7 +108,25 @@ export class ClientProductDetailsComponent implements OnInit {
 
     if (!this.tokenService.isLogin()) {
       cartDto.id = this.idCart;
-      this.cartService.addToCartLocalStorage(cartDto);
+      let cartLocal: CartDto[] = localStorage.getItem('carts') ? JSON.parse(localStorage.getItem('carts')!) : [];
+      // debugger;
+      if (cartLocal.length > 0) {
+        cartLocal.forEach((item: CartDto) => {
+          // Kiem tra neu so luong san pham trong gio lon hon hoac bang so luong san pham trong kho thi khong cho them vao gio hang
+          if (item.productDetailsId === cartDto.productDetailsId) {
+            if (item.quantity >= this.quantityMax) {
+              this.toastr.error('Số lượng sản phẩm trong giỏ hàng đã đạt giới hạn');
+              return;
+            } else {
+              this.cartService.addToCartLocalStorage(cartDto);
+            }
+          } else {
+            this.cartService.addToCartLocalStorage(cartDto);
+          }
+        });
+      } else {
+        this.cartService.addToCartLocalStorage(cartDto);
+      }
     } else {
       cartDto.id = 0;
       this.cartService.addToCartServer(cartDto);
