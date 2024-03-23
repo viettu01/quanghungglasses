@@ -40,6 +40,32 @@ export class ProductService {
     return this.http.get(`${this.apiProductUrl}/details/${id}`);
   }
 
+  findByCategorySlug(categorySlug: string, pageSize: number, pageNumber: any, originNames: string[], brandNames: string[], materialNames: string[], shapeNames: string[], timeWarranties: any[],
+                     priceMin: number, priceMax: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("page-size", pageSize);
+    queryParams = queryParams.append("page-number", pageNumber);
+
+    originNames.forEach((originName) => {
+      queryParams = queryParams.append("origin-name", originName);
+    });
+    brandNames.forEach((brandName) => {
+      queryParams = queryParams.append("brand-name", brandName);
+    });
+    materialNames.forEach((materialName) => {
+      queryParams = queryParams.append("material-name", materialName);
+    });
+    shapeNames.forEach((shapeName) => {
+      queryParams = queryParams.append("shape-name", shapeName);
+    });
+    timeWarranties.forEach((timeWarranty) => {
+      queryParams = queryParams.append("time-warranty", timeWarranty);
+    });
+    queryParams = queryParams.append("price-min", priceMin);
+    queryParams = queryParams.append("price-max", priceMax);
+    return this.http.get(`${this.apiProductUrl}/category/${categorySlug}`, {params: queryParams});
+  }
+
   countByStatus(status: boolean) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("status", status);

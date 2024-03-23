@@ -11,7 +11,7 @@
           <div class="d-flex">
             <h3 class="mx-2">{{ category.name }}</h3>
           </div>
-          <a class="btn btn-link btn-lg p-0 d-none d-md-block" href="#!">Xem tất cả<span
+          <a class="btn btn-link btn-lg p-0 d-none d-md-block" href="/danh-muc/{{category.slug}}">Xem tất cả<span
             class="fas fa-chevron-right fs-9 ms-1"></span></a>
         </div>
         <!--        <div class="swiper-theme-container products-slider" *ngIf="category.products.length !== 0">-->
@@ -29,21 +29,22 @@
                     </a>
                   </div>
                   <div>
-                    <div class="d-flex align-items-center mb-1">
+                    <div class="d-flex align-items-center mb-2">
                       <p class="me-2 text-decoration-line-through text-body mb-0" *ngIf="product.discount !== null">
                         {{ product.price  | currency:'VND':true:'1.0-0' }}
                       </p>
                       <h3 class="text-body-emphasis mb-0">
-                            <span *ngIf="product.discount !== null">
-                              {{ product.priceDiscount  | currency:'VND':true:'1.0-0' }}
-                            </span>
+                        <span *ngIf="product.discount !== null">
+                          {{ product.priceDiscount  | currency:'VND':true:'1.0-0' }}
+                        </span>
                         <span *ngIf="product.discount === null">
-                              {{ product.price  | currency:'VND':true:'1.0-0' }}
-                            </span>
+                          {{ product.price  | currency:'VND':true:'1.0-0' }}
+                        </span>
                       </h3>
                     </div>
-                    <p class="text-body-tertiary fw-semibold fs-9 lh-1 mb-0">Màu
-                      sắc {{ product.productDetails.length }}</p>
+                    <p class="text-body-tertiary fw-semibold fs-9 lh-1 mb-0">
+                      {{ product.productDetails.length }} Màu sắc
+                    </p>
                   </div>
                 </div>
               </div>

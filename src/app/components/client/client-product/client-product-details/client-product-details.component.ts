@@ -106,30 +106,33 @@ export class ClientProductDetailsComponent implements OnInit {
     cartDto.quantity = this.quantity;
     cartDto.isSelected = false;
 
-    if (!this.tokenService.isLogin()) {
-      cartDto.id = this.idCart;
-      let cartLocal: CartDto[] = localStorage.getItem('carts') ? JSON.parse(localStorage.getItem('carts')!) : [];
-      // debugger;
-      if (cartLocal.length > 0) {
-        cartLocal.forEach((item: CartDto) => {
-          // Kiem tra neu so luong san pham trong gio lon hon hoac bang so luong san pham trong kho thi khong cho them vao gio hang
-          if (item.productDetailsId === cartDto.productDetailsId) {
-            if (item.quantity >= this.quantityMax) {
-              this.toastr.error('Số lượng sản phẩm trong giỏ hàng đã đạt giới hạn');
-              return;
-            } else {
-              this.cartService.addToCartLocalStorage(cartDto);
-            }
-          } else {
-            this.cartService.addToCartLocalStorage(cartDto);
-          }
-        });
-      } else {
-        this.cartService.addToCartLocalStorage(cartDto);
-      }
-    } else {
+    if (this.tokenService.isLogin()) {
       cartDto.id = 0;
       this.cartService.addToCartServer(cartDto);
+    } else {
+      this.toastr.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+      return;
+
+      // cartDto.id = this.idCart;
+      // let cartLocal: CartDto[] = localStorage.getItem('carts') ? JSON.parse(localStorage.getItem('carts')!) : [];
+      // // debugger;
+      // if (cartLocal.length > 0) {
+      //   cartLocal.forEach((item: CartDto) => {
+      //     // Kiem tra neu so luong san pham trong gio lon hon hoac bang so luong san pham trong kho thi khong cho them vao gio hang
+      //     if (item.productDetailsId === cartDto.productDetailsId) {
+      //       if (item.quantity >= this.quantityMax) {
+      //         this.toastr.error('Số lượng sản phẩm trong giỏ hàng đã đạt giới hạn');
+      //         return;
+      //       } else {
+      //         this.cartService.addToCartLocalStorage(cartDto);
+      //       }
+      //     } else {
+      //       this.cartService.addToCartLocalStorage(cartDto);
+      //     }
+      //   });
+      // } else {
+      //   this.cartService.addToCartLocalStorage(cartDto);
+      // }
     }
   }
 }
