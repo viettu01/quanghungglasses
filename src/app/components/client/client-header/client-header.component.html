@@ -15,7 +15,7 @@
           </div>
           <div class="col-auto order-md-1">
             <ul class="navbar-nav navbar-nav-icons flex-row me-n2">
-              <li class="nav-item">
+              <li class="nav-item" *ngIf="isLogin()">
                 <a class="nav-link px-2 icon-indicator icon-indicator-primary" href="/gio-hang"
                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Giỏ hàng">
                   <span class="text-body-tertiary" data-feather="shopping-cart" style="height:20px;width:20px;"></span>
@@ -25,6 +25,7 @@
               <li class="nav-item" *ngIf="!isLogin()">
                 <a class="nav-link px-2" href="/login" data-bs-toggle="tooltip" data-bs-placement="bottom"
                    title="Đăng nhập">
+                  <i class="fa-regular fa-user"></i>
                   <span class="text-body-tertiary" data-feather="log-in" style="height:20px;width:20px;"></span>
                 </a>
               </li>

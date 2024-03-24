@@ -72,10 +72,10 @@ export class RegisterComponent implements OnInit {
     return this.authService.register(this.registerForm.value).subscribe({
         next: (response: any) => {
           this.toastr.success(response.message);
-          // localStorage.setItem("email", this.registerForm.value.email);
+          localStorage.setItem("email", this.registerForm.get("account")?.get("email")?.value);
           this.isLoaderDisplayNone = false;
-          // this.router.navigateByUrl("/verify-email");
-          this.router.navigateByUrl("/login");
+          this.router.navigateByUrl("/verify-email");
+          // this.router.navigateByUrl("/login");
         },
         error: (error: any) => {
           if (error.status === 400)

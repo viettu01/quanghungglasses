@@ -12,6 +12,7 @@ import {TokenService} from 'src/app/service/token.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  isLoaderDisplayNone: boolean = false;
   loginForm: FormGroup = new FormGroup(
     {
       email: new FormControl('', [Validators.required]),
@@ -28,23 +29,31 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.isLoaderDisplayNone = true;
     this.authService.login(this.loginForm.value).subscribe({
       next: (response: any) => {
+        this.isLoaderDisplayNone = false;
         localStorage.removeItem('carts');
+        localStorage.removeItem('email');
         this.tokenService.setToken(response.token);
         const roles = this.tokenService.getUserRoles();
         const requiredRole = ['ROLE_ADMIN', 'ROLE_STAFF'];
         this.toastr.success('Đăng nhập thành công');
         if (roles.some((role: string) => requiredRole.includes(role))) {
-          window.location.href = "/admin";
+          this.router.navigateByUrl('/admin').then(r => window.location.reload());
         } else {
-          window.location.href = "/";
+          this.router.navigateByUrl("/").then(r => window.location.reload());
         }
       },
       error: (error: any) => {
-        if (error.status === 403 || error.status === 400)
+        this.isLoaderDisplayNone = false;
+        if (error.status === 403 || error.status === 400) {
           this.toastr.error(error.error);
-        else
+          if (error.error === 'Email chưa được xác minh') {
+            localStorage.setItem('email', this.loginForm.get('email')?.value);
+            this.router.navigateByUrl('/verify-email');
+          }
+        } else
           this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });

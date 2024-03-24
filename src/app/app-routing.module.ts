@@ -124,7 +124,7 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       {path: '', component: HomeComponent},
-      {path: 'gio-hang', component: CartComponent},
+      {path: 'gio-hang', component: CartComponent, canActivate: [UserGuard]},
       {path: 'danh-muc/:slug', component: ClientProductByCategoryComponent},
       {path: 'san-pham/:slug', component: ClientProductDetailsComponent},
     ]
