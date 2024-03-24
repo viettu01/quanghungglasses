@@ -123,14 +123,14 @@
                   *ngIf="registerForm.get('account.confirmPassword')?.hasError('required')">
                   Xác nhận mật khẩu không được để trống
                 </span>
-                  <span
-                    *ngIf="!registerForm.get('account.confirmPassword')?.hasError('required') && registerForm.errors?.['mismatch']">
+                <span
+                  *ngIf="!registerForm.get('account.confirmPassword')?.hasError('required') && registerForm.errors?.['mismatch']">
                   Mật khẩu xác nhận không khớp
                 </span>
               </small>
             </div>
           </div>
-          <button class="btn btn-primary w-100 mb-3" [disabled]="registerForm.invalid">
+          <button class="btn btn-primary w-100 mb-3" [disabled]="registerForm.invalid || isLoaderDisplayNone">
             <span [class.d-none]="isLoaderDisplayNone">Đăng ký</span>
             <span class="indicator-progress" [class.d-none]="!isLoaderDisplayNone">
               Vui lòng chờ...

@@ -40,18 +40,18 @@ export class LoginComponent implements OnInit {
         const requiredRole = ['ROLE_ADMIN', 'ROLE_STAFF'];
         this.toastr.success('Đăng nhập thành công');
         if (roles.some((role: string) => requiredRole.includes(role))) {
-          this.router.navigateByUrl('/admin').then(r => window.location.reload());
+          this.router.navigateByUrl('/admin').then(() => window.location.reload());
         } else {
-          this.router.navigateByUrl("/").then(r => window.location.reload());
+          this.router.navigateByUrl("/").then(() => window.location.reload());
         }
       },
       error: (error: any) => {
         this.isLoaderDisplayNone = false;
         if (error.status === 403 || error.status === 400) {
           this.toastr.error(error.error);
-          if (error.error === 'Email chưa được xác minh') {
+          if (error.error === 'Vui lòng xác minh email') {
             localStorage.setItem('email', this.loginForm.get('email')?.value);
-            this.router.navigateByUrl('/verify-email');
+            this.router.navigateByUrl('/verify-email').then();
           }
         } else
           this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
