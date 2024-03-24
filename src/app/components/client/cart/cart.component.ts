@@ -6,6 +6,7 @@ import {Environment} from "../../../environment/environment";
 import Swal from "sweetalert2";
 import {ToastrService} from "ngx-toastr";
 import {ProductService} from "../../../service/product.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-cart',
@@ -21,10 +22,11 @@ export class CartComponent implements OnInit {
   masterSelected = false;
 
   constructor(private tokenService: TokenService, private cartService: CartService, private toastr: ToastrService,
-              private productService: ProductService) {
+              private title: Title, private productService: ProductService) {
   }
 
   ngOnInit(): void {
+    this.title.setTitle('Giỏ hàng');
     this.findAllCartItems();
   }
 
@@ -173,5 +175,15 @@ export class CartComponent implements OnInit {
         }
       }
     })
+  }
+
+  checkout() {
+    // luu thong tin san pham duoc chon vao session storage trong 5 giay
+    sessionStorage.setItem('selectedItems', JSON.stringify(this.selectedItems));
+    // luu thong tin tong tien cua cac san pham duoc chon vao cookie trong 5 giay
+    document.cookie = `totalMoneySelectedItems=${this.totalMoneySelectedItems};max-age=5`;
+
+    // chuyen huong sang trang thanh toan
+    window.location.href = '/thanh-toan';
   }
 }

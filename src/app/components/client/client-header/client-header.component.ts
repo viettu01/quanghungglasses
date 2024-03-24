@@ -5,6 +5,7 @@ import {CartService} from "../../../service/cart.service";
 import {CartDto} from "../../../dto/cart.dto";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-client-header',
@@ -16,7 +17,7 @@ export class ClientHeaderComponent implements OnInit {
   fullName: string = '';
   cartNumber: number = 0;
 
-  constructor(private authService: AuthService, private tokenService: TokenService,
+  constructor(private authService: AuthService, private tokenService: TokenService, private title: Title,
               private cartService: CartService, private router: Router, private toastr: ToastrService) {
   }
 
@@ -52,7 +53,7 @@ export class ClientHeaderComponent implements OnInit {
 
   goToCart() {
     if (this.tokenService.isLogin()) {
-      this.router.navigateByUrl('/cart').then();
+      this.router.navigateByUrl('/gio-hang').then();
     } else {
       this.toastr.error('Vui lòng đăng nhập để xem giỏ hàng');
       this.router.navigateByUrl('/login').then();

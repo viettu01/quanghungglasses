@@ -66,6 +66,7 @@ import {
   ClientProductByCategoryComponent
 } from "./components/client/client-product/client-product-by-category/client-product-by-category.component";
 import {CartComponent} from "./components/client/cart/cart.component";
+import {CheckoutComponent} from "./components/client/checkout/checkout.component";
 
 const routes: Routes = [
   {
@@ -127,6 +128,7 @@ const routes: Routes = [
       {path: 'gio-hang', component: CartComponent, canActivate: [UserGuard]},
       {path: 'danh-muc/:slug', component: ClientProductByCategoryComponent},
       {path: 'san-pham/:slug', component: ClientProductDetailsComponent},
+      {path: 'thanh-toan', component: CheckoutComponent, canActivate: [UserGuard]}
     ]
   },
   {path: 'login', component: LoginComponent},

@@ -85,6 +85,7 @@ import { SwiperDirective } from './utils/swiper.directive';
 import { ClientProductDetailsComponent } from './components/client/client-product/client-product-details/client-product-details.component';
 import { ClientProductByCategoryComponent } from './components/client/client-product/client-product-by-category/client-product-by-category.component';
 import { CartComponent } from './components/client/cart/cart.component';
+import { CheckoutComponent } from './components/client/checkout/checkout.component';
 
 register();
 
@@ -144,7 +145,8 @@ register();
     SwiperDirective,
     ClientProductDetailsComponent,
     ClientProductByCategoryComponent,
-    CartComponent
+    CartComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
