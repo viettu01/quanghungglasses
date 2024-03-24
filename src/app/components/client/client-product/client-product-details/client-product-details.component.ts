@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ProductService} from "../../../../service/product.service";
 import {ProductDto} from "../../../../dto/product.dto";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Environment} from "../../../../environment/environment";
 import {DomSanitizer} from "@angular/platform-browser";
 import {SwiperOptions} from "swiper/types";
@@ -28,20 +28,12 @@ export class ClientProductDetailsComponent implements OnInit {
     slidesPerView: 6, // hien thi 6 slide
     spaceBetween: 16, // khoang cach giua cac slide
   }
-  swiperConfig: SwiperOptions = {
-    slidesPerView: 1,
-    centeredSlides: true,
-    // khong cho phep cuon qua lai
-    // allowTouchMove: false,
-    // spaceBetween: 10,
-    // navigation: true,
-  };
   idCart: number = 0;
   quantity: number = 1;
   quantityMax: number = 0;
 
-  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer,
-              private tokenService: TokenService, private cartService: CartService, private toastr: ToastrService) {
+  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute, private router: Router,
+              private sanitizer: DomSanitizer, private tokenService: TokenService, private cartService: CartService, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -111,6 +103,7 @@ export class ClientProductDetailsComponent implements OnInit {
       this.cartService.addToCartServer(cartDto);
     } else {
       this.toastr.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+      this.router.navigate(['/login']);
       return;
 
       // cartDto.id = this.idCart;
