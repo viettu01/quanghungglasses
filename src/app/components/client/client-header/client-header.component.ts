@@ -16,6 +16,7 @@ export class ClientHeaderComponent implements OnInit {
   protected readonly window = window;
   fullName: string = '';
   cartNumber: number = 0;
+  name: string = '';
 
   constructor(private authService: AuthService, private tokenService: TokenService, private title: Title,
               private cartService: CartService, private router: Router, private toastr: ToastrService) {
@@ -44,7 +45,7 @@ export class ClientHeaderComponent implements OnInit {
   }
 
   getProfile() {
-    this.authService.getProfile(this.tokenService.getUserEmail()).subscribe({
+    this.authService.getProfile().subscribe({
       next: (response: any) => {
         this.fullName = response.fullname;
       }
@@ -58,5 +59,9 @@ export class ClientHeaderComponent implements OnInit {
       this.toastr.error('Vui lòng đăng nhập để xem giỏ hàng');
       this.router.navigateByUrl('/login').then();
     }
+  }
+
+  search() {
+    this.router.navigateByUrl('/tim-kiem?ten-san-pham=' + this.name).then();
   }
 }

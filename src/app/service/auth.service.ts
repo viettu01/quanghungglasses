@@ -67,7 +67,11 @@ export class AuthService {
     return this.http.put(`${Environment.apiBaseUrl}/change-password`, changePasswordDto, this.apiConfigUrl);
   }
 
-  getProfile(email: string) {
-    return this.http.get(`${Environment.apiBaseUrl}/profile/${email}`, this.apiConfigUrl);
+  // getProfile(email: string) {
+  //   return this.http.get(`${Environment.apiBaseUrl}/profile/${email}`, this.apiConfigUrl);
+  // }
+
+  getProfile() {
+    return this.http.get(`${Environment.apiBaseUrl}/profile`, this.apiConfigUrl);
   }
 }

@@ -67,6 +67,13 @@ import {
 } from "./components/client/client-product/client-product-by-category/client-product-by-category.component";
 import {CartComponent} from "./components/client/cart/cart.component";
 import {CheckoutComponent} from "./components/client/checkout/checkout.component";
+import {
+  ClientProductSearchComponent
+} from "./components/client/client-product/client-product-search/client-product-search.component";
+import {
+  ClientOrderDetailsComponent
+} from "./components/client/client-order/client-order-details/client-order-details.component";
+import {ClientOrderListComponent} from "./components/client/client-order/client-order-list/client-order-list.component";
 
 const routes: Routes = [
   {
@@ -128,7 +135,10 @@ const routes: Routes = [
       {path: 'gio-hang', component: CartComponent, canActivate: [UserGuard]},
       {path: 'danh-muc/:slug', component: ClientProductByCategoryComponent},
       {path: 'san-pham/:slug', component: ClientProductDetailsComponent},
-      {path: 'thanh-toan', component: CheckoutComponent, canActivate: [UserGuard]}
+      {path: 'tim-kiem', component: ClientProductSearchComponent},
+      {path: 'thanh-toan', component: CheckoutComponent, canActivate: [UserGuard]},
+      {path: 'don-hang', component: ClientOrderListComponent, canActivate: [UserGuard]},
+      {path: 'don-hang/:id', component: ClientOrderDetailsComponent, canActivate: [UserGuard]}
     ]
   },
   {path: 'login', component: LoginComponent},

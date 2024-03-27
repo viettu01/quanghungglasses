@@ -1,0 +1,205 @@
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<section class="pt-0">
+  <div class="product-filter-container">
+    <button class="btn btn-sm btn-phoenix-secondary text-body-tertiary mb-5 d-lg-none">
+      <span class="fa-solid fa-filter me-2"></span>Bộ lọc
+    </button>
+    <div class="row">
+      <div class="col-lg-3 col-xxl-2 ps-2 ps-xxl-3">
+        <div class="product-filter-offcanvas bg-body scrollbar phoenix-offcanvas phoenix-offcanvas-fixed"
+             id="productFilterColumn">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Bộ lọc</h3>
+            <a class="cursor-pointer text-danger" (click)="clearFilter()" [class.d-none]="!showClearFilter()">
+              <span class="fa-solid fa-filter-circle-xmark fs-8"></span>
+            </a>
+            <a class="btn d-lg-none p-0" data-phoenix-dismiss="offcanvas">
+              <span class="uil uil-times fs-8"></span>
+            </a>
+          </div>
+          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapseOrigins" role="button"
+             aria-expanded="true" aria-controls="collapseBrands">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="fs-8 text-body-highlight">Xuất xứ</div>
+              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>
+            </div>
+          </a>
+          <div class="collapse show" id="collapseOrigins">
+            <div class="mb-2">
+              <div class="form-check mb-0" *ngFor="let origin of origins">
+                <input class="form-check-input mt-0" type="checkbox" name="origins" [value]="origin.name"
+                       (change)="filter('xuat-xu', $event)">
+                <label class="form-check-label d-block lh-sm fs-8 text-body fw-normal mb-0">
+                  {{ origin.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapseBrands" role="button"
+             aria-expanded="true" aria-controls="collapseBrands">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="fs-8 text-body-highlight">Thương hiệu</div>
+              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>
+            </div>
+          </a>
+          <div class="collapse show" id="collapseBrands">
+            <div class="mb-2">
+              <div class="form-check mb-0" *ngFor="let brand of brands">
+                <input class="form-check-input mt-0" type="checkbox" name="brands" [value]="brand.name"
+                       (change)="filter('thuong-hieu', $event)">
+                <label class="form-check-label d-block lh-sm fs-8 text-body fw-normal mb-0">
+                  {{ brand.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapseMaterials"
+             role="button"
+             aria-expanded="true" aria-controls="collapseBrands">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="fs-8 text-body-highlight">Chất liệu</div>
+              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>
+            </div>
+          </a>
+          <div class="collapse show" id="collapseMaterials">
+            <div class="mb-2">
+              <div class="form-check mb-0" *ngFor="let material of materials">
+                <input class="form-check-input mt-0" type="checkbox" name="materials" [value]="material.name"
+                       (change)="filter('chat-lieu', $event)">
+                <label class="form-check-label d-block lh-sm fs-8 text-body fw-normal mb-0">
+                  {{ material.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapseShapes" role="button"
+             aria-expanded="true" aria-controls="collapseBrands">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="fs-8 text-body-highlight">Hình dạng</div>
+              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>
+            </div>
+          </a>
+          <div class="collapse show" id="collapseShapes">
+            <div class="mb-2">
+              <div class="form-check mb-0" *ngFor="let shape of shapes">
+                <input class="form-check-input mt-0" type="checkbox" name="shapes" [value]="shape.name"
+                       (change)="filter('hinh-dang', $event)">
+                <label class="form-check-label d-block lh-sm fs-8 text-body fw-normal mb-0">
+                  {{ shape.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapsePriceRange"
+             role="button" aria-expanded="true" aria-controls="collapsePriceRange">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="fs-8 text-body-highlight">Giá</div>
+              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>
+            </div>
+          </a>
+          <div class="collapse show" id="collapsePriceRange">
+            <div class="d-flex justify-content-between mb-3">
+              <div class="input-group me-2">
+                <input class="form-control" type="text" name="valueFilterPriceMin" placeholder="Nhỏ nhất"
+                       [(ngModel)]="valueFilterPriceMin" appOnlyNumberFloatDirective>
+                <input class="form-control" type="text" name="valueFilterPriceMax" placeholder="Lớn nhất"
+                       [(ngModel)]="valueFilterPriceMax" appOnlyNumberFloatDirective>
+              </div>
+              <button class="btn btn-phoenix-primary px-3" type="button" (click)="filterPrice()">Tìm</button>
+            </div>
+          </div>
+          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapseWarranty"
+             role="button" aria-expanded="true" aria-controls="collapseWarranty">
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="fs-8 text-body-highlight">Thời gian bảo hành</div>
+              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>
+            </div>
+          </a>
+          <div class="collapse show" id="collapseWarranty">
+            <div class="mb-2">
+              <div class="form-check mb-0" *ngFor="let timeWarranty of timeWarranties">
+                <input class="form-check-input mt-0" id="threeMonthInput" type="checkbox" [value]="timeWarranty"
+                       (change)="filter('bao-hanh', $event)">
+                <label class="form-check-label d-block lh-sm fs-8 text-body fw-normal mb-0" for="threeMonthInput">
+                  {{ timeWarranty }} tháng
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phoenix-offcanvas-backdrop d-lg-none" data-phoenix-backdrop></div>
+      </div>
+      <div class="col-lg-9 col-xxl-10">
+        <div class="row gx-3 gy-6 mb-8">
+          <div class="col-12 col-sm-6 m-auto mt-6" *ngIf="paginationDTO.content.length <= 0">
+            <h3 class="product-card-container text-danger">
+              Không có sản phẩm nào phù hợp
+            </h3>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-xxl-2" *ngFor="let product of paginationDTO.content">
+            <div class="product-card-container h-100">
+              <div class="position-relative text-decoration-none product-card h-100">
+                <div class="d-flex flex-column justify-content-between h-100">
+                  <div>
+                    <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
+                      <img class="img-fluid" [src]="baseUrl + product.thumbnail" alt=""/>
+                    </div>
+                    <a class="stretched-link" href="/san-pham/{{product.slug}}">
+                      <h6 class="mb-2 lh-sm line-clamp-3 product-name">{{ product.name }}</h6>
+                    </a>
+                  </div>
+                  <div>
+                    <div class="d-flex align-items-center mb-2">
+                      <p class="me-2 text-decoration-line-through text-body mb-0" *ngIf="product.discount !== null">
+                        {{ product.price  | currency:'VND':true:'1.0-0' }}
+                      </p>
+                      <h3 class="text-body-emphasis mb-0">
+                        <span *ngIf="product.discount !== null">
+                          {{ product.priceDiscount  | currency:'VND':true:'1.0-0' }}
+                        </span>
+                        <span *ngIf="product.discount === null">
+                          {{ product.price  | currency:'VND':true:'1.0-0' }}
+                        </span>
+                      </h3>
+                    </div>
+                    <p class="text-body-tertiary fw-semibold fs-9 lh-1 mb-0">
+                      {{ product.productDetails.length }} Màu sắc
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end" *ngIf="paginationDTO.content.length > 0">
+          <button type="button" class="page-link" (click)="changePageNumber(1)"
+                  [class.disabled]="paginationDTO.pageNumber <= 1">
+            <span class="fas fa-angle-double-left"></span>
+          </button>
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.pageNumber - 1)"
+                  [class.disabled]="paginationDTO.pageNumber <= 1">
+            <span class="fas fa-angle-left"></span>
+          </button>
+          <ul class="mb-0 pagination">
+            <li class="page-item"
+                *ngFor="let i of Utils.getVisiblePages(paginationDTO.pageNumber, paginationDTO.totalPages, 5)"
+                [class.active]="i === paginationDTO.pageNumber">
+              <button type="button" class="page-link" (click)="changePageNumber(i)">{{ i }}</button>
+            </li>
+          </ul>
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.pageNumber + 1)"
+                  [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
+            <span class="fas fa-angle-right"></span>
+          </button>
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.totalPages)"
+                  [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
+            <span class="fas fa-angle-double-right"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><!-- end of .container-->
+</section>
+<!-- <section> close ============================-->
+<!-- ============================================-->

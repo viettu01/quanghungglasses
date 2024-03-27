@@ -28,11 +28,15 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.title.setTitle('Giỏ hàng');
     this.findAllCartItems();
+    sessionStorage.removeItem('selectedItems');
   }
 
   checkUncheckAll(event: any) {
     this.masterSelected = event.target.checked
-    this.cartsItems.forEach((c) => c.isSelected = event.target.checked)
+    this.cartsItems.forEach((c) => {
+      if (c.quantityInStock > 0)
+        c.isSelected = event.target.checked
+    })
     this.selectedItems = this.cartsItems.filter((item) => item.isSelected);
     this.totalMoneySelectedItem();
   }
@@ -54,12 +58,13 @@ export class CartComponent implements OnInit {
       this.cartService.getListItemCartOnServer().subscribe({
         next: (data: any) => {
           this.cartsItems = data.cartDetails;
-          console.log(this.cartsItems);
           this.cartsItems.forEach((item: CartDto) => {
             if (item.quantity >= item.quantityInStock) {
               item.btnPlusDisabled = true;
             }
           });
+          // sap xep lai theo san pham bi het se duoc hien thi cuoi cung
+          this.cartsItems.sort((a, b) => b.quantityInStock - a.quantityInStock);
         }
       });
     } else {
@@ -178,10 +183,10 @@ export class CartComponent implements OnInit {
   }
 
   checkout() {
-    // luu thong tin san pham duoc chon vao session storage trong 5 giay
+    // Luu danh sach san pham duoc chon vao sessionStorage de su dung o trang thanh toan co han la 60 giay
     sessionStorage.setItem('selectedItems', JSON.stringify(this.selectedItems));
-    // luu thong tin tong tien cua cac san pham duoc chon vao cookie trong 5 giay
-    document.cookie = `totalMoneySelectedItems=${this.totalMoneySelectedItems};max-age=5`;
+    // luu cart id vao sessionStorage de su dung o trang thanh toan
+    // sessionStorage.setItem('cartId', JSON.stringify(this.selectedItems.map(item => item.id)));
 
     // chuyen huong sang trang thanh toan
     window.location.href = '/thanh-toan';

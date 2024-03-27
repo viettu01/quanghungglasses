@@ -22,7 +22,7 @@ export class AdminHeaderComponent implements OnInit {
   }
 
   getProfile() {
-    this.authService.getProfile(this.tokenService.getUserEmail()).subscribe({
+    this.authService.getProfile().subscribe({
       next: (response: any) => {
         this.fullName = response.fullname;
       }

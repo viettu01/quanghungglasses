@@ -1,1 +1,208 @@
-<p>admin-order-list works!</p>
+<nav class="mb-2" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+    <li class="breadcrumb-item">Quản lý hóa đơn bán hàng</li>
+    <li class="breadcrumb-item">{{ titleString }}</li>
+  </ol>
+</nav>
+<div class="mb-9">
+  <div class="row g-3 mb-4">
+    <div class="col-auto">
+      <h2 class="mb-0">{{ titleString }}</h2>
+    </div>
+  </div>
+  <div id="orderTable">
+    <div class="mb-4">
+      <div class="row g-3">
+        <div class="col-auto">
+          <div class="search-box">
+            <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+              <input class="form-control search-input search" type="search" placeholder="Nhập tên khách hàng"
+                     aria-label="Search" name="searchTemp" (input)="search()" [(ngModel)]="searchTemp"
+                     appNoLeadingSpace/>
+              <span class="fas fa-search search-box-icon"></span>
+            </form>
+          </div>
+        </div>
+        <div class="col-auto ms-auto">
+          <button class="btn btn-link text-body me-4 px-0">
+            <span class="fa-solid fa-file-export fs-9 me-2"></span>Export
+          </button>
+          <a class="btn btn-primary" href="/admin/order/save">
+            <span class="fas fa-plus me-2"></span>Tạo đơn hàng
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
+      <div class="table-responsive scrollbar mx-n1 px-1">
+        <table class="table table-sm fs-9 mb-0">
+          <thead>
+          <tr>
+            <th class="sort white-space-nowrap align-middle pe-3 py-3" scope="col" data-sort="order" style="width:5%;"
+                (click)="sortByField('id')">
+              Mã đơn hàng
+              <label [class.d-none]="sortBy === 'id' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'id' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'id' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+            <th class="sort white-space-nowrap align-middle text-end" scope="col" data-sort="total" style="width:6%;">
+              Tổng tiền
+            </th>
+            <th class="sort white-space-nowrap align-middle ps-8" scope="col" data-sort="customer"
+                style="width:28%; min-width: 250px;" (click)="sortByField('fullname')">
+              Khách hàng
+              <label [class.d-none]="sortBy === 'fullname' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'fullname' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'fullname' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="payment_status"
+                style="width:10%;" (click)="sortByField('paymentStatus')">
+              Trạng thái thanh toán
+              <label [class.d-none]="sortBy === 'paymentStatus' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'paymentStatus' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'paymentStatus' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+            <th class="sort white-space-nowrap align-middle text-start pe-3" scope="col" data-sort="fulfilment_status"
+                style="width:12%; min-width: 200px;" (click)="sortByField('completeDate')">
+              Ngày hoàn thành
+              <label [class.d-none]="sortBy === 'completeDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'completeDate' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'completeDate' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+            <th class="sort white-space-nowrap align-middle text-start" scope="col" data-sort="delivery_type"
+                style="width:30%;" (click)="sortByField('paymentMethod')">
+              Hinh thức thanh toán
+              <label [class.d-none]="sortBy === 'paymentMethod' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'paymentMethod' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'paymentMethod' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+            <th class="sort white-space-nowrap align-middle text-end pe-0" scope="col" data-sort="date"
+                (click)="sortByField('createdDate')">
+              Ngày tạo
+              <label [class.d-none]="sortBy === 'createdDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'createdDate' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'createdDate' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
+          </tr>
+          </thead>
+          <tbody class="list" id="order-table-body">
+          <tr class="hover-actions-trigger btn-reveal-trigger position-static"
+              *ngFor="let order of paginationDTO.content">
+            <td class="order align-middle white-space-nowrap py-3">
+              <a class="fw-semibold" href="/admin/order/{{order.id}}">{{ order.id }}</a>
+            </td>
+            <td class="total align-middle white-space-nowrap text-end fw-semibold text-body-highlight">
+              {{ order.totalMoney  | currency: 'VND': true: '1.0-0' }}
+            </td>
+            <td class="customer align-middle white-space-nowrap ps-8">
+              <h6 class="mb-0 text-body">{{ order.fullname }}</h6>
+            </td>
+            <td class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
+              <span class="text-success" *ngIf="order.paymentStatus">Hoàn thành</span>
+              <span class="text-danger" *ngIf="!order.paymentStatus">Chưa hoàn thành</span>
+            </td>
+            <td class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
+              <span class="text-success" *ngIf="order.completeDate !== null">
+                {{ order.completeDate | date:'dd/MM/yyyy HH:mm:ss' }}
+              </span>
+              <span class="text-danger" *ngIf="order.completeDate == null">
+                Chưa hoàn thành
+              </span>
+            </td>
+            <td class="delivery_type align-middle white-space-nowrap text-body fs-9 text-start">
+              <span class="text-success" *ngIf="order.paymentMethod == '0'">Thanh toán khi nhận hàng</span>
+              <span class="text-success" *ngIf="order.paymentMethod == '1'">VNPay</span>
+            </td>
+            <td class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end">
+              {{ order.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row align-items-center py-2 pe-0 fs--1">
+        <div class="col-auto d-flex">
+          <label>
+            <select class="form-select form-select-sm form-select-solid" name="sizeSelected"
+                    [(ngModel)]="paginationDTO.pageSize" (change)="changePageSize(paginationDTO.pageSize)">
+              <option value="5" [selected]="paginationDTO.pageSize == 5">5</option>
+              <option value="10" [selected]="paginationDTO.pageSize == 10">10</option>
+              <option value="25" [selected]="paginationDTO.pageSize == 25">25</option>
+              <option value="50" [selected]="paginationDTO.pageSize == 50">50</option>
+              <option value="100" [selected]="paginationDTO.pageSize == 100">100</option>
+            </select>
+          </label>
+        </div>
+        <div class="col-auto d-flex">
+          <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900">
+            Hiển thị {{ paginationDTO.firstElementOnPage }} đến {{ paginationDTO.lastElementOnPage }}
+            <span class="text-body-tertiary"> của </span>{{ paginationDTO.totalElements }} danh mục
+          </p>
+        </div>
+        <div class="col-auto ms-auto d-flex">
+          <button type="button" class="page-link" (click)="changePageNumber(1)"
+                  [class.disabled]="paginationDTO.pageNumber <= 1">
+            <span class="fas fa-angle-double-left"></span>
+          </button>
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.pageNumber - 1)"
+                  [class.disabled]="paginationDTO.pageNumber <= 1">
+            <span class="fas fa-angle-left"></span>
+          </button>
+          <ul class="mb-0 pagination">
+            <li class="page-item"
+                *ngFor="let i of Utils.getVisiblePages(paginationDTO.pageNumber, paginationDTO.totalPages, 5)"
+                [class.active]="i === paginationDTO.pageNumber">
+              <button type="button" class="page-link" (click)="changePageNumber(i)">{{ i }}</button>
+            </li>
+          </ul>
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.pageNumber + 1)"
+                  [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
+            <span class="fas fa-angle-right"></span>
+          </button>
+          <button type="button" class="page-link" (click)="changePageNumber(paginationDTO.totalPages)"
+                  [class.disabled]="paginationDTO.pageNumber >= paginationDTO.totalPages">
+            <span class="fas fa-angle-double-right"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -79,13 +79,24 @@ import {OnlyNumberDirective} from './utils/only-number.directive';
 import {OnlyNumberFloatDirective} from "./utils/only-number-float.directive";
 import {AdminSaleListComponent} from './components/admin/admin-sale/admin-sale-list/admin-sale-list.component';
 import {AdminSaleSaveComponent} from './components/admin/admin-sale/admin-sale-save/admin-sale-save.component';
-import { ImageTypeDirective } from './utils/image-type.directive';
-import { register } from 'swiper/element/bundle';
-import { SwiperDirective } from './utils/swiper.directive';
-import { ClientProductDetailsComponent } from './components/client/client-product/client-product-details/client-product-details.component';
-import { ClientProductByCategoryComponent } from './components/client/client-product/client-product-by-category/client-product-by-category.component';
-import { CartComponent } from './components/client/cart/cart.component';
-import { CheckoutComponent } from './components/client/checkout/checkout.component';
+import {ImageTypeDirective} from './utils/image-type.directive';
+import {register} from 'swiper/element/bundle';
+import {SwiperDirective} from './utils/swiper.directive';
+import {
+  ClientProductDetailsComponent
+} from './components/client/client-product/client-product-details/client-product-details.component';
+import {
+  ClientProductByCategoryComponent
+} from './components/client/client-product/client-product-by-category/client-product-by-category.component';
+import {CartComponent} from './components/client/cart/cart.component';
+import {CheckoutComponent} from './components/client/checkout/checkout.component';
+import {
+  ClientProductSearchComponent
+} from './components/client/client-product/client-product-search/client-product-search.component';
+import {ClientOrderListComponent} from './components/client/client-order/client-order-list/client-order-list.component';
+import {
+  ClientOrderDetailsComponent
+} from "./components/client/client-order/client-order-details/client-order-details.component";
 
 register();
 
@@ -146,7 +157,10 @@ register();
     ClientProductDetailsComponent,
     ClientProductByCategoryComponent,
     CartComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    ClientProductSearchComponent,
+    ClientOrderDetailsComponent,
+    ClientOrderListComponent
   ],
   imports: [
     BrowserModule,

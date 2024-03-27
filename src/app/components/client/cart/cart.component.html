@@ -37,16 +37,18 @@
                 <td class="sort white-space-nowrap align-middle fs-10 ps-2">
                   <div class="form-check fs-8 mb-0">
                     <input class="form-check-input" type="checkbox" [value]="item.id"
-                           [checked]="item.isSelected" (change)="isAllSelected($event, index)">
+                           [checked]="item.isSelected" (change)="isAllSelected($event, index)"
+                           [disabled]="item.quantityInStock <= 0">
                   </div>
                 </td>
                 <td class="align-middle white-space-nowrap py-0">
                   <img [src]="baseUrl + item.productDetailsThumbnails" alt="" width="53"/>
                 </td>
                 <td class="products align-middle">
-                  <a class="fw-semibold mb-0 line-clamp-2" href="/san-pham/{{item.productSlug}}">
+                  <a class="fw-semibold mb-0 line-clamp-2 d-inline" href="/san-pham/{{item.productSlug}}">
                     {{ item.productName }}
                   </a>
+                  <span class="text-danger" *ngIf="item.quantityInStock <= 0">(Hết hàng)</span>
                 </td>
                 <td class="color align-middle white-space-nowrap fs-9 text-body">{{ item.productColor }}</td>
                 <td class="price align-middle text-body fs-9 fw-semibold text-end">

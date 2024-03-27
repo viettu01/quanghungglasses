@@ -4,55 +4,95 @@
   <div class="container-small">
     <h2 class="mb-5">Thanh toán</h2>
     <div class="row justify-content-between">
-      <div class="col-lg-7 col-xl-7">
-        <form>
+      <div class="col-lg-6 col-xl-6">
+        <form [formGroup]="orderForm" enctype="multipart/form-data" (submit)="onSubmit()">
           <div class="d-flex align-items-end">
             <h3 class="mb-0 me-3">Thông tin khách hàng</h3>
           </div>
           <table class="table table-borderless mt-4">
             <tbody>
             <tr>
-              <td class="py-2 ps-0 align-middle">
+              <td class="py-2 px-0 align-middle">
                 <div class="d-flex">
                   <span class="fs-3 me-2" data-feather="user" style="height:16px; width:16px;"> </span>
-                  <h5 class="lh-sm me-4">Người nhận</h5>
+                  <h5 class="lh-sm">
+                    Người nhận <sup class="text-danger">*</sup>
+                  </h5>
                 </div>
               </td>
-              <td class="py-2 px-3 align-middle">
-                <input class="form-control" type="text"/>
+              <td class="py-2 ps-0 align-middle">
+                <input class="form-control" type="text" formControlName="fullname"/>
               </td>
             </tr>
             <tr>
-              <td class="py-2 ps-0 align-middle">
+              <td class="py-2 px-0 align-middle">
                 <div class="d-flex">
                   <span class="fs-3 me-2" data-feather="phone" style="height:16px; width:16px;"> </span>
-                  <h5 class="lh-sm me-4">Số điện thoại</h5>
+                  <h5 class="lh-sm">
+                    Số điện thoại <sup class="text-danger">*</sup>
+                  </h5>
                 </div>
               </td>
-              <td class="py-2 px-3 align-middle">
-                <input class="form-control" type="text" appOnlyNumberDirective/>
+              <td class="py-2 ps-0 align-middle">
+                <input class="form-control" type="text" formControlName="phone" appOnlyNumberDirective/>
               </td>
             </tr>
             <tr>
-              <td class="py-2 ps-0 align-middle">
-                <div class="d-flex">
-                  <span class="fs-3 me-2" data-feather="mail" style="height:16px; width:16px;"> </span>
-                  <h5 class="lh-sm me-4">Email</h5>
-                </div>
-              </td>
-              <td class="py-2 px-3 align-middle">
-                <input class="form-control" type="email"/>
-              </td>
-            </tr>
-            <tr>
-              <td class="py-2 ps-0 align-middle">
+              <td class="py-2 px-0 align-middle">
                 <div class="d-flex">
                   <span class="fs-3 me-2" data-feather="home" style="height:16px; width:16px;"> </span>
-                  <h5 class="lh-sm me-4">Đia chỉ</h5>
+                  <h5 class="lh-sm">
+                    Đia chỉ <sup class="text-danger">*</sup>
+                  </h5>
                 </div>
               </td>
-              <td class="py-2 px-3 align-middle">
-                <input class="form-control" type="text"/>
+              <td class="py-2 ps-0 align-middle">
+                <input class="form-control" formControlName="address" type="text"/>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle">
+                <div class="d-flex">
+                  <span class="fs-3 me-2" data-feather="clipboard" style="height:16px; width:16px;"> </span>
+                  <h5 class="lh-sm">
+                    Ghi chú
+                  </h5>
+                </div>
+              </td>
+              <td class="py-2 ps-0 align-middle">
+                <textarea class="form-control" rows="3" formControlName="note"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle" colspan="2">
+                <div class="d-flex">
+                  <h5 class="lh-sm">
+                    Phiếu khám mắt
+                    <span class="fw-normal">(Phiếu khám mắt được cung cấp bởi kỹ thuật viên đo khúc xạ. Bao gồm các thông số quan
+                    trọng như số độ cận, viễn loạn, số đo PD… giúp chúng tôi cắt kính chính xác và thoải mái nhất cho
+                    đôi mắt của bạn.)</span>
+                  </h5>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle" colspan="2">
+                <input class="form-control" id="eyeglassPrescriptionImage" type="file" (change)="onFileChange($event)"/>
+              </td>
+            </tr>
+            <tr *ngIf="selectedEyeglassPrescriptionUrl != ''">
+              <td class="pt-2 pb-0 ps-0 align-middle" colspan="2">
+                <div class="position-relative text-decoration-none product-card h-100 m-auto" style="width: 200px">
+                  <div class="d-flex flex-column justify-content-between h-100">
+                    <div class="border border-1 border-translucent rounded-3 position-relative">
+                      <button (click)="removeEyeglassPrescription()"
+                        class="btn rounded-circle border-0 p-0 d-flex flex-center btn-wish z-2 d-toggle-container btn-outline-secondary">
+                        <span class="fa-solid fa-xmark"></span>
+                      </button>
+                      <img class="img-fluid" [src]="selectedEyeglassPrescriptionUrl" alt=""/>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
             </tbody>
@@ -64,114 +104,33 @@
               <div class="row gx-lg-11">
                 <div class="col-12 col-md-auto">
                   <div class="d-flex">
-                    <div class="form-check"><input class="form-check-input" id="creditCard" type="radio"
-                                                   name="paymentMethod" checked="checked"/><label
-                      class="form-check-label fs-8 text-body me-3" for="creditCard">Credit card</label></div>
-                    <img class="h-100 me-2 ms-4 ms-md-0" src="../../../assets/img/logos/visa.png" alt=""/><img
-                    class="h-100 me-2" src="../../../assets/img/logos/discover.png" alt=""/><img class="h-100 me-2"
-                                                                                                 src="../../../assets/img/logos/mastercard.png"
-                                                                                                 alt=""/><img
-                    class="h-100" src="../../../assets/img/logos/american_express.png" alt=""/>
+                    <div class="form-check">
+                      <input class="form-check-input" id="0" type="radio" name="paymentMethod" value="0"
+                             formControlName="paymentMethod"/>
+                      <label class="form-check-label fs-8 text-body me-3" for="0">
+                        Thanh toán khi nhận hàng
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-auto">
-                  <div class="form-check"><input class="form-check-input" id="paypal" type="radio"
-                                                 name="paymentMethod"/><label class="form-check-label fs-8 text-body"
-                                                                              for="paypal">Paypal </label></div>
-                </div>
-                <div class="col-12 col-md-auto">
-                  <div class="form-check"><input class="form-check-input" id="coupon" type="radio"
-                                                 name="paymentMethod"/><label class="form-check-label fs-8 text-body"
-                                                                              for="coupon">Coupon </label></div>
+                  <div class="form-check">
+                    <input class="form-check-input" id="1" type="radio" name="paymentMethod" value="1"
+                           formControlName="paymentMethod"/>
+                    <label class="form-check-label fs-8 text-body" for="1">VNPay </label>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-6"><label class="form-label fs-8 text-body-highlight ps-0 text-transform-none"
-                                         for="selectCard">Select card</label><select
-              class="form-select text-body-emphasis" id="selectCard">
-              <option selected="selected">select a card</option>
-              <option value="visa">Visa</option>
-              <option value="discover">Discover</option>
-              <option value="mastercard">Mastercard</option>
-              <option value="american-express">American Express</option>
-            </select></div>
-            <div class="col-md-6"><label class="form-label fs-8 text-body-highlight ps-0 text-transform-none"
-                                         for="inputCardNumber">Card number</label><input class="form-control"
-                                                                                         id="inputCardNumber"
-                                                                                         type="number"
-                                                                                         placeholder="Enter card number"
-                                                                                         aria-label="Card number"/>
-            </div>
-            <div class="col-12"><label class="form-label fs-8 text-body-highlight ps-0 text-transform-none"
-                                       for="inputName">Full name</label><input class="form-control" id="inputName"
-                                                                               type="text"
-                                                                               placeholder="Ansolo Lazinatov"
-                                                                               aria-label="Full name"/></div>
-            <div class="col-md-6"><label class="form-label fs-8 text-body-highlight ps-0 text-transform-none">Expires
-              on</label>
-              <div class="d-flex"><select class="form-select text-body-emphasis me-3">
-                <option selected="selected">Month</option>
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-              </select><select class="form-select text-body-emphasis">
-                <option selected="selected">Year</option>
-                <option value="1990">1990</option>
-                <option value="1991">1991</option>
-                <option value="1992">1992</option>
-                <option value="1993">1993</option>
-                <option value="1994">1994</option>
-                <option value="1995">1995</option>
-                <option value="1996">1996</option>
-                <option value="1997">1997</option>
-                <option value="1998">1998</option>
-                <option value="1999">1999</option>
-                <option value="2000">2000</option>
-                <option value="2001">2001</option>
-                <option value="2002">2002</option>
-                <option value="2003">2003</option>
-                <option value="2004">2004</option>
-                <option value="2005">2005</option>
-                <option value="2006">2006</option>
-                <option value="2007">2007</option>
-                <option value="2008">2008</option>
-                <option value="2009">2009</option>
-                <option value="2010">2010</option>
-                <option value="2011">2011</option>
-                <option value="2012">2012</option>
-                <option value="2013">2013</option>
-                <option value="2014">2014</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-              </select></div>
-            </div>
-            <div class="col-md-6"><label class="form-label fs-8 text-body-highlight ps-0 text-transform-none"
-                                         for="inputCardCVC">CVC</label><input class="form-control" id="inputCardCVC"
-                                                                              type="number"
-                                                                              placeholder="Enter a valid CVC"
-                                                                              aria-label="CVC"/></div>
-            <div class="col-12">
-              <div class="form-check"><input class="form-check-input" id="gridCheck" type="checkbox"/><label
-                class="form-check-label text-body-emphasis fs-8" for="gridCheck">Save Card Details</label></div>
-            </div>
           </div>
           <div class="row g-2 mb-5 mb-lg-0">
-            <div class="col-md-8 col-lg-9 d-grid">
-              <button class="btn btn-primary" type="submit">Pay $695.20</button>
-            </div>
-            <div class="col-md-4 col-lg-3 d-grid">
-              <button class="btn btn-phoenix-secondary text-nowrap" type="submit">Save Order and Exit</button>
+            <div class="col-md-12 col-lg-12 d-grid">
+              <button class="btn btn-primary" type="submit">Thanh toán</button>
             </div>
           </div>
         </form>
       </div>
-      <div class="col-lg-5 col-xl-5">
+      <div class="col-lg-6 col-xl-6">
         <div class="card mt-3 mt-lg-0">
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
@@ -184,18 +143,22 @@
             </div>
             <div class="border-dashed border-bottom border-translucent mt-4">
               <div class="ms-n2">
-                <div class="row align-items-center mb-2 g-3">
+                <div class="row align-items-center mb-2 g-3" *ngFor="let item of cartsItems">
                   <div class="col-8 col-md-7 col-lg-8">
                     <div class="d-flex align-items-center">
-                      <img class="me-2 ms-1" src="/assets/img/products/1.png" width="40" alt=""/>
-                      <h6 class="fw-semibold text-body-highlight lh-base">Fitbit Sense Advanced Smartwatch with... </h6>
+                      <img class="me-2 ms-1" [src]="baseUrl + item.productDetailsThumbnails" width="40" alt=""/>
+                      <h6 class="fw-semibold text-body-highlight lh-base line-clamp-3">
+                        {{ item.productName }} (Màu {{ item.productColor }})
+                      </h6>
                     </div>
                   </div>
                   <div class="col-2 col-md-3 col-lg-2">
-                    <h6 class="fs-10 mb-0">x1</h6>
+                    <h6 class="fs-10 mb-0">x{{ item.quantity }}</h6>
                   </div>
                   <div class="col-2 ps-0">
-                    <h5 class="mb-0 fw-semibold text-end">$398</h5>
+                    <h5 class="mb-0 fw-semibold text-end text-nowrap">
+                      {{ item.productPrice | currency:'VND':true:'1.0-0' }}
+                    </h5>
                   </div>
                 </div>
               </div>
@@ -203,22 +166,26 @@
             <div class="border-dashed border-bottom border-translucent mt-4">
               <div class="d-flex justify-content-between mb-2">
                 <h5 class="text-body fw-semibold">Tổng số sản phẩm: </h5>
-                <h5 class="text-body fw-semibold">000</h5>
+                <h5 class="text-body fw-semibold">{{ cartsItems.length }}</h5>
               </div>
-              <div class="d-flex justify-content-between mb-2">
-                <h5 class="text-body fw-semibold">Giảm giá: </h5>
-                <h5 class="text-danger fw-semibold">-$59</h5>
-              </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h5 class="text-body fw-semibold">Phí vận chuyển </h5>
-                <h5 class="text-body fw-semibold">
-                  {{ 30000 | currency:'VND':true:'1.0-0' }}
-                </h5>
-              </div>
+              <!--              <div class="d-flex justify-content-between mb-2">-->
+              <!--                <h5 class="text-body fw-semibold">Giảm giá: </h5>-->
+              <!--                <h5 class="text-danger fw-semibold">-->
+              <!--                  - {{ 0 | currency:'VND':true:'1.0-0' }}-->
+              <!--                </h5>-->
+              <!--              </div>-->
+<!--              <div class="d-flex justify-content-between mb-3">-->
+<!--                <h5 class="text-body fw-semibold">Phí vận chuyển </h5>-->
+<!--                <h5 class="text-body fw-semibold">-->
+<!--                  {{ 30000 | currency:'VND':true:'1.0-0' }}-->
+<!--                </h5>-->
+<!--              </div>-->
             </div>
             <div class="d-flex justify-content-between border-dashed-y pt-3">
-              <h4 class="mb-0">Tổng tiền :</h4>
-              <h4 class="mb-0">000</h4>
+              <h4 class="mb-0">Tổng đơn:</h4>
+              <h4 class="mb-0">
+                {{ totalMoney | currency:'VND':true:'1.0-0' }}
+              </h4>
             </div>
           </div>
         </div>

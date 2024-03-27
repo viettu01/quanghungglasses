@@ -48,7 +48,7 @@
                     <div class="overflow-auto scrollbar border-top ">
                       <ul class="nav d-flex flex-column mb-2 pb-1 my-2">
                         <li class="nav-item">
-                          <a class="nav-link px-3" href="/profile">
+                          <a class="nav-link px-3" href="/thong-tin-ca-nhan">
                             <span class="me-2 text-body" data-feather="user"></span><span>Thông tin cá nhân</span>
                           </a>
                         </li>
@@ -73,9 +73,9 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="search-box ecommerce-search-box w-100">
-              <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+              <form class="position-relative" data-bs-toggle="search" data-bs-display="static" >
                 <input class="form-control search-input search form-control-sm" type="search" placeholder="Tìm kiếm"
-                       aria-label="Search"/>
+                       aria-label="Search" name="name" [(ngModel)]="name" (search)="search()"/>
                 <span class="fas fa-search search-box-icon"></span>
               </form>
             </div>

@@ -1,1 +1,154 @@
-<p>admin-order-details works!</p>
+<nav class="mb-2" aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="#!">Trang chủ</a></li>
+    <li class="breadcrumb-item">Quản lý bán hàng</li>
+    <li class="breadcrumb-item active">{{ titleString }}</li>
+  </ol>
+</nav>
+<div class="mb-9">
+  <h2 class="mb-0">Đơn hàng <span>#{{ orderDto.id }}</span></h2>
+  <div class="d-sm-flex flex-between-center mb-3">
+    <div class="d-flex">
+      <button class="btn btn-link pe-3 ps-0 text-body"><span class="fas fa-print me-2"></span>Print</button>
+    </div>
+  </div>
+  <div class="row g-5 gy-7">
+    <div class="col-12 col-xl-8 col-xxl-9">
+      <div id="orderTable">
+        <div class="table-responsive scrollbar">
+          <table class="table fs-9 mb-0 border-top border-translucent">
+            <thead>
+            <tr>
+              <th class="sort white-space-nowrap align-middle fs-10">Ảnh</th>
+              <th class="sort white-space-nowrap align-middle" style="min-width:300px;">Sản phẩm</th>
+              <th class="sort align-middle ps-4" style="width:150px;">Màu sắc</th>
+              <th class="sort align-middle text-end ps-4" style="width:150px;">Giá bán</th>
+              <th class="sort align-middle text-end ps-4" style="width:200px;">Số lượng</th>
+              <th class="sort align-middle text-end ps-4" style="width:250px;">Thành tiên</th>
+            </tr>
+            </thead>
+            <tbody class="list" id="order-table-body">
+            <tr class="hover-actions-trigger btn-reveal-trigger position-static"
+                *ngFor="let orderDetails of orderDto.orderDetails">
+              <td class="align-middle white-space-nowrap py-2">
+                <img [src]="baseUrl + orderDetails.productThumbnail" alt="" width="53"/>
+              </td>
+              <td class="products align-middle py-0">
+                {{ orderDetails.productName }}
+              </td>
+              <td class="color align-middle white-space-nowrap text-body py-0 ps-4">{{ orderDetails.productColor }}</td>
+              <td class="price align-middle text-body fw-semibold text-end py-0 ps-4">
+                {{ orderDetails.price  | currency: 'VND': true: '1.0-0' }}
+              </td>
+              <td
+                class="size align-middle white-space-nowrap text-body-tertiary fw-semibold py-0 ps-4">{{ orderDetails.quantity }}
+              </td>
+              <td class="total align-middle fw-bold text-body-highlight text-end py-0 ps-4">
+                {{ orderDetails.totalMoney  | currency: 'VND': true: '1.0-0' }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="d-flex flex-between-center py-3 border-bottom border-translucent mb-6">
+        <p class="text-body-emphasis fw-semibold lh-sm mb-0">Tổng tiền :</p>
+        <p class="text-body-emphasis fw-bold lh-sm mb-0">
+          {{ orderDto.totalMoney | currency: 'VND': true: '1.0-0' }}
+        </p>
+      </div>
+      <div class="row gx-4 gy-6 g-xl-7 justify-content-sm-center justify-content-xl-start">
+        <div class="col-6" *ngIf="orderDto.note !== ''">
+          <h4 class="mb-3">Ghi chú</h4>
+          <div class="row g-4 flex-sm-column">
+            <div class="col-6 col-sm-6">
+              <p>{{ orderDto.note }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6" *ngIf="orderDto.eyeglassPrescription !== null">
+          <h4 class="mb-3">Đơn kính</h4>
+          <div class="row g-4 flex-sm-column">
+            <div class="col-6 col-sm-6 w-100">
+              <img class="w-100" [src]="baseUrl + orderDto.eyeglassPrescription">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-xl-4 col-xxl-3">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title mb-4">Thông tin khách hàng</h3>
+              <div class="row g-4 flex-sm-column">
+                <div class="col-6 col-sm-12">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="user" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Người nhận</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.fullname }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12 order-sm-1">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="home" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Địa chỉ</h6>
+                  </div>
+                  <div class="ms-4">
+                    <p class="text-body-secondary mb-0 fs-9">{{ orderDto.address }}</p>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="phone" style="stroke-width:2.5;">  </span>
+                    <h6 class="mb-0">Số điện thoại</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.phone }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title mb-4">Trạng thái đơn hàng</h3>
+              <h6 class="mb-2">Tình trạng hoàn thành</h6>
+              <select class="form-select mb-4" aria-label="delivery type">
+                <option value="0">Chờ xác nhận</option>
+                <option value="1">Đã xác nhận</option>
+                <option value="2">Đang giao hàng</option>
+                <option value="3">Đã giao hàng</option>
+                <option value="4">Đã hủy</option>
+              </select>
+              <h6 class="mb-2">Trạng thái thanh toán</h6>
+              <div class="form-check">
+                <input class="form-check-input" id="paymentStatus1" type="radio" name="paymentStatus" value="0"/>
+                <label class="form-check-label text-body me-3" for="paymentStatus1">Đã thanh toán</label>
+              </div>
+              <div class="form-check mb-4">
+                <input class="form-check-input" id="paymentStatus2" type="radio" name="paymentStatus" value="1"/>
+                <label class="form-check-label text-body" for="paymentStatus2">Chưa thanh toán</label>
+              </div>
+              <h6 class="mb-2">Phương thức thanh toán</h6>
+              <div class="form-check">
+                <input class="form-check-input" id="paymentMethod1" type="radio" name="paymentMethod" value="0" [checked]="!orderDto.paymentMethod"/>
+                <label class="form-check-label text-body me-3" for="paymentMethod1">Thanh toán khi nhận hàng</label>
+              </div>
+              <div class="form-check mb-4">
+                <input class="form-check-input" id="paymentMethod2" type="radio" name="paymentMethod" value="1" [checked]="orderDto.paymentMethod"/>
+                <label class="form-check-label text-body" for="paymentMethod2">VNPay</label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
