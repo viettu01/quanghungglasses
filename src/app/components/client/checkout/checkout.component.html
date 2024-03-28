@@ -21,7 +21,15 @@
                 </div>
               </td>
               <td class="py-2 ps-0 align-middle">
-                <input class="form-control" type="text" formControlName="fullname"/>
+                <input class="form-control" type="text" formControlName="fullname" appNoLeadingSpace/>
+                <small class="text-danger mt-1" *ngIf="orderForm['controls']['fullname'].dirty">
+                  <span *ngIf="orderForm['controls']['fullname'].errors?.['required']">
+                    Tên người nhận không được để trống
+                  </span>
+                  <span *ngIf="orderForm['controls']['fullname'].errors?.['maxlength']">
+                    Tên khách hàng không được vượt quá 30 ký tự
+                  </span>
+                </small>
               </td>
             </tr>
             <tr>
@@ -34,7 +42,21 @@
                 </div>
               </td>
               <td class="py-2 ps-0 align-middle">
-                <input class="form-control" type="text" formControlName="phone" appOnlyNumberDirective/>
+                <input class="form-control" type="text" formControlName="phone" appOnlyNumberDirective appNoLeadingSpace/>
+                <small class="text-danger mt-1" *ngIf="orderForm['controls']['phone'].dirty">
+                  <span *ngIf="orderForm['controls']['phone'].errors?.['required']">
+                    Số điện thoại người nhận không được để trống
+                  </span>
+                  <span *ngIf="orderForm['controls']['phone'].errors?.['maxlength']
+                    || orderForm['controls']['phone'].errors?.['minlength']">
+                    Số điện thoại phải đủ 10 số
+                  </span>
+                  <span *ngIf="!(orderForm['controls']['phone'].errors?.['maxlength']
+                                  || orderForm['controls']['phone'].errors?.['minlength'])
+                                  && orderForm['controls']['phone'].errors?.['pattern']">
+                    Số điện thoại không hợp lệ
+                  </span>
+                </small>
               </td>
             </tr>
             <tr>
@@ -47,7 +69,15 @@
                 </div>
               </td>
               <td class="py-2 ps-0 align-middle">
-                <input class="form-control" formControlName="address" type="text"/>
+                <input class="form-control" formControlName="address" type="text" appNoLeadingSpace/>
+                <small class="text-danger mt-1" *ngIf="orderForm['controls']['address'].dirty">
+                  <span *ngIf="orderForm['controls']['address'].errors?.['required']">
+                    Địa chỉ giao hàng không được để trống
+                  </span>
+                  <span *ngIf="orderForm['controls']['address'].errors?.['maxlength']">
+                      Địa chỉ không được vượt quá 200 ký tự
+                    </span>
+                </small>
               </td>
             </tr>
             <tr>
@@ -60,7 +90,7 @@
                 </div>
               </td>
               <td class="py-2 ps-0 align-middle">
-                <textarea class="form-control" rows="3" formControlName="note"></textarea>
+                <textarea class="form-control" rows="3" formControlName="note" appNoLeadingSpace></textarea>
               </td>
             </tr>
             <tr>
@@ -86,7 +116,7 @@
                   <div class="d-flex flex-column justify-content-between h-100">
                     <div class="border border-1 border-translucent rounded-3 position-relative">
                       <button (click)="removeEyeglassPrescription()"
-                        class="btn rounded-circle border-0 p-0 d-flex flex-center btn-wish z-2 d-toggle-container btn-outline-secondary">
+                              class="btn rounded-circle border-0 p-0 d-flex flex-center btn-wish z-2 d-toggle-container btn-outline-secondary">
                         <span class="fa-solid fa-xmark"></span>
                       </button>
                       <img class="img-fluid" [src]="selectedEyeglassPrescriptionUrl" alt=""/>
@@ -125,7 +155,9 @@
           </div>
           <div class="row g-2 mb-5 mb-lg-0">
             <div class="col-md-12 col-lg-12 d-grid">
-              <button class="btn btn-primary" type="submit">Thanh toán</button>
+              <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid">
+                Thanh toán
+              </button>
             </div>
           </div>
         </form>
@@ -174,12 +206,12 @@
               <!--                  - {{ 0 | currency:'VND':true:'1.0-0' }}-->
               <!--                </h5>-->
               <!--              </div>-->
-<!--              <div class="d-flex justify-content-between mb-3">-->
-<!--                <h5 class="text-body fw-semibold">Phí vận chuyển </h5>-->
-<!--                <h5 class="text-body fw-semibold">-->
-<!--                  {{ 30000 | currency:'VND':true:'1.0-0' }}-->
-<!--                </h5>-->
-<!--              </div>-->
+              <!--              <div class="d-flex justify-content-between mb-3">-->
+              <!--                <h5 class="text-body fw-semibold">Phí vận chuyển </h5>-->
+              <!--                <h5 class="text-body fw-semibold">-->
+              <!--                  {{ 30000 | currency:'VND':true:'1.0-0' }}-->
+              <!--                </h5>-->
+              <!--              </div>-->
             </div>
             <div class="d-flex justify-content-between border-dashed-y pt-3">
               <h4 class="mb-0">Tổng đơn:</h4>

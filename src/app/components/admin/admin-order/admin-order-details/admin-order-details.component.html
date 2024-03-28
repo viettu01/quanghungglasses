@@ -6,12 +6,7 @@
   </ol>
 </nav>
 <div class="mb-9">
-  <h2 class="mb-0">Đơn hàng <span>#{{ orderDto.id }}</span></h2>
-  <div class="d-sm-flex flex-between-center mb-3">
-    <div class="d-flex">
-      <button class="btn btn-link pe-3 ps-0 text-body"><span class="fas fa-print me-2"></span>Print</button>
-    </div>
-  </div>
+  <h2 class="mb-3">Đơn hàng <span>#{{ orderDto.id }}</span></h2>
   <div class="row g-5 gy-7">
     <div class="col-12 col-xl-8 col-xxl-9">
       <div id="orderTable">
@@ -81,7 +76,7 @@
         <div class="col-12 mb-3">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title mb-4">Thông tin khách hàng</h3>
+              <h3 class="card-title mb-4">Thông tin đơn hàng</h3>
               <div class="row g-4 flex-sm-column">
                 <div class="col-6 col-sm-12">
                   <div class="d-flex align-items-center mb-1">
@@ -92,13 +87,13 @@
                     {{ orderDto.fullname }}
                   </div>
                 </div>
-                <div class="col-6 col-sm-12 order-sm-1">
+                <div class="col-6 col-sm-12">
                   <div class="d-flex align-items-center mb-1">
                     <span class="me-2" data-feather="home" style="stroke-width:2.5;"></span>
                     <h6 class="mb-0">Địa chỉ</h6>
                   </div>
                   <div class="ms-4">
-                    <p class="text-body-secondary mb-0 fs-9">{{ orderDto.address }}</p>
+                    {{ orderDto.address }}
                   </div>
                 </div>
                 <div class="col-6 col-sm-12">
@@ -110,6 +105,53 @@
                     {{ orderDto.phone }}
                   </div>
                 </div>
+                <div class="col-6 col-sm-12">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày tạo</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày thanh toán</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.paymentDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày hoàn thành</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.completedDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="dollar-sign" style="stroke-width:2.5;">  </span>
+                    <h6 class="mb-0">Phương thức thanh toán</h6>
+                  </div>
+                  <div class="ms-4">
+                    <span *ngIf="orderDto.paymentMethod === 0">Thanh toán khi nhận hàng</span>
+                    <span *ngIf="orderDto.paymentMethod === 1">VNPay</span>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="dollar-sign" style="stroke-width:2.5;">  </span>
+                    <h6 class="mb-0">Trạng thái thanh toán</h6>
+                  </div>
+                  <div class="ms-4">
+                    <span *ngIf="orderDto.paymentStatus">Đã thanh toán</span>
+                    <span *ngIf="!orderDto.paymentStatus">Chưa thanh toán</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -118,33 +160,16 @@
           <div class="card">
             <div class="card-body">
               <h3 class="card-title mb-4">Trạng thái đơn hàng</h3>
-              <h6 class="mb-2">Tình trạng hoàn thành</h6>
-              <select class="form-select mb-4" aria-label="delivery type">
-                <option value="0">Chờ xác nhận</option>
-                <option value="1">Đã xác nhận</option>
-                <option value="2">Đang giao hàng</option>
-                <option value="3">Đã giao hàng</option>
-                <option value="4">Đã hủy</option>
-              </select>
-              <h6 class="mb-2">Trạng thái thanh toán</h6>
-              <div class="form-check">
-                <input class="form-check-input" id="paymentStatus1" type="radio" name="paymentStatus" value="0"/>
-                <label class="form-check-label text-body me-3" for="paymentStatus1">Đã thanh toán</label>
-              </div>
-              <div class="form-check mb-4">
-                <input class="form-check-input" id="paymentStatus2" type="radio" name="paymentStatus" value="1"/>
-                <label class="form-check-label text-body" for="paymentStatus2">Chưa thanh toán</label>
-              </div>
-              <h6 class="mb-2">Phương thức thanh toán</h6>
-              <div class="form-check">
-                <input class="form-check-input" id="paymentMethod1" type="radio" name="paymentMethod" value="0" [checked]="!orderDto.paymentMethod"/>
-                <label class="form-check-label text-body me-3" for="paymentMethod1">Thanh toán khi nhận hàng</label>
-              </div>
-              <div class="form-check mb-4">
-                <input class="form-check-input" id="paymentMethod2" type="radio" name="paymentMethod" value="1" [checked]="orderDto.paymentMethod"/>
-                <label class="form-check-label text-body" for="paymentMethod2">VNPay</label>
-              </div>
-
+              <ng-select class="mb-4" [(ngModel)]="orderDto.orderStatus"
+                         [disabled]="orderDto.orderStatus === null || orderStatusInDb === 3 || orderStatusInDb === 4">
+                <ng-option *ngFor="let item of orderStatus" [value]="item.id">
+                  {{ item.name }}
+                </ng-option>
+              </ng-select>
+              <button class="btn btn-primary w-100" (click)="updateOrderStatus()"
+                      [disabled]="orderDto.orderStatus === null || orderStatusInDb === 3 || orderStatusInDb === 4">
+                Cập nhật trạng thái
+              </button>
             </div>
           </div>
         </div>

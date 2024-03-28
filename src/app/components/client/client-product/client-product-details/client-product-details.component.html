@@ -159,7 +159,7 @@
                 <span class="fas fa-shopping-cart me-2"></span>Thêm vào giỏ hàng
               </button>
               <button class="btn btn-lg btn-danger rounded-pill w-100 fs-9 fs-sm-8"
-                      [disabled]="quantityMax <= 0">
+                      [disabled]="quantityMax <= 0" (click)="buyNow()">
                 <span class="me-2 far fa-heart"></span>Mua ngay
               </button>
             </div>

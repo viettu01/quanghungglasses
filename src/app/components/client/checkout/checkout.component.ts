@@ -7,6 +7,7 @@ import {AuthService} from "../../../service/auth.service";
 import {OrderService} from "../../../service/order.service";
 import {ToastrService} from 'ngx-toastr';
 import {CartService} from "../../../service/cart.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-checkout',
@@ -19,14 +20,25 @@ export class CheckoutComponent implements OnInit {
   totalMoney: number = 0;
   selectedEyeglassPrescriptionUrl: string = '';
 
-  constructor(private title: Title, private toastr: ToastrService,
+  constructor(private title: Title, private toastr: ToastrService, private router: Router,
               private authService: AuthService, private orderService: OrderService, private cartService: CartService) {
   }
 
   orderForm: FormGroup = new FormGroup({
-    fullname: new FormControl('', Validators.required),
-    phone: new FormControl('', Validators.required),
-    address: new FormControl('', Validators.required),
+    fullname: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(30)
+    ]),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(10),
+      Validators.minLength(10),
+      Validators.pattern("^0[0-9]{9}$")
+    ]),
+    address: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(200)
+    ]),
     note: new FormControl(''),
     eyeglassPrescriptionImage: new FormControl(null),
     paymentMethod: new FormControl('0', Validators.required)
@@ -42,6 +54,7 @@ export class CheckoutComponent implements OnInit {
   getProductFromSession() {
     // lay danh sach san pham trong session
     this.cartsItems = JSON.parse(sessionStorage.getItem('selectedItems') || '[]');
+    console.log(this.cartsItems)
   }
 
   getTotalMoney() {
@@ -108,16 +121,22 @@ export class CheckoutComponent implements OnInit {
         price: item.productPrice
       };
     });
+    if (orderDto.orderDetails.length === 0) {
+      this.toastr.error('Vui lòng chọn sản phẩm');
+      return;
+    }
     this.orderService.create(orderDto).subscribe({
       next: (response: any) => {
         this.toastr.success('Đặt hàng thành công');
         sessionStorage.removeItem('selectedItems');
         this.cartsItems.forEach(item => {
           this.cartService.deleteCartItemOnServer(item.id).subscribe({
-            next: () => {}
+            next: () => {
+              this.cartService.getCartItemsServer();
+            }
           });
         });
-        window.location.href = '/don-hang/' + response.id;
+        this.router.navigateByUrl('/don-hang/' + response.id);
       },
       error: (error: any) => {
         if (error.status === 400)

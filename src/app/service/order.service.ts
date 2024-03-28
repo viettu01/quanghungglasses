@@ -37,7 +37,7 @@ export class OrderService {
     console.log(orderDto.eyeglassPrescriptionImage);
     if (orderDto.eyeglassPrescriptionImage != null)
       formData.append('eyeglassPrescriptionImage', orderDto.eyeglassPrescriptionImage);
-    formData.append('paymentMethod', orderDto.paymentMethod);
+    formData.append('paymentMethod', orderDto.paymentMethod.toString());
     formData.append('paymentStatus', orderDto.paymentStatus.toString());
     formData.append('orderStatus', orderDto.orderStatus.toString());
     for (let i = 0; i < orderDto.orderDetails.length; i++) {
@@ -47,5 +47,9 @@ export class OrderService {
     }
 
     return this.http.post(this.apiOrderUrl, formData);
+  }
+
+  updateOrderStatus(id: number, orderStatus: number) {
+    return this.http.put(`${this.apiOrderAdminUrl}/${id}/${orderStatus}`, null, this.apiConfigUrl);
   }
 }

@@ -16,6 +16,17 @@ export class AdminOrderDetailsComponent implements OnInit {
   orderDto: OrderDto = OrderDto.createEmpty();
   baseUrl = Environment.apiBaseUrl + '/images/';
 
+  // tao 1 danh sach cac gia tri cua orderStatus
+  orderStatus = [
+    {id: 0, name: 'Chờ xác nhận'},
+    {id: 1, name: 'Đã xác nhận'},
+    {id: 2, name: 'Đang giao hàng'},
+    {id: 3, name: 'Đã giao hàng'},
+    {id: 4, name: 'Đã hủy'}
+  ];
+
+  orderStatusInDb: any = 0;
+
   constructor(private title: Title, private activatedRoute: ActivatedRoute, private router: Router,
               private orderService: OrderService, private toastr: ToastrService) {
   }
@@ -23,21 +34,41 @@ export class AdminOrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.title.setTitle(this.titleString);
     this.findById();
-    console.log(this.orderDto.paymentStatus);
   }
 
   findById() {
     this.orderService.findById(this.activatedRoute.snapshot.params["id"]).subscribe({
       next: (data: any) => {
         this.orderDto = data;
+        this.orderStatusInDb = data.orderStatus;
         this.orderDto.totalMoney = 0;
         this.orderDto.orderDetails.forEach(orderDetails => {
           orderDetails.totalMoney = orderDetails.quantity * orderDetails.price;
           this.orderDto.totalMoney += orderDetails.totalMoney;
         });
       },
-      error: (error) => {
-        this.toastr.error('Không tìm thấy đơn hàng', 'Lỗi');
+      error: (error: any) => {
+        if (error.status == 404) {
+          this.router.navigateByUrl('/admin/orders');
+          this.toastr.error(error.error);
+        } else {
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
+        }
+      }
+    });
+  }
+
+  updateOrderStatus() {
+    this.orderService.updateOrderStatus(this.orderDto.id, this.orderDto.orderStatus).subscribe({
+      next: () => {
+        this.toastr.success('Cập nhật trạng thái đơn hàng thành công');
+        this.findById();
+      },
+      error: (error: any) => {
+        if (error.status == 404)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
       }
     });
   }

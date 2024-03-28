@@ -18,8 +18,7 @@
           <div class="search-box">
             <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
               <input class="form-control search-input search" type="search" placeholder="Nhập tên khách hàng"
-                     aria-label="Search" name="searchTemp" (input)="search()" [(ngModel)]="searchTemp"
-                     appNoLeadingSpace/>
+                     name="searchTemp" (input)="search()" [(ngModel)]="searchTemp" appNoLeadingSpace/>
               <span class="fas fa-search search-box-icon"></span>
             </form>
           </div>
@@ -83,15 +82,15 @@
               </label>
             </th>
             <th class="sort white-space-nowrap align-middle text-start pe-3" scope="col" data-sort="fulfilment_status"
-                style="width:12%; min-width: 200px;" (click)="sortByField('completeDate')">
+                style="width:12%; min-width: 200px;" (click)="sortByField('completedDate')">
               Ngày hoàn thành
-              <label [class.d-none]="sortBy === 'completeDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
+              <label [class.d-none]="sortBy === 'completedDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
               </label>
-              <label [class.d-none]="sortBy !== 'completeDate' || sortDir !== 'ASC'">
+              <label [class.d-none]="sortBy !== 'completedDate' || sortDir !== 'ASC'">
                 <span class="fas fa-sort-up align-middle fs-9"></span>
               </label>
-              <label [class.d-none]="sortBy !== 'completeDate' || sortDir !== 'DESC'">
+              <label [class.d-none]="sortBy !== 'completedDate' || sortDir !== 'DESC'">
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
@@ -124,6 +123,11 @@
           </tr>
           </thead>
           <tbody class="list" id="order-table-body">
+          <tr class="position-static" *ngIf="paginationDTO.content.length <= 0">
+            <td colspan="7" class="text-center">
+              <span class="fs-7">Không có dữ liệu</span>
+            </td>
+          </tr>
           <tr class="hover-actions-trigger btn-reveal-trigger position-static"
               *ngFor="let order of paginationDTO.content">
             <td class="order align-middle white-space-nowrap py-3">
@@ -136,20 +140,20 @@
               <h6 class="mb-0 text-body">{{ order.fullname }}</h6>
             </td>
             <td class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-              <span class="text-success" *ngIf="order.paymentStatus">Hoàn thành</span>
-              <span class="text-danger" *ngIf="!order.paymentStatus">Chưa hoàn thành</span>
+              <span class="text-success" *ngIf="order.paymentStatus">Đã thanh toán</span>
+              <span class="text-danger" *ngIf="!order.paymentStatus">Chưa thanh toán</span>
             </td>
             <td class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-              <span class="text-success" *ngIf="order.completeDate !== null">
-                {{ order.completeDate | date:'dd/MM/yyyy HH:mm:ss' }}
+              <span class="text-success" *ngIf="order.completedDate !== null">
+                {{ order.completedDate | date:'dd/MM/yyyy HH:mm:ss' }}
               </span>
-              <span class="text-danger" *ngIf="order.completeDate == null">
+              <span class="text-danger" *ngIf="order.completedDate == null">
                 Chưa hoàn thành
               </span>
             </td>
             <td class="delivery_type align-middle white-space-nowrap text-body fs-9 text-start">
-              <span class="text-success" *ngIf="order.paymentMethod == '0'">Thanh toán khi nhận hàng</span>
-              <span class="text-success" *ngIf="order.paymentMethod == '1'">VNPay</span>
+              <span class="text-success" *ngIf="order.paymentMethod == 0">Thanh toán khi nhận hàng</span>
+              <span class="text-success" *ngIf="order.paymentMethod == 1">VNPay</span>
             </td>
             <td class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end">
               {{ order.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}

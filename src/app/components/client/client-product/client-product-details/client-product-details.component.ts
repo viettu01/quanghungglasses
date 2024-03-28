@@ -128,4 +128,20 @@ export class ClientProductDetailsComponent implements OnInit {
       // }
     }
   }
+
+  buyNow() {
+    let cartDto = CartDto.createEmpty();
+    cartDto.productDetailsId = this.productDetailsId;
+    cartDto.productColor = this.product.productDetails.find(item => item.id === this.productDetailsId)!.color;
+    cartDto.productName = this.product.name;
+    cartDto.productPrice = this.product.priceDiscount != null ? this.product.priceDiscount : this.product.price;
+    cartDto.productSlug = this.product.slug;
+    cartDto.quantityInStock = this.product.productDetails.find(item => item.id === this.productDetailsId)!.quantity;
+    cartDto.productDetailsThumbnails = this.product.thumbnail;
+    cartDto.quantity = this.quantity;
+    cartDto.isSelected = false;
+
+    sessionStorage.setItem('selectedItems', JSON.stringify(cartDto));
+    window.location.href = '/thanh-toan';
+  }
 }

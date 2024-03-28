@@ -11,7 +11,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class CartService {
   private apiCartUrl = `${Environment.apiBaseUrl}/cart`;
-  private cartItemsSubject = new BehaviorSubject<CartDto[]>([]);
+  public cartItemsSubject = new BehaviorSubject<CartDto[]>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(private tokenService: TokenService, private http: HttpClient, private toastr: ToastrService) {
