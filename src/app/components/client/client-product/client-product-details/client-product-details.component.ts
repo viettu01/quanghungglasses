@@ -141,7 +141,7 @@ export class ClientProductDetailsComponent implements OnInit {
     cartDto.quantity = this.quantity;
     cartDto.isSelected = false;
 
-    sessionStorage.setItem('selectedItems', JSON.stringify(cartDto));
+    sessionStorage.setItem('selectedItems', JSON.stringify([cartDto]));
     window.location.href = '/thanh-toan';
   }
 }
