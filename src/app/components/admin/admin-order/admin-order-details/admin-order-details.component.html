@@ -114,7 +114,7 @@
                     {{ orderDto.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}
                   </div>
                 </div>
-                <div class="col-6 col-sm-12">
+                <div class="col-6 col-sm-12" *ngIf="orderDto.paymentDate != null">
                   <div class="d-flex align-items-center mb-1">
                     <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
                     <h6 class="mb-0">Ngày thanh toán</h6>
@@ -123,7 +123,43 @@
                     {{ orderDto.paymentDate | date: 'dd/MM/yyyy HH:mm:ss' }}
                   </div>
                 </div>
-                <div class="col-6 col-sm-12">
+                <div class="col-6 col-sm-12" *ngIf="orderDto.confirmDate != null">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày xác nhận</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.confirmDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12" *ngIf="orderDto.deliveryDate != null">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày vận chuyển</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.deliveryDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12" *ngIf="orderDto.receiveDate != null">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày nhận hàng</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.receiveDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12" *ngIf="orderDto.cancelDate != null">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày hủy</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.cancelDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12" *ngIf="orderDto.completedDate != null">
                   <div class="d-flex align-items-center mb-1">
                     <span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
                     <h6 class="mb-0">Ngày hoàn thành</h6>
@@ -161,13 +197,16 @@
             <div class="card-body">
               <h3 class="card-title mb-4">Trạng thái đơn hàng</h3>
               <ng-select class="mb-4" [(ngModel)]="orderDto.orderStatus"
-                         [disabled]="orderDto.orderStatus === null || orderStatusInDb === 3 || orderStatusInDb === 4">
+                         [disabled]="orderDto.orderStatus === null || orderStatusInDb === 4 || orderStatusInDb === 5">
                 <ng-option *ngFor="let item of orderStatus" [value]="item.id">
                   {{ item.name }}
                 </ng-option>
               </ng-select>
+              <textarea class="form-control mb-4" rows="3" [(ngModel)]="orderDto.cancelReason"
+                        [class.d-none]="orderDto.orderStatus !== 5"
+                        placeholder="Lý do hủy"></textarea>
               <button class="btn btn-primary w-100" (click)="updateOrderStatus()"
-                      [disabled]="orderDto.orderStatus === null || orderStatusInDb === 3 || orderStatusInDb === 4">
+                      [disabled]="orderDto.orderStatus === null || orderStatusInDb === 4 || orderStatusInDb === 5">
                 Cập nhật trạng thái
               </button>
             </div>

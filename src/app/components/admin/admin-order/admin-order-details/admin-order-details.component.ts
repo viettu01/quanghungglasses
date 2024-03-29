@@ -22,7 +22,8 @@ export class AdminOrderDetailsComponent implements OnInit {
     {id: 1, name: 'Đã xác nhận'},
     {id: 2, name: 'Đang giao hàng'},
     {id: 3, name: 'Đã giao hàng'},
-    {id: 4, name: 'Đã hủy'}
+    {id: 4, name: 'Đã hoàn thành'},
+    {id: 5, name: 'Đã hủy'}
   ];
 
   orderStatusInDb: any = 0;

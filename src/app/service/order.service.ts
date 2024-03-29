@@ -24,8 +24,22 @@ export class OrderService {
     return this.http.get(this.apiOrderAdminUrl, {params: queryParams});
   }
 
+  findAllByCustomer(orderId: number, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("id", orderId.toString());
+    queryParams = queryParams.append("page-size", pageSize);
+    queryParams = queryParams.append("page-number", pageNumber);
+    queryParams = queryParams.append("sort-direction", sortDir);
+    queryParams = queryParams.append("sort-by", sortBy);
+    return this.http.get(this.apiOrderUrl, {params: queryParams});
+  }
+
   findById(id: number) {
     return this.http.get(`${this.apiOrderAdminUrl}/${id}`);
+  }
+
+  findByIdWithClient(id: number) {
+    return this.http.get(`${this.apiOrderUrl}/${id}`);
   }
 
   create(orderDto: OrderDto) {

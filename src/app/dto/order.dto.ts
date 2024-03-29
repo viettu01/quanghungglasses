@@ -15,6 +15,11 @@ export class OrderDto {
   paymentStatus: boolean;
   completedDate: Date;
   orderStatus: number; // 0: chờ xác nhận, 1: đã xác nhận, 2: đang giao hàng, 3: đã giao hàng, 4: đã hủy
+  confirmDate: any; // ngày xác nhận đơn hàng
+  deliveryDate: any; // ngày giao hàng
+  receiveDate: any; // ngày nhận hàng
+  cancelDate: any; // ngày hủy đơn hàng
+  cancelReason: any; // lý do hủy đơn hàng
   orderDetails: OrderDetailsDto[];
   totalMoney: number = 0;
 
