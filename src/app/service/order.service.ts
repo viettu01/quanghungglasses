@@ -63,7 +63,21 @@ export class OrderService {
     return this.http.post(this.apiOrderUrl, formData);
   }
 
-  updateOrderStatus(id: number, orderStatus: number) {
-    return this.http.put(`${this.apiOrderAdminUrl}/${id}/${orderStatus}`, null, this.apiConfigUrl);
+  updateOrderStatus(id: number, orderStatus: number, cancelReason: string) {
+    const formData = new FormData();
+    formData.append('id', id.toString());
+    formData.append('orderStatus', orderStatus.toString());
+    formData.append('cancelReason', cancelReason);
+    return this.http.put(this.apiOrderAdminUrl, formData);
+
+    // return this.http.put(`${this.apiOrderAdminUrl}/${id}/${orderStatus}`, null, this.apiConfigUrl);
+  }
+
+  updateOrderStatusClient(id: number, orderStatus: number, cancelReason: string) {
+    const formData = new FormData();
+    formData.append('id', id.toString());
+    formData.append('orderStatus', orderStatus.toString());
+    formData.append('cancelReason', cancelReason);
+    return this.http.put(this.apiOrderUrl, formData);
   }
 }

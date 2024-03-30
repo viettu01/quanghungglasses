@@ -21,7 +21,7 @@ export class AdminOrderDetailsComponent implements OnInit {
     {id: 0, name: 'Chờ xác nhận'},
     {id: 1, name: 'Đã xác nhận'},
     {id: 2, name: 'Đang giao hàng'},
-    {id: 3, name: 'Đã giao hàng'},
+    {id: 3, name: 'Đã nhận hàng'},
     {id: 4, name: 'Đã hoàn thành'},
     {id: 5, name: 'Đã hủy'}
   ];
@@ -60,7 +60,7 @@ export class AdminOrderDetailsComponent implements OnInit {
   }
 
   updateOrderStatus() {
-    this.orderService.updateOrderStatus(this.orderDto.id, this.orderDto.orderStatus).subscribe({
+    this.orderService.updateOrderStatus(this.orderDto.id, this.orderDto.orderStatus, this.orderDto.cancelReason).subscribe({
       next: () => {
         this.toastr.success('Cập nhật trạng thái đơn hàng thành công');
         this.findById();

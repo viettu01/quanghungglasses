@@ -30,6 +30,7 @@ export class ClientOrderDetailsComponent implements OnInit {
     this.orderService.findByIdWithClient(this.activatedRoute.snapshot.params["id"]).subscribe({
       next: (data: any) => {
         this.orders = data;
+        console.log("data", data);
         console.log(this.orders);
         this.orders.totalMoney = 0;
         this.orders.orderDetails.forEach(orderDetails => {
@@ -47,5 +48,20 @@ export class ClientOrderDetailsComponent implements OnInit {
         }
       }
     })
+  }
+
+  updateOrderStatus(status: number) {
+    this.orderService.updateOrderStatusClient(this.orders.id, status, '').subscribe({
+      next: () => {
+        this.toastr.success('Cập nhật trạng thái đơn hàng thành công');
+        this.findById();
+      },
+      error: (error: any) => {
+        if (error.status == 404)
+          this.toastr.error(error.error);
+        else
+          this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
+      }
+    });
   }
 }

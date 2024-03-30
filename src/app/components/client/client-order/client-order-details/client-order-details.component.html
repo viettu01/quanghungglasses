@@ -7,6 +7,15 @@
         <h3 class="d-inline me-2">Địa chỉ nhận hàng</h3>
         <span class="fs-7">(Mã đơn hàng: {{ orders.id }})</span>
       </div>
+      <div class="d-flex flex-wrap align-items-center">
+        <button class="btn btn-outline-secondary me-2" [disabled]="orders.orderStatus > 0"
+                (click)="updateOrderStatus(5)">
+          Huỷ đơn hàng
+        </button>
+        <button class="btn btn-primary" [disabled]="orders.orderStatus != 2" (click)="updateOrderStatus(3)">
+          Đã nhận hàng
+        </button>
+      </div>
     </div>
     <div class="row gy-9 gx-5">
       <div class="col-12 col-lg-6">
@@ -49,14 +58,15 @@
                   <p class="fs-10 fw-semibold text-body-tertiary mb-0">
                     {{ orders.createdDate | date: 'dd/MM/yyyy' }}
                     <br class="d-none d-md-block">
-                    {{ orders.createdDate | date: 'HH:mm' }}
+                    {{ orders.createdDate | date: 'HH:mm:ss' }}
                   </p>
                 </div>
                 <div class="timeline-item-bar position-relative me-3 me-md-0">
-                  <div class="icon-item icon-item-sm bg-success" data-bs-theme="light">
-<!--                    <span class="fa-solid fa-check text-white fs-10"></span>-->
+                  <div class="icon-item icon-item-sm" data-bs-theme="light"
+                       [ngClass]="{'bg-warning': orders.orderStatus == 0, 'bg-success': orders.orderStatus >= 1}">
+                    <!--                    <span class="fa-solid fa-check text-white fs-10"></span>-->
                   </div>
-                  <span class="timeline-bar border-end border-success"></span>
+                  <span class="timeline-bar border-end border-success" [ngClass]="{'h-100': orders.orderStatus >= 5}"></span>
                 </div>
               </div>
               <div class="col">
@@ -66,20 +76,20 @@
               </div>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" *ngIf="orders.orderStatus < 5">
             <div class="row g-md-3 align-items-center mb-4">
               <div class="col-12 col-md-auto d-flex">
                 <div class="timeline-item-date text-end order-1 order-md-0 me-md-4">
-                  <p class="fs-10 fw-semibold text-body-tertiary mb-0" [class.invisible]="orders.confirmDate == null">
+                  <p class="fs-10 fw-semibold text-body-tertiary mb-0" [class.invisible]="orders.orderStatus == 0">
                     {{ (orders.confirmDate != null ? orders.confirmDate : orders.createdDate) | date: 'dd/MM/yyyy' }}
                     <br class="d-none d-md-block">
-                    {{ (orders.confirmDate != null ? orders.confirmDate : orders.createdDate) | date: 'HH:mm' }}
+                    {{ (orders.confirmDate != null ? orders.confirmDate : orders.createdDate) | date: 'HH:mm:ss' }}
                   </p>
                 </div>
                 <div class="timeline-item-bar position-relative me-3 me-md-0">
                   <div class="icon-item icon-item-sm"
-                       [ngClass]="orders.confirmDate != null ? 'bg-success' : 'bg-body-quaternary'">
-<!--                    <span class="fa-solid fa-check text-white fs-10"></span>-->
+                       [ngClass]="{'bg-body-quaternary': orders.orderStatus == 0, 'bg-warning': orders.orderStatus == 1, 'bg-success': orders.orderStatus >= 2}">
+                    <!--                    <span class="fa-solid fa-check text-white fs-10"></span>-->
                   </div>
                   <span class="timeline-bar border-end"
                         [ngClass]="orders.confirmDate != null ? 'border-success' : 'border-secondary-subtle'"></span>
@@ -92,23 +102,23 @@
               </div>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" *ngIf="orders.orderStatus < 5">
             <div class="row g-md-3 align-items-center mb-4">
               <div class="col-12 col-md-auto d-flex">
                 <div class="timeline-item-date text-end order-1 order-md-0 me-md-4">
                   <p class="fs-10 fw-semibold text-body-tertiary mb-0" [class.invisible]="orders.deliveryDate == null">
                     {{ (orders.deliveryDate != null ? orders.deliveryDate : orders.createdDate) | date: 'dd/MM/yyyy' }}
                     <br class="d-none d-md-block">
-                    {{ (orders.deliveryDate != null ? orders.deliveryDate : orders.createdDate) | date: 'HH:mm' }}
+                    {{ (orders.deliveryDate != null ? orders.deliveryDate : orders.createdDate) | date: 'HH:mm:ss' }}
                   </p>
                 </div>
                 <div class="timeline-item-bar position-relative me-3 me-md-0">
                   <div class="icon-item icon-item-sm bg-warning" data-bs-theme="light"
-                       [ngClass]="orders.deliveryDate != null ? 'bg-success' : 'bg-body-quaternary'">
-<!--                    <span class="fa-solid text-white fs-10 {{orders.deliveryDate}}"-->
-<!--                          [ngClass]="orders.deliveryDate != null ? 'fa-check' : 'fa-truck-ramp-box'"></span>-->
+                       [ngClass]="{'bg-body-quaternary': orders.orderStatus < 2, 'bg-warning': orders.orderStatus == 2, 'bg-success': orders.orderStatus > 2}">
+                    <!--                    <span class="fa-solid text-white fs-10 {{orders.deliveryDate}}"-->
+                    <!--                          [ngClass]="orders.deliveryDate != null ? 'fa-check' : 'fa-truck-ramp-box'"></span>-->
                   </div>
-                  <span class="timeline-bar border-end border-dashed" *ngIf="orders.deliveryDate != null"></span>
+                  <span class="timeline-bar border-end border-dashed" *ngIf="orders.cancelDate != null"></span>
                 </div>
               </div>
               <div class="col">
@@ -118,21 +128,22 @@
               </div>
             </div>
           </div>
-          <div class="timeline-item">
+          <div class="timeline-item" *ngIf="orders.orderStatus < 5">
             <div class="row g-md-3 align-items-center mb-4">
               <div class="col-12 col-md-auto d-flex">
                 <div class="timeline-item-date text-end order-1 order-md-0 me-md-4">
                   <p class="fs-10 fw-semibold text-body-tertiary mb-0" [class.invisible]="orders.receiveDate == null">
                     {{ (orders.receiveDate != null ? orders.receiveDate : orders.createdDate) | date: 'dd/MM/yyyy' }}
                     <br class="d-none d-md-block">
-                    {{ (orders.receiveDate != null ? orders.receiveDate : orders.createdDate) | date: 'HH:mm' }}
+                    {{ (orders.receiveDate != null ? orders.receiveDate : orders.createdDate) | date: 'HH:mm:ss' }}
                   </p>
                 </div>
                 <div class="timeline-item-bar position-relative me-3 me-md-0">
-                  <div class="icon-item icon-item-sm bg-body-quaternary" data-bs-theme="light">
-<!--                    <span class="fa-solid fa-truck text-white fs-10"></span>-->
+                  <div class="icon-item icon-item-sm bg-body-quaternary" data-bs-theme="light"
+                       [ngClass]="{'bg-body-quaternary': orders.orderStatus < 3, 'bg-success': orders.orderStatus >= 3}">
+                    <!--                    <span class="fa-solid fa-truck text-white fs-10"></span>-->
                   </div>
-                  <span class="timeline-bar border-end border-dashed h-100" *ngIf="orders.receiveDate != null"></span>
+                  <span class="timeline-bar border-end border-dashed h-100" *ngIf="orders.cancelDate != null"></span>
                 </div>
               </div>
               <div class="col">
@@ -142,19 +153,19 @@
               </div>
             </div>
           </div>
-          <div class="timeline-item" *ngIf="orders.cancelDate != null">
+          <div class="timeline-item" *ngIf="orders.orderStatus >= 5">
             <div class="row g-md-3 align-items-center mb-4">
               <div class="col-12 col-md-auto d-flex">
                 <div class="timeline-item-date text-end order-1 order-md-0 me-md-4">
                   <p class="fs-10 fw-semibold text-body-tertiary mb-0">
                     {{ orders.cancelDate | date: 'dd/MM/yyyy' }}
                     <br class="d-none d-md-block">
-                    {{ orders.cancelDate | date: 'HH:mm' }}
+                    {{ orders.cancelDate | date: 'HH:mm:ss' }}
                   </p>
                 </div>
                 <div class="timeline-item-bar position-relative me-3 me-md-0">
-                  <div class="icon-item icon-item-sm bg-body-quaternary" data-bs-theme="light">
-                    <span class="fa-solid fa-truck-fast text-white fs-10"></span>
+                  <div class="icon-item icon-item-sm bg-success" data-bs-theme="light">
+<!--                    <span class="fa-solid fa-truck-fast text-white fs-10"></span>-->
                   </div>
                 </div>
               </div>
@@ -168,7 +179,7 @@
         </div>
       </div>
     </div>
-    <div class="row g-5 gy-7">
+    <div class="row mt-3">
       <div class="col-12">
         <div id="orderTable">
           <div class="table-responsive scrollbar">
