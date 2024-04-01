@@ -1,12 +1,16 @@
 <nav class="mb-2" aria-label="breadcrumb">
   <ol class="breadcrumb mb-0">
-    <li class="breadcrumb-item"><a href="#!">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
     <li class="breadcrumb-item">Quản lý bán hàng</li>
     <li class="breadcrumb-item active">{{ titleString }}</li>
   </ol>
 </nav>
 <div class="mb-9">
-  <h2 class="mb-3">Đơn hàng <span>#{{ orderDto.id }}</span></h2>
+  <div class="row g-3">
+    <div class="col-auto">
+      <h2 class="mb-3">Đơn hàng <span>#{{ orderDto.id }}</span></h2>
+    </div>
+  </div>
   <div class="row g-5 gy-7">
     <div class="col-12 col-xl-8 col-xxl-9">
       <div id="orderTable">
@@ -65,7 +69,7 @@
           <h4 class="mb-3">Đơn kính</h4>
           <div class="row g-4 flex-sm-column">
             <div class="col-6 col-sm-6 w-100">
-              <img class="w-100" [src]="baseUrl + orderDto.eyeglassPrescription">
+              <img class="w-100" [src]="baseUrl + orderDto.eyeglassPrescription" alt="">
             </div>
           </div>
         </div>
@@ -214,10 +218,15 @@
               </ng-select>
               <textarea class="form-control mb-4" rows="3" [(ngModel)]="orderDto.cancelReason"
                         [class.d-none]="orderDto.orderStatus !== 6" placeholder="Lý do hủy"></textarea>
-              <button class="btn btn-primary w-100" (click)="updateOrderStatus()"
-                      [disabled]="orderDto.orderStatus === null || orderStatusInDb === 5 || orderStatusInDb === 6">
-                Cập nhật trạng thái
-              </button>
+              <div class="text-end">
+                <a class="btn btn-phoenix-secondary me-2" href="/admin/order">
+                  Quay lại
+                </a>
+                <button class="btn btn-primary" (click)="updateOrderStatus()"
+                        [disabled]="orderDto.orderStatus === null || orderStatusInDb === 5 || orderStatusInDb === 6">
+                  Cập nhật
+                </button>
+              </div>
             </div>
           </div>
         </div>

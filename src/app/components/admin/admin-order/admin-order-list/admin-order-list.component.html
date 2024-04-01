@@ -52,11 +52,11 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort white-space-nowrap align-middle text-end" scope="col" data-sort="total" style="width:6%;">
+            <th class="sort white-space-nowrap align-middle text-end" scope="col" data-sort="total" style="width:10%;">
               Tổng tiền
             </th>
             <th class="sort white-space-nowrap align-middle ps-8" scope="col" data-sort="customer"
-                style="width:28%; min-width: 250px;" (click)="sortByField('fullname')">
+                style="width:20%; min-width: 250px;" (click)="sortByField('fullname')">
               Khách hàng
               <label [class.d-none]="sortBy === 'fullname' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
@@ -69,28 +69,15 @@
               </label>
             </th>
             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="payment_status"
-                style="width:10%;" (click)="sortByField('paymentStatus')">
-              Trạng thái thanh toán
-              <label [class.d-none]="sortBy === 'paymentStatus' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                style="width:30%;" (click)="sortByField('orderStatus')">
+              Trạng thái đơn hàng
+              <label [class.d-none]="sortBy === 'orderStatus' && (sortDir === 'DESC' || sortDir === 'ASC')">
                 <span class="fas fa-sort align-middle fs-9"></span>
               </label>
-              <label [class.d-none]="sortBy !== 'paymentStatus' || sortDir !== 'ASC'">
+              <label [class.d-none]="sortBy !== 'orderStatus' || sortDir !== 'ASC'">
                 <span class="fas fa-sort-up align-middle fs-9"></span>
               </label>
-              <label [class.d-none]="sortBy !== 'paymentStatus' || sortDir !== 'DESC'">
-                <span class="fas fa-sort-down align-middle fs-9"></span>
-              </label>
-            </th>
-            <th class="sort white-space-nowrap align-middle text-start pe-3" scope="col" data-sort="fulfilment_status"
-                style="width:12%; min-width: 200px;" (click)="sortByField('completedDate')">
-              Ngày hoàn thành
-              <label [class.d-none]="sortBy === 'completedDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
-                <span class="fas fa-sort align-middle fs-9"></span>
-              </label>
-              <label [class.d-none]="sortBy !== 'completedDate' || sortDir !== 'ASC'">
-                <span class="fas fa-sort-up align-middle fs-9"></span>
-              </label>
-              <label [class.d-none]="sortBy !== 'completedDate' || sortDir !== 'DESC'">
+              <label [class.d-none]="sortBy !== 'orderStatus' || sortDir !== 'DESC'">
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
@@ -140,16 +127,12 @@
               <h6 class="mb-0 text-body">{{ order.fullname }}</h6>
             </td>
             <td class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-              <span class="text-success" *ngIf="order.paymentStatus">Đã thanh toán</span>
-              <span class="text-danger" *ngIf="!order.paymentStatus">Chưa thanh toán</span>
-            </td>
-            <td class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-              <span class="text-success" *ngIf="order.completedDate !== null">
-                {{ order.completedDate | date:'dd/MM/yyyy HH:mm:ss' }}
-              </span>
-              <span class="text-danger" *ngIf="order.completedDate == null">
-                Chưa hoàn thành
-              </span>
+              <span class="text-warning-dark" *ngIf="order.orderStatus == 0">Chờ xác nhận</span>
+              <span class="text-info-dark" *ngIf="order.orderStatus == 1">Đã xác nhận</span>
+              <span class="text-success-dark" *ngIf="order.orderStatus == 2">Đang giao hàng</span>
+              <span class="text-success-dark" *ngIf="order.orderStatus == 3">Đã giao hàng</span>
+              <span class="text-success-dark" *ngIf="order.orderStatus == 4">Đã nhận hàng</span>
+              <span class="text-danger-dark" *ngIf="order.orderStatus == 6">Đã hủy</span>
             </td>
             <td class="delivery_type align-middle white-space-nowrap text-body fs-9 text-start">
               <span class="text-success" *ngIf="order.paymentMethod == 0">Thanh toán khi nhận hàng</span>
