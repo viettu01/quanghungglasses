@@ -108,11 +108,7 @@ export class CheckoutComponent implements OnInit {
 
   create() {
     let orderDto = this.orderForm.value;
-    if (this.orderForm.get('paymentMethod')?.value === '0') {
-      orderDto.paymentStatus = 0;
-    } else {
-      orderDto.paymentStatus = 1;
-    }
+    orderDto.paymentStatus = 0;
     orderDto.orderStatus = 0; // 0: Chờ xác nhận, 1: Đã xác nhận, 2: Đang giao, 3: Đã giao, 4: Đã hủy
     orderDto.orderDetails = this.cartsItems.map(item => {
       return {
@@ -136,7 +132,19 @@ export class CheckoutComponent implements OnInit {
             }
           });
         });
-        this.router.navigateByUrl('/don-hang/' + response.id);
+        if (orderDto.paymentMethod === '0') {
+          this.router.navigateByUrl('/don-hang/' + response.id);
+        } else if (orderDto.paymentMethod === '1') {
+          this.orderService.payment(this.totalMoney, response.id).subscribe({
+            next: (data: any) => {
+              window.location.href = data.redirectUrl;
+            },
+            error: (error: any) => {
+              console.log(error);
+              this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
+            }
+          });
+        }
       },
       error: (error: any) => {
         if (error.status === 400)

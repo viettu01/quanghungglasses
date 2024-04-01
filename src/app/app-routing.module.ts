@@ -74,6 +74,7 @@ import {
   ClientOrderDetailsComponent
 } from "./components/client/client-order/client-order-details/client-order-details.component";
 import {ClientOrderListComponent} from "./components/client/client-order/client-order-list/client-order-list.component";
+import {PaymentSuccessComponent} from "./components/client/payment-success/payment-success.component";
 
 const routes: Routes = [
   {
@@ -138,7 +139,8 @@ const routes: Routes = [
       {path: 'tim-kiem', component: ClientProductSearchComponent},
       {path: 'thanh-toan', component: CheckoutComponent, canActivate: [UserGuard]},
       {path: 'don-hang', component: ClientOrderListComponent, canActivate: [UserGuard]},
-      {path: 'don-hang/:id', component: ClientOrderDetailsComponent, canActivate: [UserGuard]}
+      {path: 'don-hang/:id', component: ClientOrderDetailsComponent, canActivate: [UserGuard]},
+      {path: 'thanh-toan-thanh-cong/:orderId', component: PaymentSuccessComponent, canActivate: [UserGuard]},
     ]
   },
   {path: 'login', component: LoginComponent},

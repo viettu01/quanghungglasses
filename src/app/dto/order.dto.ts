@@ -16,6 +16,7 @@ export class OrderDto {
   completedDate: Date;
   orderStatus: number; // 0: chờ xác nhận, 1: đã xác nhận, 2: đang giao hàng, 3: đã giao hàng, 4: đã hủy
   confirmDate: any; // ngày xác nhận đơn hàng
+  deliveryToShipperDate: any; // ngày giao cho shipper
   deliveryDate: any; // ngày giao hàng
   receiveDate: any; // ngày nhận hàng
   cancelDate: any; // ngày hủy đơn hàng

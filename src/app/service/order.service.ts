@@ -9,6 +9,7 @@ import {OrderDto} from "../dto/order.dto";
 export class OrderService {
   private apiOrderAdminUrl = `${Environment.apiBaseUrl}/admin/orders`;
   private apiOrderUrl = `${Environment.apiBaseUrl}/orders`;
+  private apiPaymentUrl = `${Environment.apiBaseUrl}/payment/vnpay`;
   private apiConfigUrl = {headers: {'Content-Type': 'application/json'}};
 
   constructor(private http: HttpClient) {
@@ -48,7 +49,6 @@ export class OrderService {
     formData.append('address', orderDto.address);
     formData.append('phone', orderDto.phone);
     formData.append('note', orderDto.note);
-    console.log(orderDto.eyeglassPrescriptionImage);
     if (orderDto.eyeglassPrescriptionImage != null)
       formData.append('eyeglassPrescriptionImage', orderDto.eyeglassPrescriptionImage);
     formData.append('paymentMethod', orderDto.paymentMethod.toString());
@@ -79,5 +79,12 @@ export class OrderService {
     formData.append('orderStatus', orderStatus.toString());
     formData.append('cancelReason', cancelReason);
     return this.http.put(this.apiOrderUrl, formData);
+  }
+
+  payment(amount: number, orderId: number) {
+    const formData = new FormData();
+    formData.append('amount', amount.toString());
+    formData.append('orderInfo', orderId.toString());
+    return this.http.post(`${this.apiPaymentUrl}/create-payment`, formData);
   }
 }

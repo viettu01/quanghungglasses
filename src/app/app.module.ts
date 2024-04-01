@@ -97,6 +97,7 @@ import {ClientOrderListComponent} from './components/client/client-order/client-
 import {
   ClientOrderDetailsComponent
 } from "./components/client/client-order/client-order-details/client-order-details.component";
+import { PaymentSuccessComponent } from './components/client/payment-success/payment-success.component';
 
 register();
 
@@ -160,7 +161,8 @@ register();
     CheckoutComponent,
     ClientProductSearchComponent,
     ClientOrderDetailsComponent,
-    ClientOrderListComponent
+    ClientOrderListComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,

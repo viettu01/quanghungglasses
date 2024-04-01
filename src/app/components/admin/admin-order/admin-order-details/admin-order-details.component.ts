@@ -21,9 +21,10 @@ export class AdminOrderDetailsComponent implements OnInit {
     {id: 0, name: 'Chờ xác nhận'},
     {id: 1, name: 'Đã xác nhận'},
     {id: 2, name: 'Đang giao hàng'},
-    {id: 3, name: 'Đã nhận hàng'},
-    {id: 4, name: 'Đã hoàn thành'},
-    {id: 5, name: 'Đã hủy'}
+    {id: 3, name: 'Đã giao hàng'},
+    {id: 4, name: 'Đã nhận hàng'},
+    {id: 5, name: 'Đã hoàn thành'},
+    {id: 6, name: 'Đã hủy'}
   ];
 
   orderStatusInDb: any = 0;
@@ -49,8 +50,8 @@ export class AdminOrderDetailsComponent implements OnInit {
         });
       },
       error: (error: any) => {
-        if (error.status == 404) {
-          this.router.navigateByUrl('/admin/orders');
+        if (error.status == 400) {
+          this.router.navigateByUrl('/admin/order');
           this.toastr.error(error.error);
         } else {
           this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');

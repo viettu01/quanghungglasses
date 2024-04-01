@@ -132,10 +132,19 @@
                     {{ orderDto.confirmDate | date: 'dd/MM/yyyy HH:mm:ss' }}
                   </div>
                 </div>
+                <div class="col-6 col-sm-12" *ngIf="orderDto.deliveryToShipperDate != null">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày giao hàng cho đơn vị vận chuyển</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.deliveryToShipperDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
                 <div class="col-6 col-sm-12" *ngIf="orderDto.deliveryDate != null">
                   <div class="d-flex align-items-center mb-1">
                     <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>
-                    <h6 class="mb-0">Ngày vận chuyển</h6>
+                    <h6 class="mb-0">Ngày giao hàng</h6>
                   </div>
                   <div class="ms-4">
                     {{ orderDto.deliveryDate | date: 'dd/MM/yyyy HH:mm:ss' }}
@@ -150,15 +159,6 @@
                     {{ orderDto.receiveDate | date: 'dd/MM/yyyy HH:mm:ss' }}
                   </div>
                 </div>
-                <div class="col-6 col-sm-12" *ngIf="orderDto.cancelDate != null">
-                  <div class="d-flex align-items-center mb-1">
-                    <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>
-                    <h6 class="mb-0">Ngày hủy</h6>
-                  </div>
-                  <div class="ms-4">
-                    {{ orderDto.cancelDate | date: 'dd/MM/yyyy HH:mm:ss' }}
-                  </div>
-                </div>
                 <div class="col-6 col-sm-12" *ngIf="orderDto.completedDate != null">
                   <div class="d-flex align-items-center mb-1">
                     <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>
@@ -166,6 +166,15 @@
                   </div>
                   <div class="ms-4">
                     {{ orderDto.completedDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </div>
+                </div>
+                <div class="col-6 col-sm-12" *ngIf="orderDto.cancelDate != null">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>
+                    <h6 class="mb-0">Ngày hủy</h6>
+                  </div>
+                  <div class="ms-4">
+                    {{ orderDto.cancelDate | date: 'dd/MM/yyyy HH:mm:ss' }}
                   </div>
                 </div>
                 <div class="col-6 col-sm-12">
@@ -180,7 +189,8 @@
                 </div>
                 <div class="col-6 col-sm-12">
                   <div class="d-flex align-items-center mb-1">
-                    <span class="me-2 fa-solid fa-hand-holding-dollar" data-feather="dollar-sign" style="stroke-width:2.5;">  </span>
+                    <span class="me-2 fa-solid fa-hand-holding-dollar" data-feather="dollar-sign"
+                          style="stroke-width:2.5;">  </span>
                     <h6 class="mb-0">Trạng thái thanh toán</h6>
                   </div>
                   <div class="ms-4">
@@ -197,16 +207,15 @@
             <div class="card-body">
               <h3 class="card-title mb-4">Trạng thái đơn hàng</h3>
               <ng-select class="mb-4" [(ngModel)]="orderDto.orderStatus"
-                         [disabled]="orderDto.orderStatus === null || orderStatusInDb === 4 || orderStatusInDb === 5">
-                <ng-option *ngFor="let item of orderStatus" [value]="item.id" [disabled]="item.id == 3">
+                         [disabled]="orderDto.orderStatus === null || orderStatusInDb === 5 || orderStatusInDb === 6">
+                <ng-option *ngFor="let item of orderStatus" [value]="item.id" [disabled]="item.id == 4">
                   {{ item.name }}
                 </ng-option>
               </ng-select>
               <textarea class="form-control mb-4" rows="3" [(ngModel)]="orderDto.cancelReason"
-                        [class.d-none]="orderDto.orderStatus !== 5"
-                        placeholder="Lý do hủy"></textarea>
+                        [class.d-none]="orderDto.orderStatus !== 6" placeholder="Lý do hủy"></textarea>
               <button class="btn btn-primary w-100" (click)="updateOrderStatus()"
-                      [disabled]="orderDto.orderStatus === null || orderStatusInDb === 4 || orderStatusInDb === 5">
+                      [disabled]="orderDto.orderStatus === null || orderStatusInDb === 5 || orderStatusInDb === 6">
                 Cập nhật trạng thái
               </button>
             </div>
