@@ -66,7 +66,7 @@ import {
   ClientProductByCategoryComponent
 } from "./components/client/client-product/client-product-by-category/client-product-by-category.component";
 import {CartComponent} from "./components/client/cart/cart.component";
-import {CheckoutComponent} from "./components/client/checkout/checkout.component";
+import {CheckoutComponent} from "./components/client/client-order/checkout/checkout.component";
 import {
   ClientProductSearchComponent
 } from "./components/client/client-product/client-product-search/client-product-search.component";

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
-import {CartDto} from "../../../dto/cart.dto";
-import {Environment} from "../../../environment/environment";
+import {CartDto} from "../../../../dto/cart.dto";
+import {Environment} from "../../../../environment/environment";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../service/auth.service";
-import {OrderService} from "../../../service/order.service";
+import {AuthService} from "../../../../service/auth.service";
+import {OrderService} from "../../../../service/order.service";
 import {ToastrService} from 'ngx-toastr';
-import {CartService} from "../../../service/cart.service";
+import {CartService} from "../../../../service/cart.service";
 import {Router} from "@angular/router";
 
 @Component({

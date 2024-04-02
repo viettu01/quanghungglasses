@@ -1,1 +1,315 @@
-<p>admin-order-save works!</p>
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<section class="py-0">
+  <div class="container-small">
+    <h2 class="mb-5">Thêm hóa đơn bán hàng</h2>
+
+    <form [formGroup]="orderForm" enctype="multipart/form-data" (submit)="onSubmit()">
+      <div class="row justify-content-between mb-3">
+        <div class="col-lg-6 col-xl-6">
+          <div class="d-flex align-items-end">
+            <h3 class="mb-0 me-3">Thông tin khách hàng</h3>
+          </div>
+          <table class="table table-borderless mt-4">
+            <tbody>
+            <tr>
+              <td class="py-2 px-0 align-middle">
+                <div class="d-flex">
+                  <span class="fs-3 me-2" data-feather="phone" style="height:16px; width:16px;"> </span>
+                  <h5 class="lh-sm">
+                    Số điện thoại <sup class="text-danger">*</sup>
+                  </h5>
+                </div>
+              </td>
+              <td class="py-2 ps-0 align-middle">
+                <input class="form-control" list="phones" formControlName="phone" (input)="getInfo()" appNoLeadingSpace>
+                <datalist id="phones">
+                  <option value="{{customer.phone}}" *ngFor="let customer of customers" [value]="customer.phone">
+                </datalist>
+                <small class="text-danger mt-1" *ngIf="orderForm['controls']['phone'].dirty">
+                  <span *ngIf="orderForm['controls']['phone'].errors?.['required']">
+                    Số điện thoại khách hàng không được để trống
+                  </span>
+                  <span *ngIf="orderForm['controls']['phone'].errors?.['maxlength']
+                    || orderForm['controls']['phone'].errors?.['minlength']">
+                    Số điện thoại phải đủ 10 số
+                  </span>
+                  <span *ngIf="!(orderForm['controls']['phone'].errors?.['maxlength']
+                                  || orderForm['controls']['phone'].errors?.['minlength'])
+                                  && orderForm['controls']['phone'].errors?.['pattern']">
+                    Số điện thoại không hợp lệ
+                  </span>
+                </small>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle">
+                <div class="d-flex">
+                  <span class="fs-3 me-2" data-feather="user" style="height:16px; width:16px;"> </span>
+                  <h5 class="lh-sm">
+                    Khách hàng <sup class="text-danger">*</sup>
+                  </h5>
+                </div>
+              </td>
+              <td class="py-2 ps-0 align-middle">
+                <input class="form-control" type="text" formControlName="fullname" appNoLeadingSpace/>
+                <small class="text-danger mt-1" *ngIf="orderForm['controls']['fullname'].dirty">
+                  <span *ngIf="orderForm['controls']['fullname'].errors?.['required']">
+                    Tên khách hàng không được để trống
+                  </span>
+                  <span *ngIf="orderForm['controls']['fullname'].errors?.['maxlength']">
+                    Tên khách hàng không được vượt quá 30 ký tự
+                  </span>
+                </small>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle">
+                <div class="d-flex">
+                  <span class="fs-3 me-2" data-feather="home" style="height:16px; width:16px;"> </span>
+                  <h5 class="lh-sm">
+                    Đia chỉ <sup class="text-danger">*</sup>
+                  </h5>
+                </div>
+              </td>
+              <td class="py-2 ps-0 align-middle">
+                <input class="form-control" formControlName="address" type="text" appNoLeadingSpace/>
+                <small class="text-danger mt-1" *ngIf="orderForm['controls']['address'].dirty">
+                  <span *ngIf="orderForm['controls']['address'].errors?.['required']">
+                    Địa chỉ khách hàng không được để trống
+                  </span>
+                  <span *ngIf="orderForm['controls']['address'].errors?.['maxlength']">
+                    Địa chỉ khách hàng vượt quá 200 ký tự
+                  </span>
+                </small>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle">
+                <div class="d-flex">
+                  <span class="fs-3 me-2" data-feather="clipboard" style="height:16px; width:16px;"> </span>
+                  <h5 class="lh-sm">
+                    Ghi chú
+                  </h5>
+                </div>
+              </td>
+              <td class="py-2 ps-0 align-middle">
+                <textarea class="form-control" rows="3" formControlName="note" appNoLeadingSpace></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle" colspan="2">
+                <div class="d-flex">
+                  <h5 class="lh-sm">
+                    Phiếu khám mắt
+                    <span class="fw-normal">(Phiếu khám mắt được cung cấp bởi kỹ thuật viên đo khúc xạ. Bao gồm các thông số quan
+                    trọng như số độ cận, viễn loạn, số đo PD… giúp chúng tôi cắt kính chính xác và thoải mái nhất cho
+                    đôi mắt của bạn.)</span>
+                  </h5>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle" colspan="2">
+                <input class="form-control" id="eyeglassPrescriptionImage" type="file" (change)="onFileChange($event)"/>
+              </td>
+            </tr>
+            <tr *ngIf="selectedEyeglassPrescriptionUrl != ''">
+              <td class="pt-2 pb-0 ps-0 align-middle" colspan="2">
+                <div class="position-relative text-decoration-none product-card h-100 m-auto" style="width: 200px">
+                  <div class="d-flex flex-column justify-content-between h-100">
+                    <div class="border border-1 border-translucent rounded-3 position-relative">
+                      <button (click)="removeEyeglassPrescription()"
+                              class="btn rounded-circle border-0 p-0 d-flex flex-center btn-wish z-2 d-toggle-container btn-outline-secondary">
+                        <span class="fa-solid fa-xmark"></span>
+                      </button>
+                      <img class="img-fluid" [src]="selectedEyeglassPrescriptionUrl" alt=""/>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-lg-6 col-xl-6">
+          <h3 class="mb-5">Phương thức thanh toán</h3>
+          <div class="row g-4 mb-7">
+            <div class="col-12">
+              <div class="row gx-lg-11">
+                <div class="col-12 col-md-auto">
+                  <div class="d-flex">
+                    <div class="form-check">
+                      <input class="form-check-input" id="0" type="radio" name="paymentMethod" value="0"
+                             formControlName="paymentMethod"/>
+                      <label class="form-check-label fs-8 text-body me-3" for="0">
+                        Thanh toán khi nhận hàng
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-auto">
+                  <div class="form-check">
+                    <input class="form-check-input" id="1" type="radio" name="paymentMethod" value="1"
+                           formControlName="paymentMethod"/>
+                    <label class="form-check-label fs-8 text-body" for="1">VNPay </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-xl-12">
+          <div class="card mt-3 mt-lg-0">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="mb-0">Danh sách sản phẩm</h3>
+              </div>
+              <div class="row">
+                <div class="col-auto col-5">
+                  <ng-select (change)="changeProduct()" formControlName="product" placeholder="Sản phẩm">
+                    <ng-option *ngFor="let product of products" [value]="product">
+                      {{ product.id }} - {{ product.name }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-auto col-3 ps-0">
+                  <ng-select formControlName="productDetails" placeholder="Màu sắc">
+                    <ng-option *ngFor="let productDetail of productDetails" [value]="productDetail"
+                               [disabled]="productDetail.quantity <= 0">
+                      {{ productDetail.color }} <span *ngIf="productDetail.quantity <= 0"
+                                                      class="text-danger">(Hết hàng)</span>
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-auto ps-0">
+                  <button type="button" class="btn btn-primary" (click)="addOrderDetails()"
+                          [disabled]="orderForm['controls']['product'].value == null
+                          || orderForm['controls']['productDetails'].value === null">
+                    Thêm
+                  </button>
+                </div>
+              </div>
+              <div class="border-dashed border-bottom border-translucent mt-4">
+                <div class="table-responsive scrollbar mx-n1 px-1 mt-3">
+                  <table class="table table-bordered fs--1 mb-0 bg-body-emphasis">
+                    <thead>
+                    <tr>
+                      <th class="align-middle white-space-nowrap text-center" scope="col" style="width: 0">
+                        STT
+                      </th>
+                      <th class="align-middle text-wrap" scope="col">
+                        Tên sản phẩm
+                      </th>
+                      <th class="align-middle white-space-nowrap" scope="col">
+                        Màu sắc
+                      </th>
+                      <th class="align-middle white-space-nowrap" scope="col" style="width: 90px;">
+                        Số lượng
+                      </th>
+                      <th class="align-middle white-space-nowrap" scope="col" style="width: 200px">
+                        Giá nhập
+                      </th>
+                      <th class="align-middle white-space-nowrap" scope="col">
+                        Thành tiền
+                      </th>
+                      <th class="text-end align-middle pe-0 ps-4" scope="col" style="width: 60px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="list" id="customers-table-body" formArrayName="orderDetails">
+                    <tr *ngIf="orderForm['controls']['orderDetails'].errors?.['required']">
+                      <td class="text-danger mt-1 text-center" colspan="7">
+                        Danh sách sản phẩm không được để trống
+                      </td>
+                    </tr>
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static"
+                        *ngFor="let details of orderDetails.controls; let i = index"
+                        [formGroupName]="i">
+                      <td class="customer align-middle white-space-nowrap py-3 pe-0 text-center fw-bold">
+                        {{ i + 1 }}
+                      </td>
+                      <td class="phone align-middle white-space-nowrap pe-5">
+                        {{ details.get('productName')?.value }}
+                      </td>
+                      <td class="total-orders align-middle white-space-nowrap fw-semibold text-body-highlight">
+                        {{ details.get('color')?.value }}
+                      </td>
+                      <td class="total-spent align-middle white-space-nowrap text-body-emphasis">
+                        <div class="col-auto">
+                          <input class="form-control" type="text" formControlName="quantity" (input)="quantityChange(i)"
+                                 (change)="getTotalMoney()"
+                                 appNoLeadingSpace appOnlyNumberDirective/>
+                        </div>
+                        <small class="text-danger mt-1" *ngIf="details.get('quantity')?.dirty">
+                          <span *ngIf="details.get('quantity')?.hasError('required')">
+                            Số lượng không được để trống
+                          </span>
+                          <span *ngIf="details.get('quantity')?.hasError('min')">
+                            Số lượng sản phẩm phải là số nguyên lớn hơn 0
+                          </span>
+                        </small>
+                      </td>
+                      <td class="last-seen align-middle white-space-nowrap fw-bold text-body-tertiary">
+                        <div class="col-auto">
+                          <span>{{ details.get('price')?.value  | currency:'VND':true:'1.0-0' }}</span>
+                        </div>
+                      </td>
+                      <td class="last-order align-middle white-space-nowrap text-body-tertiary">
+                        {{ details.get('totalOneProduct')?.value | currency:'VND':true:'1.0-0' }}
+                      </td>
+                      <td class="align-middle white-space-nowrap text-center ps-0 btn-reveal-trigger">
+                        <div class="font-sans-serif btn-reveal-trigger position-static">
+                          <button class="btn btn-sm btn-outline-danger fs--2" type="button"
+                                  (click)="removeOrderDetails(i)">
+                            <span class="fa-solid fa-trash fs--2"></span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="border-dashed border-bottom border-translucent mt-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <h5 class="text-body fw-semibold">Tổng số sản phẩm: </h5>
+                  <h5 class="text-body fw-semibold">{{ orderDetails.length }}</h5>
+                </div>
+                <!--              <div class="d-flex justify-content-between mb-2">-->
+                <!--                <h5 class="text-body fw-semibold">Giảm giá: </h5>-->
+                <!--                <h5 class="text-danger fw-semibold">-->
+                <!--                  - {{ 0 | currency:'VND':true:'1.0-0' }}-->
+                <!--                </h5>-->
+                <!--              </div>-->
+                <!--              <div class="d-flex justify-content-between mb-3">-->
+                <!--                <h5 class="text-body fw-semibold">Phí vận chuyển </h5>-->
+                <!--                <h5 class="text-body fw-semibold">-->
+                <!--                  {{ 30000 | currency:'VND':true:'1.0-0' }}-->
+                <!--                </h5>-->
+                <!--              </div>-->
+              </div>
+              <div class="d-flex justify-content-between border-dashed-y pt-3">
+                <h4 class="mb-0">Tổng đơn:</h4>
+                <h4 class="mb-0">
+                  {{ totalMoney | currency:'VND':true:'1.0-0' }}
+                </h4>
+              </div>
+              <div class="d-flex justify-content-between border-dashed-y pt-3">
+                <h4 class="mb-0"></h4>
+                <h4 class="mb-0">
+                  <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid">
+                    Thanh toán
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <!-- end of .container-->
+</section>
+<!-- <section> close ============================-->
+<!-- ============================================-->

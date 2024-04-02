@@ -21,11 +21,9 @@ export class ReceiptSaveComponent implements OnInit {
   suppliers: SupplierDto[] = [];
   products: ProductDto[] = [];
   productDetails: ProductDetailsDto[] = [];
-  productDetail: ProductDetailsDto = ProductDetailsDto.createEmpty();
 
   isDisplayNone: boolean = false;
   btnSave: string = "";
-  searchTemp: any = "";
   isUpdate: boolean = false;
 
   receiptForm: FormGroup = new FormGroup({
