@@ -87,6 +87,9 @@ export class AdminOrderSaveComponent implements OnInit {
         this.orderDetails.at(i).get('quantity')?.setValue(this.orderDetails.at(i).get('quantity')?.value + 1);
         const totalPrice = this.price * this.orderDetails.at(i).get('quantity')?.value;
         this.orderDetails.at(i).get('totalOneProduct')?.setValue(totalPrice);
+        this.orderForm.get('product')?.setValue(null);
+        this.orderForm.get('productDetails')?.setValue(null);
+        this.getTotalMoney();
         return;
       }
     }
