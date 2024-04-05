@@ -18,6 +18,9 @@ export class CheckoutComponent implements OnInit {
   baseUrl = Environment.apiBaseUrl + '/images/';
   cartsItems: CartDto[] = [];
   totalMoney: number = 0;
+  totalMoneyOriginal: number = 0;
+  totalMoneyDiscount: number = 0;
+  totalQuantity: number = 0;
   selectedEyeglassPrescriptionUrl: string = '';
 
   constructor(private title: Title, private toastr: ToastrService, private router: Router,
@@ -58,8 +61,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   getTotalMoney() {
+    this.totalQuantity = this.cartsItems.reduce((sum, item) => sum + item.quantity, 0);
     // tinh tong tien cua cac san pham duoc chon bang so luong * gia
     this.totalMoney = this.cartsItems.reduce((sum, item) => sum + (item.productPrice * item.quantity), 0);
+    this.totalMoneyOriginal = this.cartsItems.reduce((sum, item) => sum + (item.productPriceOriginal * item.quantity), 0);
+    this.totalMoneyDiscount = this.totalMoneyOriginal - this.totalMoney;
   }
 
   onFileChange(event: any) {
@@ -139,8 +145,7 @@ export class CheckoutComponent implements OnInit {
             next: (data: any) => {
               window.location.href = data.redirectUrl;
             },
-            error: (error: any) => {
-              console.log(error);
+            error: () => {
               this.toastr.error('Lỗi thực hiện, vui lòng thử lại sau');
             }
           });

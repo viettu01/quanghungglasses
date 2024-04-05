@@ -3,6 +3,7 @@ export class OrderDetailsDto {
   productDetailsId: number;
   quantity: number;
   price: number;
+  priceOriginal: number = 0;
 
   productName: string = '';
   productColor: string = '';

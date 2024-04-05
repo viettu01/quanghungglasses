@@ -19,11 +19,12 @@
             <thead>
             <tr>
               <th class="sort white-space-nowrap align-middle fs-10">Ảnh</th>
-              <th class="sort white-space-nowrap align-middle" style="min-width:300px;">Sản phẩm</th>
-              <th class="sort align-middle ps-4" style="width:150px;">Màu sắc</th>
-              <th class="sort align-middle text-end ps-4" style="width:150px;">Giá bán</th>
-              <th class="sort align-middle text-end ps-4" style="width:200px;">Số lượng</th>
-              <th class="sort align-middle text-end ps-4" style="width:250px;">Thành tiên</th>
+              <th class="sort white-space-nowrap align-middle" style="min-width:280px;">Sản phẩm</th>
+              <th class="sort white-space-nowrap align-middle ps-4" style="width:150px;">Màu sắc</th>
+              <th class="sort white-space-nowrap align-middle text-end ps-4" style="width:150px;">Giá bán</th>
+              <th class="sort white-space-nowrap align-middle text-end ps-4" style="width:150px;">Giảm giá</th>
+              <th class="sort white-space-nowrap align-middle text-end ps-4" style="width:200px;">Số lượng</th>
+              <th class="sort white-space-nowrap align-middle text-end ps-4" style="width:250px;">Thành tiên</th>
             </tr>
             </thead>
             <tbody class="list" id="order-table-body">
@@ -37,10 +38,13 @@
               </td>
               <td class="color align-middle white-space-nowrap text-body py-0 ps-4">{{ orderDetails.productColor }}</td>
               <td class="price align-middle text-body fw-semibold text-end py-0 ps-4">
-                {{ orderDetails.price  | currency: 'VND': true: '1.0-0' }}
+                {{ orderDetails.priceOriginal  | currency: 'VND': true: '1.0-0' }}
               </td>
-              <td
-                class="size align-middle white-space-nowrap text-body-tertiary fw-semibold py-0 ps-4">{{ orderDetails.quantity }}
+              <td class="price align-middle text-body fw-semibold text-end py-0 ps-4">
+                {{ (100 - (orderDetails.price / orderDetails.priceOriginal) * 100)  | number: '1.0-0' }}%
+              </td>
+              <td class="size align-middle white-space-nowrap text-body-tertiary text-end fw-semibold py-0 ps-4">
+                {{ orderDetails.quantity }}
               </td>
               <td class="total align-middle fw-bold text-body-highlight text-end py-0 ps-4">
                 {{ orderDetails.totalMoney  | currency: 'VND': true: '1.0-0' }}

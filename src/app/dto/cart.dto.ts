@@ -7,6 +7,7 @@ export class CartDto extends BaseDto {
   productName: string;
   productSlug: string;
   productColor: string;
+  productPriceOriginal: number = 0;
   productPrice: number;
   quantity: number;
   quantityInStock: number;

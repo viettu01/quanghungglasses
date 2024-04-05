@@ -52,7 +52,18 @@
                 </td>
                 <td class="color align-middle white-space-nowrap fs-9 text-body">{{ item.productColor }}</td>
                 <td class="price align-middle text-body fs-9 fw-semibold text-end">
-                  {{ item.productPrice | currency:'VND':true:'1.0-0' }}
+<!--                  {{ item.productPrice | currency:'VND':true:'1.0-0' }}-->
+                  <h6 class="text-body-emphasis mb-0">
+                    <span *ngIf="item.productPrice !== item.productPriceOriginal">
+                      {{ item.productPrice | currency:'VND':true:'1.0-0' }}
+                    </span>
+                    <span *ngIf="item.productPrice === item.productPriceOriginal">
+                      {{ item.productPriceOriginal | currency:'VND':true:'1.0-0' }}
+                    </span>
+                  </h6>
+                  <p class="text-decoration-line-through text-body mb-0 fw-light fs-10" *ngIf="item.productPriceOriginal !== item.productPrice">
+                    {{ item.productPriceOriginal | currency:'VND':true:'1.0-0' }}
+                  </p>
                 </td>
                 <td class="quantity align-middle fs-8 ps-5">
                   <div class="input-group input-group-sm flex-nowrap">
