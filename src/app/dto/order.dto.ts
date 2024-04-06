@@ -2,6 +2,7 @@ import {OrderDetailsDto} from "./order-details.dto";
 
 export class OrderDto {
   id: number;
+  customerId: number = 0;
   fullname: string;
   address: string;
   phone: string;

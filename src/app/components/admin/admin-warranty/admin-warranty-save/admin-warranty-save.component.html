@@ -1,1 +1,262 @@
-<p>admin-warranty-save works!</p>
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+<section class="py-0">
+  <div class="container-small">
+    <h2 class="mb-5">Thêm phiếu bảo hành</h2>
+
+    <form [formGroup]="warrantyForm" (submit)="onSubmit()">
+      <div class="row justify-content-between mb-3">
+        <div class="col-lg-6 col-xl-6">
+          <div class="d-flex align-items-end">
+            <h3 class="mb-0 me-3">Thông tin khách hàng</h3>
+          </div>
+          <table class="table table-borderless mt-4">
+            <tbody>
+            <tr>
+              <td class="py-2 px-0 align-middle" style="width: 150px;">
+                <div class="d-flex">
+                  <span class="fs-3 me-2" data-feather="phone" style="height:16px; width:16px;"> </span>
+                  <h5 class="lh-sm">
+                    Số điện thoại <sup class="text-danger" *ngIf="!isUpdate">*</sup>
+                  </h5>
+                </div>
+              </td>
+              <td class="py-2 ps-0 align-middle">
+                <span *ngIf="isUpdate">{{ warrantyForm.get('customerPhone')?.value }}</span>
+                <ng-select formControlName="customerPhone" (change)="getInfo()" *ngIf="!isUpdate">
+                  <ng-option *ngFor="let customer of customers" [value]="customer.phone">
+                    {{ customer.phone }}
+                  </ng-option>
+                </ng-select>
+                <small class="text-danger mt-1" *ngIf="warrantyForm['controls']['customerPhone'].dirty">
+                  <span *ngIf="warrantyForm['controls']['customerPhone'].errors?.['required']">
+                    Số điện thoại khách hàng không được để trống
+                  </span>
+                  <span *ngIf="warrantyForm['controls']['customerPhone'].errors?.['maxlength']
+                    || warrantyForm['controls']['customerPhone'].errors?.['minlength']">
+                    Số điện thoại phải đủ 10 số
+                  </span>
+                  <span *ngIf="!(warrantyForm['controls']['customerPhone'].errors?.['maxlength']
+                                  || warrantyForm['controls']['customerPhone'].errors?.['minlength'])
+                                  && warrantyForm['controls']['customerPhone'].errors?.['pattern']">
+                    Số điện thoại không hợp lệ
+                  </span>
+                </small>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-0 align-middle">
+                <div class="d-flex">
+                  <span class="fs-3 me-2" data-feather="user" style="height:16px; width:16px;"> </span>
+                  <h5 class="lh-sm">
+                    Khách hàng
+                  </h5>
+                </div>
+              </td>
+              <td class="py-2 ps-0 align-middle">
+                <span>{{ warrantyForm.get('fullname')?.value }}</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-lg-6 col-xl-6">
+          <h3 class="mb-5">Tình trạng xử lý</h3>
+          <div class="row g-4 mb-7">
+            <div class="col-12">
+              <div class="row gx-lg-11" *ngIf="!status">
+                <div class="col-12 col-md-auto">
+                  <div class="d-flex">
+                    <div class="form-check">
+                      <input class="form-check-input" id="0" type="radio" name="status" value="false"
+                             formControlName="status"/>
+                      <label class="form-check-label fs-8 text-body me-3" for="0">
+                        Đang xử lý
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-auto">
+                  <div class="form-check">
+                    <input class="form-check-input" id="1" type="radio" name="status" value="true"
+                           formControlName="status"/>
+                    <label class="form-check-label fs-8 text-body" for="1">Đã xử lý</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row gx-lg-11" *ngIf="status">
+                <span class="fs-7 text-success fw-bold">Đã xử lý</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-xl-12">
+          <div class="card mt-3 mt-lg-0">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="mb-0">Danh sách sản phẩm</h3>
+              </div>
+              <div class="row" *ngIf="!isUpdate">
+                <div class="col-auto col-2">
+                  <ng-select (change)="changeOrder()" formControlName="orders" placeholder="Mã đơn hàng">
+                    <ng-option *ngFor="let item of orders" [value]="item">
+                      {{ item.id }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-auto col-5 ps-0">
+                  <ng-select formControlName="orderDetails" placeholder="Sản phẩm">
+                    <ng-option *ngFor="let item of orderDetails" [value]="item">
+                      {{ item.productDetailsId }} - {{ item.productName }} - {{ item.productColor }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-auto ps-0">
+                  <button type="button" class="btn btn-primary" (click)="addWarrantyDetails()">
+                    Thêm
+                  </button>
+                </div>
+              </div>
+              <div class="border-dashed border-bottom border-translucent mt-4">
+                <div class="table-responsive-lg mx-n1 px-1 mt-3">
+                  <table class="table table-bordered fs--1 mb-0 bg-body-emphasis">
+                    <thead>
+                    <tr>
+                      <th class="align-middle white-space-nowrap text-center" style="width: 0">
+                        STT
+                      </th>
+                      <th class="align-middle white-space-nowrap text-center" style="width: 0">
+                        Mã HĐ
+                      </th>
+                      <th class="align-middle white-space-nowrap text-center">
+                        Tên sản phẩm
+                      </th>
+                      <th class="align-middle white-space-nowrap text-center" style="width: 0">
+                        Màu sắc
+                      </th>
+                      <th class="align-middle white-space-nowrap text-center" style="width: 150px;">
+                        Loại bảo hành
+                      </th>
+                      <th class="align-middle white-space-nowrap text-center" style="width: 0">
+                        Số lượng BH
+                      </th>
+                      <th class="align-middle white-space-nowrap text-center">
+                        Phi bảo hành
+                      </th>
+                      <th class="text-end white-space-nowrap align-middle" *ngIf="!isUpdate" style="width: 60px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="list" id="customers-table-body" formArrayName="warrantyDetails">
+                    <tr *ngIf="warrantyForm['controls']['warrantyDetails'].errors?.['required']">
+                      <td class="text-danger mt-1 text-center" colspan="9">
+                        Chi tiết phiếu bảo hành không được để trống
+                      </td>
+                    </tr>
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static"
+                        *ngFor="let details of warrantyDetails.controls; let i = index" [formGroupName]="i">
+                      <td class="customer align-middle white-space-nowrap py-3 pe-0 text-center">
+                        {{ i + 1 }}
+                      </td>
+                      <td class="phone align-middle white-space-nowrap text-center">
+                        {{ details.get('orderId')?.value }}
+                      </td>
+                      <td class="phone align-middle white-space-nowrap">
+                        {{ details.get('productName')?.value }}
+                      </td>
+                      <td class="total-orders align-middle white-space-nowrap fw-semibold text-body-highlight">
+                        {{ details.get('productColor')?.value }}
+                      </td>
+                      <td class="total-spent align-middle white-space-nowrap text-body-emphasis text-center"
+                          [ngClass]="{'text-center': isUpdate}">
+                        <ng-select formControlName="warrantyType" *ngIf="!isUpdate">
+                          <ng-option *ngFor="let item of warrantyTypes" [value]="item.id">
+                            {{ item.name }}
+                          </ng-option>
+                        </ng-select>
+                        <span *ngIf="isUpdate">
+                          {{ details.get('warrantyType')?.value == 0 ? 'Đổi sản phẩm' : 'Sửa chữa' }}
+                        </span>
+                      </td>
+                      <td class="total-spent align-middle white-space-nowrap text-body-emphasis"
+                          [ngClass]="{'text-center': isUpdate}">
+                        <div class="col-auto">
+                          <input class="form-control text-center w-50 m-auto" type="text"
+                                 formControlName="quantity" *ngIf="!isUpdate" (input)="quantityChange(i)"
+                                 (change)="getTotalMoney()" appNoLeadingSpace appOnlyNumberDirective/>
+                          <span *ngIf="isUpdate">
+                            {{ details.get('quantity')?.value }}
+                          </span>
+                        </div>
+                        <small class="text-danger mt-1" *ngIf="details.get('quantity')?.dirty">
+                          <span *ngIf="details.get('quantity')?.hasError('required')">
+                            Số lượng không được để trống
+                          </span>
+                          <span *ngIf="details.get('quantity')?.hasError('min')">
+                            Số lượng sản phẩm phải là số nguyên lớn hơn 0
+                          </span>
+                        </small>
+                      </td>
+                      <td class="last-order align-middle white-space-nowrap text-body-tertiary pe-2">
+                        <input class="form-control" type="text" formControlName="cost"
+                               *ngIf="!isUpdate" (input)="changeCost(i)">
+                        <span *ngIf="isUpdate">
+                          {{ details.get('cost')?.value | currency:'VND':true:'1.0-0' }}
+                        </span>
+                      </td>
+                      <td class="align-middle white-space-nowrap text-center ps-0 btn-reveal-trigger" *ngIf="!isUpdate">
+                        <div class="font-sans-serif btn-reveal-trigger position-static">
+                          <button class="btn btn-sm btn-outline-danger fs--2" type="button"
+                                  (click)="removeWarrantyDetails(i)">
+                            <span class="fa-solid fa-trash fs--2"></span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="border-dashed border-bottom border-translucent mt-4">
+                <!--                <div class="d-flex justify-content-between mb-2">-->
+                <!--                  <h5 class="text-body fw-semibold">Tổng số sản phẩm: </h5>-->
+                <!--                  <h5 class="text-body fw-semibold">{{ orderDetails.length }}</h5>-->
+                <!--                </div>-->
+                <!--              <div class="d-flex justify-content-between mb-2">-->
+                <!--                <h5 class="text-body fw-semibold">Giảm giá: </h5>-->
+                <!--                <h5 class="text-danger fw-semibold">-->
+                <!--                  - {{ 0 | currency:'VND':true:'1.0-0' }}-->
+                <!--                </h5>-->
+                <!--              </div>-->
+                <!--              <div class="d-flex justify-content-between mb-3">-->
+                <!--                <h5 class="text-body fw-semibold">Phí vận chuyển </h5>-->
+                <!--                <h5 class="text-body fw-semibold">-->
+                <!--                  {{ 30000 | currency:'VND':true:'1.0-0' }}-->
+                <!--                </h5>-->
+                <!--              </div>-->
+              </div>
+              <div class="d-flex justify-content-between border-dashed-y pt-3">
+                <h4 class="mb-0">Tổng đơn:</h4>
+                <h4 class="mb-0">
+                  {{ totalMoney | currency:'VND':true:'1.0-0' }}
+                </h4>
+              </div>
+              <div class="d-flex justify-content-between border-dashed-y pt-3">
+                <h4 class="mb-0"></h4>
+                <h4 class="mb-0">
+                  <button class="btn btn-primary" type="submit" [disabled]="warrantyForm.invalid || status">
+                    <span *ngIf="!isUpdate">Thêm mới</span>
+                    <span *ngIf="isUpdate">Cập nhật</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <!-- end of .container-->
+</section>
+<!-- <section> close ============================-->
+<!-- ============================================-->

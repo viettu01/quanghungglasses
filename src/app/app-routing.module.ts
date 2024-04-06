@@ -120,7 +120,6 @@ const routes: Routes = [
       {path: 'warranty', component: AdminWarrantyListComponent},
       {path: 'warranty/save', component: AdminWarrantySaveComponent},
       {path: 'warranty/save/:id', component: AdminWarrantySaveComponent},
-      {path: 'warranty/:id', component: AdminWarrantyDetailsComponent},
 
       {path: 'sale', component: AdminSaleListComponent},
       {path: 'sale/save', component: AdminSaleSaveComponent},

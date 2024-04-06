@@ -4,9 +4,7 @@ import {Title} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {Environment} from "../../../../environment/environment";
-import {AuthService} from "../../../../service/auth.service";
 import {OrderService} from "../../../../service/order.service";
-import {CartService} from "../../../../service/cart.service";
 import {CustomerService} from "../../../../service/customer.service";
 import {CustomerDto} from "../../../../dto/customer.dto";
 import {ProductDto} from "../../../../dto/product.dto";
@@ -29,8 +27,7 @@ export class AdminOrderSaveComponent implements OnInit {
   selectedEyeglassPrescriptionUrl: string = '';
 
   constructor(private title: Title, private toastr: ToastrService, private router: Router,
-              private customerService: CustomerService, private authService: AuthService,
-              private orderService: OrderService, private cartService: CartService,
+              private customerService: CustomerService, private orderService: OrderService,
               private productService: ProductService) {
   }
 

@@ -15,7 +15,7 @@
                 [ngClass]="{'me-2': !orders.paymentStatus && orders.paymentMethod == 1}">
           Đã nhận hàng
         </button>
-        <button class="btn btn-primary" [ngClass]="{'d-none': orders.paymentStatus || orders.paymentMethod == 0}"
+        <button class="btn btn-primary" [ngClass]="{'d-none': orders.paymentStatus || orders.paymentMethod == 0 || orders.orderStatus == 6}"
                 (click)="payment()">
           Thanh toán
         </button>
