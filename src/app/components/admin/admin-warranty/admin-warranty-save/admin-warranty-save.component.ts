@@ -127,7 +127,7 @@ export class AdminWarrantySaveComponent implements OnInit {
     this.orderService.findAll("", Math.pow(2, 31) - 1, 1, "", "").subscribe({
       next: (data: any) => {
         this.orders = data.content;
-        this.orders = this.orders.filter(order => order.customerId == this.customerId);
+        this.orders = this.orders.filter(order => order.customerId == this.customerId && order.orderStatus == 5);
       }
     });
   }
