@@ -143,8 +143,8 @@
                       <span class="fas fa-minus"></span>
                     </button>
                     <input class="form-control text-center input-spin-none bg-transparent border-0 outline-none"
-                           style="width:50px;" type="number" min="1" max="{{quantityMax}}" id="quantity" name="quantity"
-                           [(ngModel)]="quantity" [disabled]="quantity >= quantityMax" (change)="quantityChange($event)"/>
+                           style="width: 60px;" type="number" min="1" max="{{quantityMax}}" id="quantity" name="quantity"
+                           [(ngModel)]="quantity" (change)="quantityChange($event)"/>
                     <button class="btn btn-phoenix-primary px-3" (click)="plusQuantity()"
                             [disabled]="quantity >= quantityMax">
                       <span class="fas fa-plus"></span>
