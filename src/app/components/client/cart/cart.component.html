@@ -21,7 +21,7 @@
                 <th class="sort white-space-nowrap align-middle" scope="col" style="min-width:250px;">Sản phẩm</th>
                 <th class="sort white-space-nowrap align-middle" scope="col" style="width:80px;">Màu sắc</th>
                 <th class="sort white-space-nowrap align-middle text-end" scope="col" style="width:300px;">Giá</th>
-                <th class="sort white-space-nowrap align-middle ps-5" scope="col" style="width:350px;">Số lượng</th>
+                <th class="sort white-space-nowrap align-middle text-center ps-5" scope="col" style="width:350px;">Số lượng</th>
                 <th class="sort white-space-nowrap align-middle text-end" scope="col" style="width:250px;">Thành tiền
                 </th>
                 <th class="sort text-end align-middle pe-0" scope="col"></th>
@@ -71,9 +71,9 @@
                             [disabled]="item.quantity <= 1">
                       -
                     </button>
-                    <input class="form-control text-center input-spin-none bg-transparent border-0 px-0" type="number"
-                           min="1" [value]="item.quantity" [(ngModel)]="item.quantity" [disabled]="item.btnPlusDisabled"
-                           (change)="updateProductQuantity($event, item)"/>
+                    <input class="form-control text-center input-spin-none bg-transparent border-0 px-1" type="number"
+                           min="1" [value]="item.quantity" [(ngModel)]="item.quantity"
+                           (change)="updateProductQuantity($event, item)" style="width: 50px;"/>
                     <button class="btn btn-sm px-2 border-0" (click)="plusQuantity(index, item.id)"
                             [disabled]="item.btnPlusDisabled">
                       +
