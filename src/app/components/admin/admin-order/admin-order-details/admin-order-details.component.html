@@ -214,15 +214,20 @@
           <div class="card">
             <div class="card-body">
               <h3 class="card-title mb-4">Trạng thái đơn hàng</h3>
-              <ng-select class="mb-4" [(ngModel)]="orderDto.orderStatus"
-                         [disabled]="orderDto.orderStatus === null || orderStatusInDb === 5 || orderStatusInDb === 6">
+              <ng-select class="mb-2" [(ngModel)]="orderDto.orderStatus"
+                         [disabled]="orderStatusInDb === 5 || orderStatusInDb === 6">
                 <ng-option *ngFor="let item of orderStatus" [value]="item.id" [disabled]="item.id == 4">
                   {{ item.name }}
                 </ng-option>
               </ng-select>
+              <small>
+                <span class="text-danger" *ngIf="orderDto.orderStatus == null">
+                  Trạng thái đơn hàng không được để trống
+                </span>
+              </small>
               <textarea class="form-control mb-4" rows="3" [(ngModel)]="orderDto.cancelReason"
                         [class.d-none]="orderDto.orderStatus !== 6" placeholder="Lý do hủy"></textarea>
-              <div class="text-end">
+              <div class="text-end mt-4">
                 <a class="btn btn-phoenix-secondary me-2" href="/admin/order">
                   Quay lại
                 </a>

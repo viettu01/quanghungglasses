@@ -22,7 +22,8 @@
                 </div>
               </td>
               <td class="py-2 ps-0 align-middle">
-                <input class="form-control" list="phones" formControlName="phone" (input)="getInfo()" appNoLeadingSpace>
+                <input class="form-control" list="phones" formControlName="phone" (input)="getInfo()"
+                       appOnlyNumberDirective appNoLeadingSpace>
                 <datalist id="phones">
                   <option value="{{customer.phone}}" *ngFor="let customer of customers" [value]="customer.phone">
                 </datalist>
@@ -271,10 +272,10 @@
                 </div>
               </div>
               <div class="border-dashed border-bottom border-translucent mt-4">
-<!--                <div class="d-flex justify-content-between mb-2">-->
-<!--                  <h5 class="text-body fw-semibold">Tổng số sản phẩm: </h5>-->
-<!--                  <h5 class="text-body fw-semibold">{{ orderDetails.length }}</h5>-->
-<!--                </div>-->
+                <!--                <div class="d-flex justify-content-between mb-2">-->
+                <!--                  <h5 class="text-body fw-semibold">Tổng số sản phẩm: </h5>-->
+                <!--                  <h5 class="text-body fw-semibold">{{ orderDetails.length }}</h5>-->
+                <!--                </div>-->
                 <!--              <div class="d-flex justify-content-between mb-2">-->
                 <!--                <h5 class="text-body fw-semibold">Giảm giá: </h5>-->
                 <!--                <h5 class="text-danger fw-semibold">-->

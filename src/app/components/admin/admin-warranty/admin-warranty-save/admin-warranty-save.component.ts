@@ -75,7 +75,7 @@ export class AdminWarrantySaveComponent implements OnInit {
         let totalQuantity = 0;
         this.warrantyDetails.value.forEach((value: any) => {
           if (value.productDetailsId === this.warrantyForm.get('orderDetails')?.value.productDetailsId) {
-            totalQuantity += value.productQuantity;
+            totalQuantity += value.quantity;
           }
         });
         if (totalQuantity >= this.warrantyForm.get('orderDetails')?.value.quantity) {
