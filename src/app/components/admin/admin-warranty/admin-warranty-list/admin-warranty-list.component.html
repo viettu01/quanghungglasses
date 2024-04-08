@@ -91,6 +91,19 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
+            <th class="sort white-space-nowrap align-middle text-end pe-0" scope="col" data-sort="date"
+                (click)="sortByField('updatedDate')">
+              Ngày cập nhật
+              <label [class.d-none]="sortBy === 'updatedDate' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'updatedDate' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'updatedDate' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
+            </th>
           </tr>
           </thead>
           <tbody class="list" id="order-table-body">
@@ -113,6 +126,9 @@
             </td>
             <td class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end">
               {{ warranty.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
+            </td>
+            <td class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end">
+              {{ warranty.updatedDate | date:'dd/MM/yyyy HH:mm:ss' }}
             </td>
           </tr>
           </tbody>
