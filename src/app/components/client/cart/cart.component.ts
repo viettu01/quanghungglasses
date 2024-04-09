@@ -58,6 +58,8 @@ export class CartComponent implements OnInit {
       this.cartService.getListItemCartOnServer().subscribe({
         next: (data: any) => {
           this.cartsItems = data.cartDetails;
+          console.log("cartsItems: ", this.cartsItems);
+          console.log("data: ", data.cartDetails);
           this.cartsItems.forEach((item: CartDto) => {
             if (item.quantity >= item.quantityInStock) {
               item.btnPlusDisabled = true;
@@ -82,7 +84,6 @@ export class CartComponent implements OnInit {
             if (item.quantity >= item.quantityInStock) {
               item.btnPlusDisabled = true;
             }
-            console.log("item: ", item);
             this.cartsItems.push(item);
           }
         })
