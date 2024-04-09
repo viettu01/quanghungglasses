@@ -135,6 +135,7 @@ export class CartComponent implements OnInit {
       cartItem.quantity = 1;
     } else {
       cartItem.quantity = event.target.value;
+      cartItem.btnPlusDisabled = false;
     }
     if (cartItem.quantity >= cartItem.quantityInStock) {
       cartItem.btnPlusDisabled = true;

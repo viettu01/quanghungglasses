@@ -21,7 +21,9 @@
                 <th class="sort white-space-nowrap align-middle" scope="col" style="min-width:250px;">Sản phẩm</th>
                 <th class="sort white-space-nowrap align-middle" scope="col" style="width:80px;">Màu sắc</th>
                 <th class="sort white-space-nowrap align-middle text-end" scope="col" style="width:300px;">Giá</th>
-                <th class="sort white-space-nowrap align-middle text-center ps-5" scope="col" style="width:350px;">Số lượng</th>
+                <th class="sort white-space-nowrap align-middle text-center ps-5" scope="col" style="width:350px;">Số
+                  lượng
+                </th>
                 <th class="sort white-space-nowrap align-middle text-end" scope="col" style="width:250px;">Thành tiền
                 </th>
                 <th class="sort text-end align-middle pe-0" scope="col"></th>
@@ -52,7 +54,7 @@
                 </td>
                 <td class="color align-middle white-space-nowrap fs-9 text-body">{{ item.productColor }}</td>
                 <td class="price align-middle text-body fs-9 fw-semibold text-end">
-<!--                  {{ item.productPrice | currency:'VND':true:'1.0-0' }}-->
+                  <!--                  {{ item.productPrice | currency:'VND':true:'1.0-0' }}-->
                   <h6 class="text-body-emphasis mb-0">
                     <span *ngIf="item.productPrice !== item.productPriceOriginal">
                       {{ item.productPrice | currency:'VND':true:'1.0-0' }}
@@ -61,7 +63,8 @@
                       {{ item.productPriceOriginal | currency:'VND':true:'1.0-0' }}
                     </span>
                   </h6>
-                  <p class="text-decoration-line-through text-body mb-0 fw-light fs-10" *ngIf="item.productPriceOriginal !== item.productPrice">
+                  <p class="text-decoration-line-through text-body mb-0 fw-light fs-10"
+                     *ngIf="item.productPriceOriginal !== item.productPrice">
                     {{ item.productPriceOriginal | currency:'VND':true:'1.0-0' }}
                   </p>
                 </td>
@@ -73,7 +76,8 @@
                     </button>
                     <input class="form-control text-center input-spin-none bg-transparent border-0 px-1" type="number"
                            min="1" [value]="item.quantity" [(ngModel)]="item.quantity"
-                           (change)="updateProductQuantity($event, item)" style="width: 50px;"/>
+                           (change)="updateProductQuantity($event, item)" style="width: 50px;"
+                           appNoLeadingSpace appOnlyNumberDirective/>
                     <button class="btn btn-sm px-2 border-0" (click)="plusQuantity(index, item.id)"
                             [disabled]="item.btnPlusDisabled">
                       +
