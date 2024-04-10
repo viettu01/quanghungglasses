@@ -30,18 +30,18 @@ export class ClientOrderListComponent implements OnInit {
     this.title.setTitle(this.titleString);
 
     this.activatedRoute.queryParams.subscribe(params => {
-      const id = params['id'] || "";
+      const productName = params['product-name'] || "";
       const pageSize = +params['page-size'] || 10;
       const pageNumber = +params['page-number'] || 1;
       const sortDir = params['sort-direction'] || "";
       const sortBy = params['sort-by'] || "";
 
-      this.findAll(id, pageSize, pageNumber, sortDir, sortBy);
+      this.findAll(productName, pageSize, pageNumber, sortDir, sortBy);
     });
   }
 
-  findAll(id: number, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
-    this.orderService.findAllByCustomer(id, pageSize, pageNumber, sortDir, sortBy).subscribe({
+  findAll(productName: string, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+    this.orderService.findAllByCustomer(productName, pageSize, pageNumber, sortDir, sortBy).subscribe({
       next: (response: any) => {
         this.paginationDTO.content = response.content;
         // tinh tong tien cua 1 don hang
@@ -88,7 +88,7 @@ export class ClientOrderListComponent implements OnInit {
 
   search() {
     this.router.navigate(['/don-hang'], {
-      queryParams: {"id": this.searchTemp, "page-number": 1},
+      queryParams: {"product-name": this.searchTemp, "page-number": 1},
       queryParamsHandling: 'merge'
     }).then();
   }
