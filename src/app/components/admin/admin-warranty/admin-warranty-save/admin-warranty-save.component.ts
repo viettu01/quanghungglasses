@@ -22,9 +22,9 @@ export class AdminWarrantySaveComponent implements OnInit {
   orders: OrderDto[] = [];
   orderDetails: OrderDetailsDto[] = [];
   warrantyTypes: any[] = [
-    {id: 0, name: 'Đổi sản phẩm'},
-    {id: 1, name: 'Sửa chữa'},
-    // {id: 2, name: 'Hoàn tiền'},
+    {id: 0, name: 'Sửa chữa'},
+    {id: 1, name: 'Đổi sản phẩm (Không lỗi)'},
+    {id: 2, name: 'Đổi sản phẩm (Lỗi)'}
   ];
   price: number = 0;
   totalMoney: number = 0;
@@ -93,11 +93,14 @@ export class AdminWarrantySaveComponent implements OnInit {
         productDetailsId: new FormControl(this.warrantyForm.get('orderDetails')?.value.productDetailsId),
         productName: new FormControl(this.warrantyForm.get('orderDetails')?.value.productName),
         productColor: new FormControl(this.warrantyForm.get('orderDetails')?.value.productColor),
+        quantityInOrder: new FormControl(this.warrantyForm.get('orderDetails')?.value.quantity),
         quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
         warrantyType: new FormControl(null, [Validators.required]),
         cost: new FormControl(0, [Validators.required, Validators.min(0)])
       })
     );
+
+    console.log(this.warrantyDetails.value);
 
     this.warrantyForm.get('orders')?.setValue(null);
     this.warrantyForm.get('orderDetails')?.setValue(null);
@@ -143,6 +146,12 @@ export class AdminWarrantySaveComponent implements OnInit {
   }
 
   quantityChange(index: number) {
+    if (this.warrantyDetails.at(index).get('quantity')?.value < 1) {
+      this.warrantyDetails.at(index).get('quantity')?.setValue(1);
+    } else if (this.warrantyDetails.at(index).get('quantity')?.value > this.warrantyDetails.at(index).get('quantityInOrder')?.value) {
+      this.warrantyDetails.at(index).get('quantity')?.setValue(this.warrantyDetails.at(index).get('quantityInOrder')?.value);
+    }
+
     const totalPrice = this.warrantyDetails.at(index).get('price')?.value * this.warrantyDetails.at(index).get('quantity')?.value;
     this.warrantyDetails.at(index).get('totalOneProduct')?.setValue(totalPrice);
     this.getTotalMoney();
@@ -160,7 +169,7 @@ export class AdminWarrantySaveComponent implements OnInit {
   getTotalMoney() {
     this.totalMoney = 0;
     this.warrantyDetails.value.forEach((item: any) => {
-      this.totalMoney += Number(item.cost);
+      this.totalMoney += Number(item.cost) * Number(item.quantity);
     });
   }
 

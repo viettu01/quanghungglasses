@@ -182,8 +182,8 @@
                           [ngClass]="{'text-center': isUpdate}">
                         <div class="col-auto">
                           <input class="form-control text-center w-50 m-auto" type="text"
-                                 formControlName="quantity" *ngIf="!isUpdate" (input)="quantityChange(i)"
-                                 (change)="getTotalMoney()" appNoLeadingSpace appOnlyNumberDirective/>
+                                 formControlName="quantity" *ngIf="!isUpdate"
+                                 (change)="quantityChange(i)" appNoLeadingSpace appOnlyNumberDirective/>
                           <span *ngIf="isUpdate">
                             {{ details.get('quantity')?.value }}
                           </span>
@@ -198,9 +198,8 @@
                         </small>
                       </td>
                       <td class="last-order align-middle white-space-nowrap text-body-tertiary pe-2">
-                        <input class="form-control" type="text" formControlName="cost"
-                               appNoLeadingSpace appOnlyNumberFloatDirective
-                               *ngIf="!isUpdate" (input)="changeCost(i)">
+                        <input class="form-control" type="text" formControlName="cost" appNoLeadingSpace
+                               appOnlyNumberFloatDirective *ngIf="!isUpdate" (input)="changeCost(i)">
                         <span *ngIf="isUpdate">
                           {{ details.get('cost')?.value | currency:'VND':true:'1.0-0' }}
                         </span>
