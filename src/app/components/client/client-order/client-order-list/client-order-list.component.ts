@@ -14,7 +14,7 @@ import {Utils} from 'src/app/utils/utils';
 })
 export class ClientOrderListComponent implements OnInit {
   protected readonly Utils = Utils;
-  protected readonly baseUrl: string = `${Environment.apiBaseUrl}`;
+  protected readonly baseUrl: string = `${Environment.apiBaseUrl}` + '/images/';
   titleString: string = 'Danh sách đơn hàng';
 
   paginationDTO: PaginationDTO<OrderDto> = PaginationDTO.createEmpty();
