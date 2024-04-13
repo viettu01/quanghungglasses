@@ -60,7 +60,6 @@ export class ClientProductDetailsComponent implements OnInit {
     this.productDetailsId = id;
     this.quantityMax = this.product.productDetails.find(item => item.id === id)!.quantity;
     this.quantity = 1;
-    console.log(this.quantityMax);
   }
 
   changeImage(image: string) {
@@ -72,7 +71,6 @@ export class ClientProductDetailsComponent implements OnInit {
       this.quantity++;
     }
     return;
-    // this.quantity++;
   }
 
   minusQuantity() {

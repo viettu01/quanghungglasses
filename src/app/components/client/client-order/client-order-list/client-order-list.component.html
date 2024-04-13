@@ -4,39 +4,45 @@
       <div class="col-12">
         <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link" aria-current="page" href="javascript:void(0)"
+               [ngClass]="{'active': isGetAll}" (click)="searchByOrderStatus(null)">
               <span>Tất cả </span>
-              <span class="text-body-tertiary fw-semibold">(68817)</span>
+              <span class="text-body-tertiary fw-semibold">({{countAll}})</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span>Chờ thanh toán </span>
-              <span class="text-body-tertiary fw-semibold">(70348)</span>
+            <a class="nav-link" href="javascript:void(0)"
+               [ngClass]="{'active': isOrderStatus0}" (click)="searchByOrderStatus(0)">
+              <span>Chờ xác nhận </span>
+              <span class="text-body-tertiary fw-semibold">({{countOrderStatus0}})</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="javascript:void(0)"
+               [ngClass]="{'active': isOrderStatus1}" (click)="searchByOrderStatus(1)">
               <span>Đã xác nhận  </span>
-              <span class="text-body-tertiary fw-semibold">(17)</span>
+              <span class="text-body-tertiary fw-semibold">({{countOrderStatus1}})</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="javascript:void(0)"
+               [ngClass]="{'active': isOrderStatus2}" (click)="searchByOrderStatus(2)">
               <span>Đang giao hàng </span>
-              <span class="text-body-tertiary fw-semibold">(810)</span>
+              <span class="text-body-tertiary fw-semibold">({{countOrderStatus2}})</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="javascript:void(0)"
+               [ngClass]="{'active': isOrderStatus3}" (click)="searchByOrderStatus(3)">
               <span>Đã giao hàng </span>
-              <span class="text-body-tertiary fw-semibold">(810)</span>
+              <span class="text-body-tertiary fw-semibold">({{countOrderStatus3}})</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="javascript:void(0)"
+               [ngClass]="{'active': isOrderStatus6}" (click)="searchByOrderStatus(6)">
               <span>Đã hủy </span>
-              <span class="text-body-tertiary fw-semibold">(810)</span>
+              <span class="text-body-tertiary fw-semibold">({{countOrderStatus6}})</span>
             </a>
           </li>
         </ul>
@@ -56,6 +62,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="px-4 position-relative top-1 mb-3 py-2 text-center" *ngIf="paginationDTO.content.length <= 0">
+          <span class="fs-6">Không có đơn hàng</span>
         </div>
         <div
           class="px-4 bg-body-emphasis border-top border-bottom border-translucent position-relative top-1 mb-3 py-2 border rounded-2"

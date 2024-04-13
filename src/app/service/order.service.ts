@@ -25,9 +25,10 @@ export class OrderService {
     return this.http.get(this.apiOrderAdminUrl, {params: queryParams});
   }
 
-  findAllByCustomer(productName: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
+  findAllByCustomer(productName: any, orderStatus: any, pageSize: number, pageNumber: number, sortDir: string, sortBy: string) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("product-name", productName);
+    queryParams = queryParams.append("order-status", orderStatus);
     queryParams = queryParams.append("page-size", pageSize);
     queryParams = queryParams.append("page-number", pageNumber);
     queryParams = queryParams.append("sort-direction", sortDir);
