@@ -23,7 +23,7 @@
             </form>
           </div>
         </div>
-        <div class="col-auto ms-auto">
+        <div class="col-auto ms-auto" *ngIf="roles.includes('ROLE_ADMIN')">
           <button class="btn btn-primary" data-bs-target="#modalSupplier" data-bs-toggle="modal"
                   (click)="openModalCreate()">
             <span class="fas fa-plus me-2"></span>Thêm thương hiệu
@@ -79,7 +79,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="sort text-end align-middle pe-0 ps-4" scope="col"></th>
+            <th class="sort text-end align-middle pe-0 ps-4" scope="col" *ngIf="roles.includes('ROLE_ADMIN')"></th>
           </tr>
           </thead>
           <tbody class="list" id="supplier-table-body">
@@ -101,7 +101,8 @@
             <td class="align-middle white-space-nowrap text-600 ps-3">
               {{ shape.updatedDate | date:'dd/MM/yyyy HH:mm:ss' }}
             </td>
-            <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
+            <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger"
+                *ngIf="roles.includes('ROLE_ADMIN')">
               <div class="font-sans-serif btn-reveal-trigger position-static">
                 <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
                         type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"

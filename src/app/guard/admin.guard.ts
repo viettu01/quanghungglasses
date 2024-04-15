@@ -12,7 +12,7 @@ export class AdminGuard {
 
   canActivate: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree => {
     // debugger
-    const requiredRole = ['ROLE_ADMIN', 'ROLE_STAFF']; // Quyền truy cập yêu cầu
+    const requiredRole = ['ROLE_ADMIN']; // Quyền truy cập yêu cầu
     const roles = this.tokenService.getUserRoles(); // Lấy danh sách các quyền từ AuthService
     // console.log("role:" + roles);
     // debugger

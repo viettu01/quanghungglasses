@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {Utils} from "../../../utils/utils";
 import {SupplierService} from "../../../service/supplier.service";
 import {SupplierDto} from "../../../dto/supplier.dto";
+import {TokenService} from "../../../service/token.service";
 
 @Component({
   selector: 'app-supplier',
@@ -15,6 +16,7 @@ import {SupplierDto} from "../../../dto/supplier.dto";
   styleUrls: ['./supplier.component.css']
 })
 export class SupplierComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<SupplierDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
@@ -41,7 +43,7 @@ export class SupplierComponent implements OnInit {
 
   constructor(private title: Title, private supplierService: SupplierService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit() {

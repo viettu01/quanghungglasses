@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {Utils} from 'src/app/utils/utils';
 import {OriginDto} from "../../../dto/origin.dto";
 import {OriginService} from "../../../service/origin.service";
+import {TokenService} from "../../../service/token.service";
 
 @Component({
   selector: 'app-origin',
@@ -15,6 +16,7 @@ import {OriginService} from "../../../service/origin.service";
   styleUrls: ['./origin.component.css']
 })
 export class OriginComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<OriginDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
@@ -35,7 +37,7 @@ export class OriginComponent implements OnInit {
 
   constructor(private title: Title, private originService: OriginService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit() {

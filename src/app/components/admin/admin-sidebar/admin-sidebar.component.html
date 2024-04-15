@@ -112,7 +112,7 @@
                   </div>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" *ngIf="roles.includes('ROLE_ADMIN')">
                 <a class="nav-link" href="/admin/staff" data-bs-toggle="" aria-expanded="false"
                    [class.active]="isExactRouteStartWith('/admin/staff')">
                   <div class="d-flex align-items-center"><span class="nav-link-text">Nhân viên</span>
@@ -157,13 +157,13 @@
                   <div class="d-flex align-items-center"><span class="nav-link-text">Sản phẩm</span></div>
                 </a>
               </li>
-<!--              <li class="nav-item">-->
-<!--                <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/sale"-->
-<!--                   [class.active]="isExactRouteStartWith('/admin/sale')">-->
-<!--                  <div class="d-flex align-items-center"><span class="nav-link-text">Chương trình khuyến mãi</span>-->
-<!--                  </div>-->
-<!--                </a>-->
-<!--              </li>-->
+              <!--              <li class="nav-item">-->
+              <!--                <a class="nav-link" data-bs-toggle="" aria-expanded="false" href="/admin/sale"-->
+              <!--                   [class.active]="isExactRouteStartWith('/admin/sale')">-->
+              <!--                  <div class="d-flex align-items-center"><span class="nav-link-text">Chương trình khuyến mãi</span>-->
+              <!--                  </div>-->
+              <!--                </a>-->
+              <!--              </li>-->
             </ul>
           </div>
         </div>

@@ -6,23 +6,26 @@ import {ToastrService} from "ngx-toastr";
 @Injectable({
   providedIn: 'root'
 })
-export class UserGuard {
+export class AdminAndStaffGuard {
   constructor(private tokenService: TokenService, private router: Router, private toastr: ToastrService) {
   }
 
   canActivate: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree => {
     // debugger
-    if (!this.tokenService.isLogin()) {
-      // nếu token hết hạn hoặc chưa đăng nhập, chuyển hướng đến trang đăng nhập
-      this.toastr.error("Vui lòng đăng nhập để tiếp tục");
-      return this.router.createUrlTree(['/login']);
-    } else if (this.tokenService.isTokenExpired()) {
+    const requiredRole = ['ROLE_ADMIN', 'ROLE_STAFF']; // Quyền truy cập yêu cầu
+    const roles = this.tokenService.getUserRoles(); // Lấy danh sách các quyền từ AuthService
+    // console.log("role:" + roles);
+    // debugger
+    if (roles == null || roles.length == 0 || this.tokenService.isTokenExpired()) {
       // nếu token hết hạn, chuyển hướng đến trang đăng nhập
       this.toastr.error("Phiên làm việc hết hạn, vui lòng đăng nhập lại");
       return this.router.createUrlTree(['/login']);
-    } else if (this.tokenService.getUserRoles().includes('ROLE_ADMIN') || this.tokenService.getUserRoles().includes('ROLE_STAFF')) {
+    } else if (roles.some((role: string) => requiredRole.includes(role))) {
+      // Nếu người dùng có ít nhất một quyền nằm trong danh sách quyền yêu cầu
+      return true; // Người dùng có quyền truy cập
+    } else {
+      // Người dùng không có quyền truy cập, chuyển hướng đến trang access-denied
       return this.router.createUrlTree(['/access-denied']);
     }
-    return true;
   };
 }

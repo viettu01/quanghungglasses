@@ -15,7 +15,7 @@
           </div>
           <div class="col-auto order-md-1">
             <ul class="navbar-nav navbar-nav-icons flex-row me-n2">
-              <li class="nav-item">
+              <li class="nav-item" *ngIf="roles.includes('ROLE_USER')">
                 <a class="nav-link px-2 icon-indicator icon-indicator-primary" href="javascript:void(0);"
                    (click)="goToCart()">
                   <span class="text-body-tertiary" data-feather="shopping-cart" style="height:20px;width:20px;"></span>
@@ -47,13 +47,13 @@
                     </div>
                     <div class="overflow-auto scrollbar border-top ">
                       <ul class="nav d-flex flex-column mb-2 pb-1 my-2">
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="roles.includes('ROLE_USER')">
                           <a class="nav-link px-3" href="/thong-tin-ca-nhan">
                             <span class="me-2 text-body" data-feather="user"></span><span>Thông tin cá nhân</span>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link px-3" href="/don-hang">
+                          <a class="nav-link px-3" href="/don-hang" *ngIf="roles.includes('ROLE_USER')">
                             <span class="me-2 text-body" data-feather="archive"></span><span>Đơn hàng</span>
                           </a>
                         </li>
@@ -78,7 +78,7 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="search-box ecommerce-search-box w-100">
-              <form class="position-relative" data-bs-toggle="search" data-bs-display="static" >
+              <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                 <input class="form-control search-input search form-control-sm" type="search" placeholder="Tìm kiếm"
                        aria-label="Search" name="name" [(ngModel)]="name" (search)="search()"/>
                 <span class="fas fa-search search-box-icon"></span>

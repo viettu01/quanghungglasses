@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {Utils} from 'src/app/utils/utils';
 import {BrandDto} from "../../../dto/brand.dto";
 import {BrandService} from "../../../service/brand.service";
+import {TokenService} from "../../../service/token.service";
 
 @Component({
   selector: 'app-brand',
@@ -15,6 +16,7 @@ import {BrandService} from "../../../service/brand.service";
   styleUrls: ['./brand.component.css']
 })
 export class BrandComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<BrandDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
@@ -35,7 +37,7 @@ export class BrandComponent implements OnInit {
 
   constructor(private title: Title, private brandService: BrandService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit() {

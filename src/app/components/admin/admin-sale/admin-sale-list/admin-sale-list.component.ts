@@ -7,6 +7,7 @@ import {PaginationDTO} from "../../../../dto/pagination.dto";
 import {Utils} from 'src/app/utils/utils';
 import Swal from "sweetalert2";
 import {SaleDto} from "../../../../dto/sale.dto";
+import {TokenService} from "../../../../service/token.service";
 
 @Component({
   selector: 'app-admin-sale-list',
@@ -14,6 +15,7 @@ import {SaleDto} from "../../../../dto/sale.dto";
   styleUrls: ['./admin-sale-list.component.css']
 })
 export class AdminSaleListComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<SaleDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
@@ -23,7 +25,7 @@ export class AdminSaleListComponent implements OnInit {
 
   constructor(private title: Title, private brandService: SaleService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit() {

@@ -9,6 +9,7 @@ import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
 import {ProductDto} from "../../../../dto/product.dto";
 import {Environment} from "../../../../environment/environment";
+import {TokenService} from "../../../../service/token.service";
 
 @Component({
   selector: 'app-list-product',
@@ -16,6 +17,7 @@ import {Environment} from "../../../../environment/environment";
   styleUrls: ['./admin-product-list.component.css']
 })
 export class AdminProductListComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   baseUrl: string = `${Environment.apiBaseUrl}`;
   paginationDTO: PaginationDTO<ProductDto> = PaginationDTO.createEmpty();
@@ -34,7 +36,7 @@ export class AdminProductListComponent implements OnInit {
 
   constructor(private title: Title, private productService: ProductService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit(): void {

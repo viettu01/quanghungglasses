@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {Utils} from 'src/app/utils/utils';
 import {ShapeService} from "../../../service/shape.service";
 import {ShapeDto} from "../../../dto/shape.dto";
+import {TokenService} from "../../../service/token.service";
 
 @Component({
   selector: 'app-shape',
@@ -15,6 +16,7 @@ import {ShapeDto} from "../../../dto/shape.dto";
   styleUrls: ['./shape.component.css']
 })
 export class ShapeComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<ShapeDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
@@ -35,7 +37,7 @@ export class ShapeComponent implements OnInit {
 
   constructor(private title: Title, private shapeService: ShapeService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit() {

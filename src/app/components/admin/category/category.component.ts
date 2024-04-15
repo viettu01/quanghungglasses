@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import slugify from 'slugify';
 import {ToastrService} from 'ngx-toastr';
 import {Utils} from "../../../utils/utils";
+import {TokenService} from "../../../service/token.service";
 
 @Component({
   selector: 'app-category',
@@ -16,6 +17,7 @@ import {Utils} from "../../../utils/utils";
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<CategoryDto> = PaginationDTO.createEmpty();
   categoryDetails: CategoryDto = CategoryDto.createEmpty();
@@ -47,7 +49,7 @@ export class CategoryComponent implements OnInit {
 
   constructor(private title: Title, private categoryService: CategoryService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit() {

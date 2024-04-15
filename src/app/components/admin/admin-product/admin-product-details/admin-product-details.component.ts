@@ -4,6 +4,7 @@ import {DomSanitizer, Title} from "@angular/platform-browser";
 import {ProductDto} from "../../../../dto/product.dto";
 import {ActivatedRoute} from "@angular/router";
 import {Environment} from "../../../../environment/environment";
+import {TokenService} from "../../../../service/token.service";
 
 @Component({
   selector: 'app-details-product',
@@ -11,12 +12,13 @@ import {Environment} from "../../../../environment/environment";
   styleUrls: ['./admin-product-details.component.css']
 })
 export class AdminProductDetailsComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Environment = Environment;
   titleString = 'Chi tiết sản phẩm';
   product: ProductDto = ProductDto.createEmpty();
 
   constructor(private productService: ProductService, private title: Title, private activatedRoute: ActivatedRoute,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer, private tokenService: TokenService) {
   }
 
   ngOnInit(): void {

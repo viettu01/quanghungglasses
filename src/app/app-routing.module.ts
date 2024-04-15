@@ -36,7 +36,7 @@ import {AccessDeniedComponent} from "./components/errors/access-denied/access-de
 import {ClientLayoutComponent} from "./components/client/client-layout/client-layout.component";
 import {HomeComponent} from "./components/client/home/home.component";
 import {VerifyEmailComponent} from "./components/auth/verify-email/verify-email.component";
-import {AdminGuard} from "./guard/admin.guard";
+import {AdminAndStaffGuard} from "./guard/admin-and-staff.guard";
 import {ForgotPasswordComponent} from "./components/auth/forgot-password/forgot-password.component";
 import {CustomerDetailsComponent} from "./components/admin/customer/customer-details/customer-details.component";
 import {StaffDetailsComponent} from "./components/admin/staff/staff-details/staff-details.component";
@@ -49,9 +49,6 @@ import {
 import {
   AdminWarrantyListComponent
 } from "./components/admin/admin-warranty/admin-warranty-list/admin-warranty-list.component";
-import {
-  AdminWarrantyDetailsComponent
-} from "./components/admin/admin-warranty/admin-warranty-details/admin-warranty-details.component";
 import {
   AdminWarrantySaveComponent
 } from "./components/admin/admin-warranty/admin-warranty-save/admin-warranty-save.component";
@@ -75,6 +72,7 @@ import {
 } from "./components/client/client-order/client-order-details/client-order-details.component";
 import {ClientOrderListComponent} from "./components/client/client-order/client-order-list/client-order-list.component";
 import {PaymentSuccessComponent} from "./components/client/payment-success/payment-success.component";
+import {AdminGuard} from "./guard/admin.guard";
 
 const routes: Routes = [
   {
@@ -83,49 +81,49 @@ const routes: Routes = [
     children: [
       {path: '', component: DashboardComponent},
 
-      {path: 'staff', component: StaffListComponent},
-      {path: 'staff/save', component: StaffSaveComponent},
-      {path: 'staff/save/:id', component: StaffSaveComponent},
-      {path: 'staff/:id', component: StaffDetailsComponent},
+      {path: 'staff', component: StaffListComponent, canActivate: [AdminGuard]},
+      {path: 'staff/save', component: StaffSaveComponent, canActivate: [AdminGuard]},
+      {path: 'staff/save/:id', component: StaffSaveComponent, canActivate: [AdminGuard]},
+      {path: 'staff/:id', component: StaffDetailsComponent, canActivate: [AdminGuard]},
 
-      {path: 'customer', component: CustomerListComponent},
-      {path: 'customer/save', component: CustomerSaveComponent},
-      {path: 'customer/save/:id', component: CustomerSaveComponent},
-      {path: 'customer/:id', component: CustomerDetailsComponent},
+      {path: 'customer', component: CustomerListComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'customer/save', component: CustomerSaveComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'customer/save/:id', component: CustomerSaveComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'customer/:id', component: CustomerDetailsComponent, canActivate: [AdminAndStaffGuard]},
 
-      {path: 'banner', component: BannerComponent},
-      {path: 'report', component: ReportComponent},
-      {path: 'supplier', component: SupplierComponent},
-      {path: 'material', component: MaterialComponent},
-      {path: 'shape', component: ShapeComponent},
-      {path: 'brand', component: BrandComponent},
-      {path: 'origin', component: OriginComponent},
-      {path: 'category', component: CategoryComponent},
+      {path: 'banner', component: BannerComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'report', component: ReportComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'supplier', component: SupplierComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'material', component: MaterialComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'shape', component: ShapeComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'brand', component: BrandComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'origin', component: OriginComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'category', component: CategoryComponent, canActivate: [AdminAndStaffGuard]},
 
-      {path: 'product', component: AdminProductListComponent},
-      {path: 'product/save', component: AdminProductSaveComponent},
-      {path: 'product/save/:id', component: AdminProductSaveComponent},
-      {path: 'product/:id', component: AdminProductDetailsComponent},
+      {path: 'product', component: AdminProductListComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'product/save', component: AdminProductSaveComponent, canActivate: [AdminGuard]},
+      {path: 'product/save/:id', component: AdminProductSaveComponent, canActivate: [AdminGuard]},
+      {path: 'product/:id', component: AdminProductDetailsComponent, canActivate: [AdminAndStaffGuard]},
 
-      {path: 'receipt', component: ReceiptListComponent},
-      {path: 'receipt/save', component: ReceiptSaveComponent},
-      {path: 'receipt/save/:id', component: ReceiptSaveComponent},
-      {path: 'receipt/:id', component: ReceiptDetailsComponent},
+      {path: 'receipt', component: ReceiptListComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'receipt/save', component: ReceiptSaveComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'receipt/save/:id', component: ReceiptSaveComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'receipt/:id', component: ReceiptDetailsComponent, canActivate: [AdminAndStaffGuard]},
 
-      {path: 'order', component: AdminOrderListComponent},
-      {path: 'order/save', component: AdminOrderSaveComponent},
-      {path: 'order/save/:id', component: AdminOrderSaveComponent},
-      {path: 'order/:id', component: AdminOrderDetailsComponent},
+      {path: 'order', component: AdminOrderListComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'order/save', component: AdminOrderSaveComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'order/save/:id', component: AdminOrderSaveComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'order/:id', component: AdminOrderDetailsComponent, canActivate: [AdminAndStaffGuard]},
 
-      {path: 'warranty', component: AdminWarrantyListComponent},
-      {path: 'warranty/save', component: AdminWarrantySaveComponent},
-      {path: 'warranty/save/:id', component: AdminWarrantySaveComponent},
+      {path: 'warranty', component: AdminWarrantyListComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'warranty/save', component: AdminWarrantySaveComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'warranty/save/:id', component: AdminWarrantySaveComponent, canActivate: [AdminAndStaffGuard]},
 
-      {path: 'sale', component: AdminSaleListComponent},
-      {path: 'sale/save', component: AdminSaleSaveComponent},
-      {path: 'sale/save/:id', component: AdminSaleSaveComponent},
+      {path: 'sale', component: AdminSaleListComponent, canActivate: [AdminAndStaffGuard]},
+      {path: 'sale/save', component: AdminSaleSaveComponent, canActivate: [AdminGuard]},
+      {path: 'sale/save/:id', component: AdminSaleSaveComponent, canActivate: [AdminGuard]},
     ],
-    canActivate: [AdminGuard], // Thêm guard vào đây
+    // canActivate: [AdminAndStaffGuard], // Thêm guard vào đây
   },
   {
     path: '',

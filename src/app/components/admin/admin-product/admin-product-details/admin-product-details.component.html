@@ -14,7 +14,8 @@
       <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/product">
         Quay lại
       </a>
-      <a class="btn btn-primary mb-2 mb-sm-0" type="submit" href="/admin/product/save/{{product.id}}">
+      <a class="btn btn-primary mb-2 mb-sm-0" type="submit" href="/admin/product/save/{{product.id}}"
+         *ngIf="roles.includes('ROLE_ADMIN')">
         Cập nhật
       </a>
     </div>
@@ -163,7 +164,8 @@
       <a class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button" href="/admin/product">
         Quay lại
       </a>
-      <a class="btn btn-primary mb-2 mb-sm-0" type="submit" href="/admin/product/save/{{product.id}}">
+      <a class="btn btn-primary mb-2 mb-sm-0" type="submit" href="/admin/product/save/{{product.id}}"
+         *ngIf="roles.includes('ROLE_ADMIN')">
         Cập nhật
       </a>
     </div>

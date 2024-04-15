@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
+import {TokenService} from "../../../service/token.service";
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -7,7 +8,10 @@ import {Router} from "@angular/router";
   styleUrls: ['./admin-sidebar.component.css']
 })
 export class AdminSidebarComponent {
-  constructor(private router: Router) {
+  roles: string[] = this.tokenService.getUserRoles();
+
+  constructor(private router: Router, private tokenService: TokenService) {
+    console.log(this.roles);
   }
 
   isExactRouteStartWith(route: string): boolean {

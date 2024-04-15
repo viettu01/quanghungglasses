@@ -50,7 +50,7 @@
             </form>
           </div>
         </div>
-        <div class="col-auto ms-auto">
+        <div class="col-auto ms-auto" *ngIf="roles.includes('ROLE_ADMIN')">
           <a class="btn btn-primary" href="/admin/product/save">
             <span class="fas fa-plus me-2"></span>Thêm sản phẩm
           </a>
@@ -131,7 +131,7 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="text-end align-middle pe-0 ps-4" scope="col"></th>
+            <th class="text-end align-middle pe-0 ps-4" scope="col" *ngIf="roles.includes('ROLE_ADMIN')"></th>
           </tr>
           </thead>
           <tbody class="list" id="products-table-body">
@@ -172,13 +172,19 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end py-2">
                   <a class="dropdown-item" href="/admin/product/{{product.id}}">Chi tiết</a>
-                  <a class="dropdown-item" href="/admin/product/save/{{product.id}}">Cập nhật</a>
-<!--                  <button class="dropdown-item" (click)="updateStatus(product.id)">-->
-<!--                    <span *ngIf="product.status">Ngưng bán</span>-->
-<!--                    <span *ngIf="!product.status">Mở bán</span>-->
-<!--                  </button>-->
-                  <div class="dropdown-divider"></div>
-                  <button type="button" class="dropdown-item text-danger" (click)="delete(product.id)">Xóa</button>
+                  <a class="dropdown-item" href="/admin/product/save/{{product.id}}"
+                     *ngIf="roles.includes('ROLE_ADMIN')">
+                    Cập nhật
+                  </a>
+                  <!--                  <button class="dropdown-item" (click)="updateStatus(product.id)">-->
+                  <!--                    <span *ngIf="product.status">Ngưng bán</span>-->
+                  <!--                    <span *ngIf="!product.status">Mở bán</span>-->
+                  <!--                  </button>-->
+                  <div class="dropdown-divider" *ngIf="roles.includes('ROLE_ADMIN')"></div>
+                  <button type="button" class="dropdown-item text-danger" (click)="delete(product.id)"
+                          *ngIf="roles.includes('ROLE_ADMIN')">
+                    Xóa
+                  </button>
                 </div>
               </div>
             </td>

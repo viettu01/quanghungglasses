@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {Utils} from 'src/app/utils/utils';
 import {MaterialDto} from "../../../dto/material.dto";
 import {MaterialService} from "../../../service/material.service";
+import {TokenService} from "../../../service/token.service";
 
 @Component({
   selector: 'app-material',
@@ -15,6 +16,7 @@ import {MaterialService} from "../../../service/material.service";
   styleUrls: ['./material.component.css']
 })
 export class MaterialComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly Utils = Utils;
   paginationDTO: PaginationDTO<MaterialDto> = PaginationDTO.createEmpty();
   searchTemp: any = this.activatedRoute.snapshot.queryParams['name'] || "";
@@ -35,7 +37,7 @@ export class MaterialComponent implements OnInit {
 
   constructor(private title: Title, private materialService: MaterialService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService, private tokenService: TokenService) {
   }
 
   ngOnInit() {

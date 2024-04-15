@@ -13,6 +13,7 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./client-header.component.css']
 })
 export class ClientHeaderComponent implements OnInit {
+  roles: string[] = this.tokenService.getUserRoles();
   protected readonly window = window;
   fullName: string = '';
   cartNumber: number = 0;
