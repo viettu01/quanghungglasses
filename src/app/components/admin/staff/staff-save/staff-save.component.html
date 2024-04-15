@@ -84,6 +84,11 @@
                     </span>
                   </div>
                   <input class="form-control" type="date" formControlName="birthday"/>
+                  <small class="text-danger mt-1" *ngIf="staffForm['controls']['birthday'].dirty">
+                    <span *ngIf="staffForm['controls']['birthday'].errors?.['birthday']">
+                      Nhân viên chưa đủ 18 tuổi
+                    </span>
+                  </small>
                 </div>
                 <div class="col-12 col-sm-3 col-xl-12">
                   <div class="d-flex flex-wrap mb-2">

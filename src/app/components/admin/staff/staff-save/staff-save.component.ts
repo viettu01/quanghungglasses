@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {StaffService} from "../../../../service/staff.service";
 import {StaffDto} from "../../../../dto/staff.dto";
+import {BirthdayValidator} from "../../../../utils/birthday-validator";
 
 @Component({
   selector: 'app-staff-save',
@@ -33,7 +34,7 @@ export class StaffSaveComponent implements OnInit {
         Validators.pattern("^0[0-9]{9}$")
       ]),
       gender: new FormControl('Nam'),
-      birthday: new FormControl(null, []),
+      birthday: new FormControl(null, [BirthdayValidator()]),
       staffStatus: new FormControl('true', [Validators.required]),
       account: new FormGroup(
         {
