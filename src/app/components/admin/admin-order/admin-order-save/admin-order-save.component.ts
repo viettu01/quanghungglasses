@@ -194,7 +194,7 @@ export class AdminOrderSaveComponent implements OnInit {
     // if (orderDto.paymentMethod == 0) {
     //   orderDto.orderStatus = 5;
     // }
-    this.orderService.create(orderDto).subscribe({
+    this.orderService.createAdmin(orderDto).subscribe({
       next: (response: any) => {
         this.toastr.success('Thêm hóa đơn thành công');
         if (orderDto.paymentMethod === '0') {

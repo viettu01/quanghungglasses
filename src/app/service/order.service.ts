@@ -44,7 +44,7 @@ export class OrderService {
     return this.http.get(`${this.apiOrderUrl}/${id}`);
   }
 
-  create(orderDto: OrderDto) {
+  createClient(orderDto: OrderDto) {
     const formData = new FormData();
     formData.append('fullname', orderDto.fullname);
     formData.append('address', orderDto.address);
@@ -62,6 +62,26 @@ export class OrderService {
     }
 
     return this.http.post(this.apiOrderUrl, formData);
+  }
+
+  createAdmin(orderDto: OrderDto) {
+    const formData = new FormData();
+    formData.append('fullname', orderDto.fullname);
+    formData.append('address', orderDto.address);
+    formData.append('phone', orderDto.phone);
+    formData.append('note', orderDto.note);
+    if (orderDto.eyeglassPrescriptionImage != null)
+      formData.append('eyeglassPrescriptionImage', orderDto.eyeglassPrescriptionImage);
+    formData.append('paymentMethod', orderDto.paymentMethod.toString());
+    formData.append('paymentStatus', orderDto.paymentStatus.toString());
+    formData.append('orderStatus', orderDto.orderStatus.toString());
+    for (let i = 0; i < orderDto.orderDetails.length; i++) {
+      formData.append(`orderDetails[${i}].productDetailsId`, orderDto.orderDetails[i].productDetailsId.toString());
+      formData.append(`orderDetails[${i}].quantity`, orderDto.orderDetails[i].quantity.toString());
+      formData.append(`orderDetails[${i}].price`, orderDto.orderDetails[i].price.toString());
+    }
+
+    return this.http.post(this.apiOrderAdminUrl, formData);
   }
 
   updateOrderStatus(id: number, orderStatus: number, cancelReason: string) {

@@ -127,7 +127,7 @@ export class CheckoutComponent implements OnInit {
       this.toastr.error('Vui lòng chọn sản phẩm');
       return;
     }
-    this.orderService.create(orderDto).subscribe({
+    this.orderService.createClient(orderDto).subscribe({
       next: (response: any) => {
         this.toastr.success('Đặt hàng thành công');
         sessionStorage.removeItem('selectedItems');
