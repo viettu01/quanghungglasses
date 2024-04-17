@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(10),
         Validators.pattern("^0[0-9]{9}$")
       ]),
-      birthday: new FormControl(new Date()),
+      birthday: new FormControl(null),
       gender: new FormControl('Nam'),
       address: new FormControl('', [Validators.maxLength(200)]),
       account: new FormGroup({
@@ -65,6 +65,13 @@ export class RegisterComponent implements OnInit {
       return;
 
     this.register();
+  }
+
+  onDateInputChange(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement).value;
+
+    // Nếu người dùng không chọn ngày, set giá trị thành null
+    this.registerForm.get('birthday')?.setValue(inputValue ? inputValue : null);
   }
 
   register() {

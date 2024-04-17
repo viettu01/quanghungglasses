@@ -30,25 +30,26 @@
             <input class="form-control" id="phone" type="text" placeholder="Số điện thoại" formControlName="phone"
                    appNoLeadingSpace appOnlyNumberDirective/>
             <small class="text-danger mt-1" *ngIf="registerForm['controls']['phone'].dirty">
-            <span *ngIf="registerForm['controls']['phone'].errors?.['required']">
-              Số điện thoại không được để trống
-            </span>
+              <span *ngIf="registerForm['controls']['phone'].errors?.['required']">
+                Số điện thoại không được để trống
+              </span>
               <span *ngIf="registerForm['controls']['phone'].errors?.['maxlength']
                         || registerForm['controls']['phone'].errors?.['minlength']">
-              Số điện thoại phải đủ 10 số
-            </span>
+                Số điện thoại phải đủ 10 số
+              </span>
               <span *ngIf="!(registerForm['controls']['phone'].errors?.['maxlength']
                         || registerForm['controls']['phone'].errors?.['minlength'])
                         && registerForm['controls']['phone'].errors?.['pattern']">
-              Số điện thoại không hợp lệ
-            </span>
+                Số điện thoại không hợp lệ
+              </span>
             </small>
           </div>
         </div>
         <div class="row g-3 mb-3">
           <div class="col-sm-6">
             <label class="form-label" for="birthday">Ngày sinh</label>
-            <input class="form-control" id="birthday" type="date" placeholder="Ngày sinh" formControlName="birthday"/>
+            <input class="form-control" id="birthday" type="date" placeholder="Ngày sinh" formControlName="birthday"
+                   (input)="onDateInputChange($event)"/>
           </div>
           <div class="col-sm-6">
             <label class="form-label">Giới tính</label>
