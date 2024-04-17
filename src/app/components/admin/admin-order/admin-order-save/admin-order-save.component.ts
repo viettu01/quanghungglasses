@@ -25,6 +25,7 @@ export class AdminOrderSaveComponent implements OnInit {
   price: number = 0;
   totalMoney: number = 0;
   selectedEyeglassPrescriptionUrl: string = '';
+  selectedEyeglassPrescriptionError: string = '';
 
   constructor(private title: Title, private toastr: ToastrService, private router: Router,
               private customerService: CustomerService, private orderService: OrderService,
@@ -136,8 +137,11 @@ export class AdminOrderSaveComponent implements OnInit {
           this.selectedEyeglassPrescriptionUrl = e.target.result;
         };
         reader.readAsDataURL(file);
+        this.orderForm.get('eyeglassPrescriptionImage')?.setValue(file);
       } else {
         this.selectedEyeglassPrescriptionUrl = '';
+        this.selectedEyeglassPrescriptionError = 'Phiếu khám mắt phải là định dạng .jpg, .jpeg, .png, .webp và có kích thước tối đa 2MB';
+        this.orderForm.get('eyeglassPrescriptionImage')?.setValue(null);
       }
     }
   }
@@ -145,6 +149,7 @@ export class AdminOrderSaveComponent implements OnInit {
   removeEyeglassPrescription() {
     this.orderForm.get('eyeglassPrescriptionImage')?.setValue(null);
     this.selectedEyeglassPrescriptionUrl = '';
+    this.selectedEyeglassPrescriptionError = '';
     // reset input file
     const fileInput = document.getElementById('eyeglassPrescriptionImage') as HTMLInputElement;
     if (fileInput) {

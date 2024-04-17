@@ -109,6 +109,20 @@ export class AdminSaleSaveComponent implements OnInit {
     this.findAllProduct()
   }
 
+  onStartDateInputChange(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement).value;
+
+    // Nếu người dùng không chọn ngày, set giá trị thành null
+    this.saleForm.get('startDate')?.setValue(inputValue ? inputValue : null);
+  }
+
+  onEndDateInputChange(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement).value;
+
+    // Nếu người dùng không chọn ngày, set giá trị thành null
+    this.saleForm.get('endDate')?.setValue(inputValue ? inputValue : null);
+  }
+
   onSubmit() {
     if (this.saleForm.invalid) {
       return;

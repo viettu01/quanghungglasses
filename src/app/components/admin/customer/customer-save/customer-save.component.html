@@ -83,7 +83,8 @@
                       Ngày sinh
                     </span>
                   </div>
-                  <input class="form-control" type="date" formControlName="birthday"/>
+                  <input class="form-control" type="date" formControlName="birthday"
+                         (input)="onDateInputChange($event)"/>
                 </div>
                 <div class="col-12 col-sm-3 col-xl-12">
                   <div class="d-flex flex-wrap mb-2">

@@ -104,6 +104,13 @@ export class CustomerSaveComponent implements OnInit {
     }
   }
 
+  onDateInputChange(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement).value;
+
+    // Nếu người dùng không chọn ngày, set giá trị thành null
+    this.customerForm.get('birthday')?.setValue(inputValue ? inputValue : null);
+  }
+
   createCustomer() {
     if (this.customerForm.get('birthday')?.value !== null) {
       this.customerForm.get('birthday')?.setValue(new Date(this.customerForm.get('birthday')?.value));

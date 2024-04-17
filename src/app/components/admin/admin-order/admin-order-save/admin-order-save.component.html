@@ -112,7 +112,11 @@
             </tr>
             <tr>
               <td class="py-2 px-0 align-middle" colspan="2">
-                <input class="form-control" id="eyeglassPrescriptionImage" type="file" (change)="onFileChange($event)"/>
+                <input class="form-control" id="eyeglassPrescriptionImage" type="file" (change)="onFileChange($event)"
+                       accept=".jpg, .jpeg, .png, .gif, .webp"/>
+                <small class="text-danger" *ngIf="selectedEyeglassPrescriptionError !== ''">
+                  {{ selectedEyeglassPrescriptionError }}
+                </small>
               </td>
             </tr>
             <tr *ngIf="selectedEyeglassPrescriptionUrl != ''">
