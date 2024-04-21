@@ -128,8 +128,10 @@ export class CartComponent implements OnInit {
 
   updateProductQuantity(event: any, cartItem: CartDto) {
     if (event.target.value > cartItem.quantityInStock) {
+      this.toastr.error('Rất tiếc, bạn chỉ có thể mua tối đa ' + cartItem.quantityInStock + ' sản phẩm này');
       cartItem.quantity = cartItem.quantityInStock;
     } else if (event.target.value < 1) {
+      this.toastr.error('Số lượng sản phẩm phải lớn hơn 0');
       cartItem.quantity = 1;
     } else {
       cartItem.quantity = event.target.value;

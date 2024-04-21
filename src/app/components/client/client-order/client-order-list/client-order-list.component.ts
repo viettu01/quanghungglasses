@@ -122,7 +122,6 @@ export class ClientOrderListComponent implements OnInit {
   }
 
   checkActiveOrderStatus() {
-    console.log(this.activatedRoute.snapshot.queryParams['trang-thai']);
     this.isGetAll = this.activatedRoute.snapshot.queryParams['trang-thai'] === undefined
       || this.activatedRoute.snapshot.queryParams['trang-thai'] === ""
       || this.activatedRoute.snapshot.queryParams['trang-thai'] === null;
@@ -134,7 +133,7 @@ export class ClientOrderListComponent implements OnInit {
   }
 
   getCountAllOrder() {
-    this.orderService.findAllByCustomer("", null, 1, 1, "", "").subscribe({
+    this.orderService.findAllByCustomer("", "", 1, 1, "", "").subscribe({
       next: (response: any) => {
         this.countAll = response.totalElements;
       }

@@ -81,8 +81,10 @@ export class ClientProductDetailsComponent implements OnInit {
 
   quantityChange(event: any) {
     if (event.target.value > this.quantityMax) {
+      this.toastr.error('Rất tiếc, bạn chỉ có thể mua tối đa ' + this.quantityMax + ' sản phẩm này');
       this.quantity = this.quantityMax;
     } else if (event.target.value < 1) {
+      this.toastr.error('Số lượng sản phẩm phải lớn hơn 0');
       this.quantity = 1;
     } else {
       this.quantity = event.target.value;
