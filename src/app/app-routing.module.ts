@@ -79,7 +79,7 @@ const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      {path: '', component: DashboardComponent},
+      {path: '', component: DashboardComponent, canActivate: [AdminAndStaffGuard]},
 
       {path: 'staff', component: StaffListComponent, canActivate: [AdminGuard]},
       {path: 'staff/save', component: StaffSaveComponent, canActivate: [AdminGuard]},
