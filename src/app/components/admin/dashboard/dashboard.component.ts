@@ -133,4 +133,40 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  exportOrderReport() {
+    this.reportService.exportOrderReport(this.selectOrderYear).subscribe({
+      next: (response: any) => {
+        let date = new Date();
+        let formatMonth = date.getMonth().toString().length == 1 ? '0' + (date.getMonth() + 1) : date.getMonth();
+        let currentDateString = date.getDate() + '-' + formatMonth + '-' + date.getFullYear();
+        const filename = 'export_order' + currentDateString + '.xlsx';
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
+    });
+  }
+
+  exportReceiptReport() {
+    this.reportService.exportReceiptReport(this.selectReceiptYear).subscribe({
+      next: (response: any) => {
+        let date = new Date();
+        let formatMonth = date.getMonth().toString().length == 1 ? '0' + (date.getMonth() + 1) : date.getMonth();
+        let currentDateString = date.getDate() + '-' + formatMonth + '-' + date.getFullYear();
+        const filename = 'export_receipt' + currentDateString + '.xlsx';
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
+    });
+  }
 }

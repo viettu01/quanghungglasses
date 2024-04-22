@@ -18,4 +18,16 @@ export class ReportService {
   receiptReport(year: number) {
     return this.http.get(`${this.apiReportAdminUrl}/receipt?year=${year}`);
   }
+
+  exportOrderReport(year: number) {
+    return this.http.get(`${this.apiReportAdminUrl}/order/export?year=${year}`, {
+      responseType: 'blob'
+    });
+  }
+
+  exportReceiptReport(year: number) {
+    return this.http.get(`${this.apiReportAdminUrl}/receipt/export?year=${year}`, {
+      responseType: 'blob'
+    });
+  }
 }
