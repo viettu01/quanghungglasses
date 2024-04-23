@@ -6,48 +6,109 @@
       </div>
       <div class="row align-items-center g-4">
         <div class="col-12 col-md-auto">
-          <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span
-            class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-success-light"
-            data-fa-transform="down-4 rotate--10 left-4"></span><span
-            class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-success"
-            data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-star text-success "
-                                                                 data-fa-transform="shrink-2 up-8 right-6"></span></span>
+          <div class="d-flex align-items-center">
+            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+              <span class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-success-light"
+                    data-fa-transform="down-4 rotate--10 left-4"></span>
+              <span class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-success"
+                    data-fa-transform="up-4 right-3 grow-2"></span>
+              <span class="fa-stack-1x fa-solid fa-bag-shopping text-success"
+                    data-fa-transform="shrink-2 up-8 right-6"></span>
+            </span>
             <div class="ms-3">
-              <h4 class="mb-0">57 new orders</h4>
-              <p class="text-body-secondary fs-9 mb-0">Awating processing</p>
+              <h4 class="mb-0">{{ dashboard.totalOrderInDay }} đơn hàng mới</h4>
+              <p class="text-body-secondary fs-9 mb-0">Trong ngày</p>
             </div>
           </div>
         </div>
         <div class="col-12 col-md-auto">
-          <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span
-            class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-warning-light"
-            data-fa-transform="down-4 rotate--10 left-4"></span><span
-            class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-warning"
-            data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-pause text-warning "
-                                                                 data-fa-transform="shrink-2 up-8 right-6"></span></span>
+          <div class="d-flex align-items-center">
+            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+              <span class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-warning-light"
+                    data-fa-transform="down-4 rotate--10 left-4"></span>
+              <span class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-warning"
+                    data-fa-transform="up-4 right-3 grow-2"></span>
+              <span class="fa-stack-1x fa-solid fa-pause text-warning"
+                    data-fa-transform="shrink-2 up-8 right-6"></span>
+            </span>
             <div class="ms-3">
-              <h4 class="mb-0">5 orders</h4>
-              <p class="text-body-secondary fs-9 mb-0">On hold</p>
+              <h4 class="mb-0">{{ dashboard.totalOrderOnHold }} đơn hàng</h4>
+              <p class="text-body-secondary fs-9 mb-0">Đang chờ xử lý</p>
             </div>
           </div>
         </div>
         <div class="col-12 col-md-auto">
-          <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span
-            class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-danger-light"
-            data-fa-transform="down-4 rotate--10 left-4"></span><span
-            class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-danger"
-            data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-xmark text-danger "
-                                                                 data-fa-transform="shrink-2 up-8 right-6"></span></span>
+          <div class="d-flex align-items-center">
+            <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
+              <span class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-danger-light"
+                    data-fa-transform="down-4 rotate--10 left-4"></span>
+              <span class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-danger"
+                    data-fa-transform="up-4 right-3 grow-2"></span>
+              <span class="fa-stack-1x fa-solid fa-xmark text-danger"
+                    data-fa-transform="shrink-2 up-8 right-6"></span>
+            </span>
             <div class="ms-3">
-              <h4 class="mb-0">15 products</h4>
-              <p class="text-body-secondary fs-9 mb-0">Out of stock</p>
+              <h4 class="mb-0">{{ dashboard.totalProductOutOfStock }} sản phẩm</h4>
+              <p class="text-body-secondary fs-9 mb-0">Hết hàng</p>
             </div>
           </div>
         </div>
       </div>
       <hr class="bg-body-secondary mb-6 mt-4"/>
       <div class="row g-4">
-
+        <div class="col-12">
+          <div class="row">
+            <div class="col-auto">
+              <h3>Sản phẩm sắp hết</h3>
+            </div>
+            <div class="col-12">
+              <div class="table-responsive scrollbar mx-n1 px-1">
+                <table class="table fs--1 mb-0">
+                  <thead>
+                  <tr>
+                    <th class="white-space-nowrap align-middle fs--2 text-center" scope="col" style="width:0;">STT</th>
+                    <th class="white-space-nowrap align-middle fs--2 text-center" scope="col" style="width:70px;">Ảnh</th>
+                    <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:300px;">
+                      Tên sản phẩm
+                    </th>
+                    <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:100px;">
+                      Màu sắc
+                    </th>
+                    <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:150px;">
+                      SL tồn kho
+                    </th>
+                    <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:150px;">
+                      SL giỏ hàng
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody class="list" id="products-table-body">
+                  <tr class="position-static" *ngFor="let item of cartReports; let i = index">
+                    <td class="align-middle white-space-nowrap py-0 text-center">
+                      {{ i + 1 }}
+                    </td>
+                    <td class="align-middle white-space-nowrap py-0 text-center">
+                      <img src="{{baseUrl}}/images/{{item.productThumbnails}}" alt="" width="53"/>
+                    </td>
+                    <td class="product align-middle ps-4">
+                      {{ item.productName }}
+                    </td>
+                    <td class="product align-middle ps-4">
+                      {{ item.productColor }}
+                    </td>
+                    <td class="product align-middle ps-4">
+                      {{ item.totalQuantityInStock }}
+                    </td>
+                    <td class="product align-middle ps-4">
+                      {{ item.totalQuantityInCart }}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-6">
           <div class="row">
             <div class="col-auto">

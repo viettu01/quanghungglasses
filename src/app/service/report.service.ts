@@ -30,4 +30,12 @@ export class ReportService {
       responseType: 'blob'
     });
   }
+
+  getDashboard() {
+    return this.http.get(`${this.apiReportAdminUrl}/get-dashboard`);
+  }
+
+  getAllCart() {
+    return this.http.get(`${this.apiReportAdminUrl}/get-all-cart`);
+  }
 }
