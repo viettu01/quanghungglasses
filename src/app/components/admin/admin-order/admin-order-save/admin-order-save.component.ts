@@ -82,6 +82,10 @@ export class AdminOrderSaveComponent implements OnInit {
     this.orderForm.get('productDetailsIdSearch')?.setValue(null);
     for (let i = 0; i < this.orderDetails.length; i++) {
       if (this.orderDetails.at(i).get('productDetailsId')?.value === this.orderForm.get('productDetails')?.value.id) {
+        if ((Number(this.orderDetails.at(i).get('quantity')?.value) + 1) > Number(this.orderForm.get('productDetails')?.value.quantity)) {
+          this.toastr.error('Số lượng bán không được lớn hơn số lượng trong kho');
+          return;
+        }
         this.orderDetails.at(i).get('quantity')?.setValue(this.orderDetails.at(i).get('quantity')?.value + 1);
         const totalPrice = this.price * this.orderDetails.at(i).get('quantity')?.value;
         this.orderDetails.at(i).get('totalOneProduct')?.setValue(totalPrice);
@@ -100,6 +104,7 @@ export class AdminOrderSaveComponent implements OnInit {
         quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
         price: new FormControl(this.price, [Validators.required, greaterThanZeroValidator()]),
         totalOneProduct: new FormControl(this.price),
+        quantityInStock: new FormControl(this.orderForm.get('productDetails')?.value.quantity)
       })
     );
 
@@ -109,6 +114,12 @@ export class AdminOrderSaveComponent implements OnInit {
   }
 
   quantityChange(index: number) {
+    this.orderDetails.at(index).get('quantity')?.setValue(Number(this.orderDetails.at(index).get('quantity')?.value));
+    if (this.orderDetails.at(index).get('quantity')?.value > this.orderDetails.at(index).get('quantityInStock')?.value) {
+      this.toastr.error('Số lượng bán không được lớn hơn số lượng trong kho');
+      this.orderDetails.at(index).get('quantity')?.setValue(this.orderDetails.at(index).get('quantityInStock')?.value);
+    }
+
     const totalPrice = this.orderDetails.at(index).get('price')?.value * this.orderDetails.at(index).get('quantity')?.value;
     this.orderDetails.at(index).get('totalOneProduct')?.setValue(totalPrice);
     this.getTotalMoney();
