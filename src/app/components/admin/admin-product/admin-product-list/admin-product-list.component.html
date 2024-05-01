@@ -89,8 +89,18 @@
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
             </th>
-            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:150px;">
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:150px;"
+                (click)="sortByField('category.id')">
               Danh mục
+              <label [class.d-none]="sortBy === 'category.id' && (sortDir === 'DESC' || sortDir === 'ASC')">
+                <span class="fas fa-sort align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'category.id' || sortDir !== 'ASC'">
+                <span class="fas fa-sort-up align-middle fs-9"></span>
+              </label>
+              <label [class.d-none]="sortBy !== 'category.id' || sortDir !== 'DESC'">
+                <span class="fas fa-sort-down align-middle fs-9"></span>
+              </label>
             </th>
             <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:210px;"
                 (click)="sortByField('status')">
@@ -104,6 +114,9 @@
               <label [class.d-none]="sortBy !== 'status' || sortDir !== 'DESC'">
                 <span class="fas fa-sort-down align-middle fs-9"></span>
               </label>
+            </th>
+            <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:210px;">
+              Tổng số lượng
             </th>
             <th class="white-space-nowrap align-middle ps-4" scope="col" style="width:200px;"
                 (click)="sortByField('createdDate')">
@@ -156,6 +169,9 @@
             <td class="align-middle white-space-nowrap text-600 ps-4">
               <span class="text-success" *ngIf="product.status">Mở bán</span>
               <span class="text-danger" *ngIf="!product.status">Ngưng bán</span>
+            </td>
+            <td class="align-middle white-space-nowrap text-600 ps-4">
+              <span>{{product.quantity}}</span>
             </td>
             <td class="vendor align-middle white-space-nowrap ps-4">
               {{ product.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
