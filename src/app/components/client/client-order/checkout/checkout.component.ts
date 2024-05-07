@@ -22,6 +22,7 @@ export class CheckoutComponent implements OnInit {
   totalMoneyDiscount: number = 0;
   totalQuantity: number = 0;
   selectedEyeglassPrescriptionUrl: string = '';
+  isDisplayNone: boolean = false;
 
   constructor(private title: Title, private toastr: ToastrService, private router: Router,
               private authService: AuthService, private orderService: OrderService, private cartService: CartService) {
@@ -127,8 +128,10 @@ export class CheckoutComponent implements OnInit {
       this.toastr.error('Vui lòng chọn sản phẩm');
       return;
     }
+    this.isDisplayNone = true;
     this.orderService.createClient(orderDto).subscribe({
       next: (response: any) => {
+        this.isDisplayNone = false;
         this.toastr.success('Đặt hàng thành công');
         sessionStorage.removeItem('selectedItems');
         this.cartsItems.forEach(item => {
@@ -152,6 +155,7 @@ export class CheckoutComponent implements OnInit {
         }
       },
       error: (error: any) => {
+        this.isDisplayNone = false;
         if (error.status === 400)
           this.toastr.error(error.error);
         else

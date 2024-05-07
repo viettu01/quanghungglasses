@@ -85,6 +85,7 @@ export class RegisterComponent implements OnInit {
           // this.router.navigateByUrl("/login");
         },
         error: (error: any) => {
+          console.log(error);
           if (error.status === 400)
             this.toastr.error(error.error);
           else

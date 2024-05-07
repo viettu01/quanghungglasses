@@ -6,7 +6,7 @@ export class CustomerDto extends BaseDto {
   fullname: string;
   phone: string
   gender: string;
-  birthday: Date;
+  birthday: any;
   address: string;
   totalOrder: number; // Tổng số đơn hàng đã mua
   totalMoney: number; // Tổng số tiền đã mua

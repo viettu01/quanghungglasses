@@ -158,24 +158,24 @@
                     {{ orderDto.deliveryDate | date: 'dd/MM/yyyy HH:mm:ss' }}
                   </div>
                 </div>
-                <div class="col-6 col-sm-12" *ngIf="orderDto.receiveDate != null">
-                  <div class="d-flex align-items-center mb-1">
-                    <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>
-                    <h6 class="mb-0">Ngày nhận hàng</h6>
-                  </div>
-                  <div class="ms-4">
-                    {{ orderDto.receiveDate | date: 'dd/MM/yyyy HH:mm:ss' }}
-                  </div>
-                </div>
-                <div class="col-6 col-sm-12" *ngIf="orderDto.completedDate != null">
-                  <div class="d-flex align-items-center mb-1">
-                    <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>
-                    <h6 class="mb-0">Ngày hoàn thành</h6>
-                  </div>
-                  <div class="ms-4">
-                    {{ orderDto.completedDate | date: 'dd/MM/yyyy HH:mm:ss' }}
-                  </div>
-                </div>
+<!--                <div class="col-6 col-sm-12" *ngIf="orderDto.receiveDate != null">-->
+<!--                  <div class="d-flex align-items-center mb-1">-->
+<!--                    <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>-->
+<!--                    <h6 class="mb-0">Ngày nhận hàng</h6>-->
+<!--                  </div>-->
+<!--                  <div class="ms-4">-->
+<!--                    {{ orderDto.receiveDate | date: 'dd/MM/yyyy HH:mm:ss' }}-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="col-6 col-sm-12" *ngIf="orderDto.completedDate != null">-->
+<!--                  <div class="d-flex align-items-center mb-1">-->
+<!--                    <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>-->
+<!--                    <h6 class="mb-0">Ngày hoàn thành</h6>-->
+<!--                  </div>-->
+<!--                  <div class="ms-4">-->
+<!--                    {{ orderDto.completedDate | date: 'dd/MM/yyyy HH:mm:ss' }}-->
+<!--                  </div>-->
+<!--                </div>-->
                 <div class="col-6 col-sm-12" *ngIf="orderDto.cancelDate != null">
                   <div class="d-flex align-items-center mb-1">
                     <span class="me-2 fa-solid fa-calendar-days" style="stroke-width:2.5;"></span>

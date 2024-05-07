@@ -144,6 +144,9 @@
                       <th class="align-middle white-space-nowrap text-center">
                         Phí bảo hành
                       </th>
+                      <th class="align-middle white-space-nowrap text-center">
+                        Lý do
+                      </th>
                       <th class="text-end white-space-nowrap align-middle" *ngIf="!isUpdate" style="width: 60px;"></th>
                     </tr>
                     </thead>
@@ -180,7 +183,8 @@
                           </span>
                         </small>
                         <span *ngIf="isUpdate">
-                          {{ details.get('warrantyType')?.value == 0 ? 'Đổi sản phẩm' : 'Sửa chữa' }}
+                          Sửa chữa
+                          <!-- {{ details.get('warrantyType')?.value == 0 ? 'Sửa chữa' : '' }}-->
                         </span>
                       </td>
                       <td class="total-spent align-middle white-space-nowrap text-body-emphasis"
@@ -213,7 +217,18 @@
                             Phí bảo hành không được để trống
                           </span>
                           <span *ngIf="details.get('cost')?.hasError('min')">
-                            Số lượng sản phẩm phải là số nguyên lớn hơn 0
+                            Phí bảo hành sản phẩm phải là số nguyên lớn hơn 0
+                          </span>
+                        </small>
+                      </td>
+                      <td class="last-order align-middle white-space-nowrap text-body-tertiary pe-2">
+                        <input class="form-control" type="text" formControlName="note" *ngIf="!isUpdate">
+                        <span *ngIf="isUpdate">
+                          {{ details.get('note')?.value}}
+                        </span>
+                        <small class="text-danger mt-1" *ngIf="details.get('note')?.dirty">
+                          <span *ngIf="details.get('note')?.hasError('maxlength')">
+                            Ghi chú không được quá 255 ký tự
                           </span>
                         </small>
                       </td>

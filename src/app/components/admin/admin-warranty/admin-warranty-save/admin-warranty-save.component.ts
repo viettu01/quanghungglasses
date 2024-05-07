@@ -22,9 +22,9 @@ export class AdminWarrantySaveComponent implements OnInit {
   orders: OrderDto[] = [];
   orderDetails: OrderDetailsDto[] = [];
   warrantyTypes: any[] = [
-    {id: 0, name: 'Sửa chữa'},
-    {id: 1, name: 'Đổi sản phẩm (Không lỗi)'},
-    {id: 2, name: 'Đổi sản phẩm (Lỗi)'}
+    {id: 0, name: 'Sửa chữa', selected: true},
+    // {id: 1, name: 'Đổi sản phẩm (Không lỗi)'},
+    // {id: 2, name: 'Đổi sản phẩm (Lỗi)'}
   ];
   price: number = 0;
   totalMoney: number = 0;
@@ -69,6 +69,28 @@ export class AdminWarrantySaveComponent implements OnInit {
 
   addWarrantyDetails() {
     // neu san pham da ton tai thi kiem tra so luong trong warrantyDetails neu so luong < so luong trong order thi cho them vao warrantyDetails neu khong thi thong bao
+    if (this.warrantyForm.get('orderDetails')?.value.productTimeWarranty == 0) {
+      this.toastr.error('Sản phẩm không hỗ trợ bảo hành');
+      return;
+    }
+    // so sanh thoi gian bao hanh với thoi gian mua hang voi thoi gian bao hanh tinh theo ngay VD: 03/05/2024 + 30 ngay = 02/06/2024
+    let order = this.warrantyForm.get('orders')?.value as OrderDto;
+    let orderDetails = this.warrantyForm.get('orderDetails')?.value as OrderDetailsDto;
+    // chuyen thoi gian bao hanh sang mili giay
+    let warrantyTime = orderDetails.productTimeWarranty * 24 * 60 * 60 * 1000;
+    // chuyen thoi gian mua hang sang mili giay
+    let orderTime = new Date(order.createdDate).getTime();
+    // tinh thoi gian het han bao hanh
+    let warrantyExpired = orderTime + warrantyTime;
+    // console.log('warrantyExpired: ', warrantyExpired);
+    // tinh thoi gian hien tai
+    let currentTime = new Date().getTime();
+    // console.log('currentTime: ', currentTime);
+    if (currentTime > warrantyExpired) {
+      this.toastr.error('Sản phẩm đã hết thời gian bảo hành');
+      return;
+    }
+
     for (let i = 0; i < this.warrantyDetails.length; i++) {
       if (this.warrantyDetails.at(i).get('orderId')?.value === this.warrantyForm.get('orders')?.value.id &&
         this.warrantyDetails.at(i).get('productDetailsId')?.value === this.warrantyForm.get('orderDetails')?.value.productDetailsId) {
@@ -96,11 +118,12 @@ export class AdminWarrantySaveComponent implements OnInit {
         quantityInOrder: new FormControl(this.warrantyForm.get('orderDetails')?.value.quantity),
         quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
         warrantyType: new FormControl(null, [Validators.required]),
-        cost: new FormControl(0, [Validators.required, Validators.min(0)])
+        cost: new FormControl(0, [Validators.required, Validators.min(0)]),
+        note: new FormControl("", [Validators.maxLength(255)]),
       })
     );
 
-    console.log(this.warrantyDetails.value);
+    // console.log(this.warrantyDetails.value);
 
     this.warrantyForm.get('orders')?.setValue(null);
     this.warrantyForm.get('orderDetails')?.setValue(null);
@@ -192,7 +215,7 @@ export class AdminWarrantySaveComponent implements OnInit {
     //   warranty.orderStatus = 5;
     // }
     this.warrantyService.create(this.warrantyForm.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.toastr.success('Thêm phiếu bảo hành thành công');
         this.router.navigateByUrl('/admin/warranty');
       },
@@ -224,7 +247,8 @@ export class AdminWarrantySaveComponent implements OnInit {
               productColor: new FormControl(item.productColor),
               quantity: new FormControl(item.quantity),
               warrantyType: new FormControl(item.warrantyType),
-              cost: new FormControl(item.cost)
+              cost: new FormControl(item.cost),
+              note: new FormControl(item.note),
             })
           );
         });
@@ -235,7 +259,7 @@ export class AdminWarrantySaveComponent implements OnInit {
 
   update(id: number) {
     this.warrantyService.update(id, this.warrantyForm.get('status')?.value).subscribe({
-      next: (response: any) => {
+      next: () => {
         this.toastr.success('Cập nhật phiếu bảo hành thành công');
         this.router.navigateByUrl('/admin/warranty');
       },

@@ -156,8 +156,15 @@
           </div>
           <div class="row g-2 mb-5 mb-lg-0">
             <div class="col-md-12 col-lg-12 d-grid">
-              <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid">
-                Thanh toán
+<!--              <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid">-->
+<!--                Thanh toán-->
+<!--              </button>-->
+              <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid || isDisplayNone">
+                <span [class.d-none]="isDisplayNone">Thanh toán</span>
+                <span class="indicator-progress" [class.d-none]="!isDisplayNone">
+                  Vui lòng chờ...
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
               </button>
             </div>
           </div>
@@ -213,12 +220,12 @@
                 <h5 class="text-body fw-semibold">Tổng số sản phẩm: </h5>
                 <h5 class="text-body fw-semibold">{{ totalQuantity }}</h5>
               </div>
-<!--              <div class="d-flex justify-content-between mb-2">-->
-<!--                <h5 class="text-body fw-semibold">Giảm giá: </h5>-->
-<!--                <h5 class="text-danger fw-semibold">-->
-<!--                  - {{ totalMoneyDiscount | currency:'VND':true:'1.0-0' }}-->
-<!--                </h5>-->
-<!--              </div>-->
+              <!--              <div class="d-flex justify-content-between mb-2">-->
+              <!--                <h5 class="text-body fw-semibold">Giảm giá: </h5>-->
+              <!--                <h5 class="text-danger fw-semibold">-->
+              <!--                  - {{ totalMoneyDiscount | currency:'VND':true:'1.0-0' }}-->
+              <!--                </h5>-->
+              <!--              </div>-->
               <!--              <div class="d-flex justify-content-between mb-3">-->
               <!--                <h5 class="text-body fw-semibold">Phí vận chuyển </h5>-->
               <!--                <h5 class="text-body fw-semibold">-->

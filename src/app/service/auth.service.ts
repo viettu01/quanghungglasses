@@ -50,7 +50,9 @@ export class AuthService {
     formData.append('fullname', customer.fullname);
     formData.append('phone', customer.phone);
     formData.append('gender', customer.gender);
-    formData.append('birthday', customer.birthday.toString());
+    if (customer.birthday != null) {
+      formData.append('birthday', customer.birthday);
+    }
     formData.append('address', customer.address);
     formData.append('account.email', customer.account.email);
     formData.append('account.password', customer.account.password);

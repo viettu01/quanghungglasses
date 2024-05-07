@@ -109,24 +109,24 @@
               <button class="btn btn-phoenix-primary px-3" type="button" (click)="filterPrice()">Tìm</button>
             </div>
           </div>
-          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapseWarranty"
-             role="button" aria-expanded="true" aria-controls="collapseWarranty">
-            <div class="d-flex align-items-center justify-content-between w-100">
-              <div class="fs-8 text-body-highlight">Thời gian bảo hành</div>
-              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>
-            </div>
-          </a>
-          <div class="collapse show" id="collapseWarranty">
-            <div class="mb-2">
-              <div class="form-check mb-0" *ngFor="let timeWarranty of timeWarranties">
-                <input class="form-check-input mt-0" id="threeMonthInput" type="checkbox" [value]="timeWarranty"
-                       (change)="filter('bao-hanh', $event)">
-                <label class="form-check-label d-block lh-sm fs-8 text-body fw-normal mb-0" for="threeMonthInput">
-                  {{ timeWarranty }} tháng
-                </label>
-              </div>
-            </div>
-          </div>
+<!--          <a class="btn px-0 d-block collapse-indicator" data-bs-toggle="collapse" href="#collapseWarranty"-->
+<!--             role="button" aria-expanded="true" aria-controls="collapseWarranty">-->
+<!--            <div class="d-flex align-items-center justify-content-between w-100">-->
+<!--              <div class="fs-8 text-body-highlight">Thời gian bảo hành</div>-->
+<!--              <span class="fa-solid fa-angle-down toggle-icon text-body-quaternary"></span>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--          <div class="collapse show" id="collapseWarranty">-->
+<!--            <div class="mb-2">-->
+<!--              <div class="form-check mb-0" *ngFor="let timeWarranty of timeWarranties">-->
+<!--                <input class="form-check-input mt-0" id="threeMonthInput" type="checkbox" [value]="timeWarranty"-->
+<!--                       (change)="filter('bao-hanh', $event)">-->
+<!--                <label class="form-check-label d-block lh-sm fs-8 text-body fw-normal mb-0" for="threeMonthInput">-->
+<!--                  {{ timeWarranty }} tháng-->
+<!--                </label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
         <div class="phoenix-offcanvas-backdrop d-lg-none" data-phoenix-backdrop></div>
       </div>

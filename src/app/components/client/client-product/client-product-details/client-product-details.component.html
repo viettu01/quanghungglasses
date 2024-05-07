@@ -110,8 +110,12 @@
               <div class="col-12 col-sm-6 col-xl-12">
                 <div class="mb-4">
                   <div class="d-flex flex-wrap mb-2">
-                        <span class="mb-0 text-body-highlight me-2">Thời gian bảo hành: {{ product.timeWarranty }}
-                          tháng</span>
+                    <span class="mb-0 text-body-highlight me-2" *ngIf="product.timeWarranty > 0">
+                      Thời gian bảo hành: {{ product.timeWarranty }} ngày
+                    </span>
+                    <span class="mb-0 text-body-highlight me-2" *ngIf="product.timeWarranty <= 0">
+                      Thời gian bảo hành: Không bảo hành
+                    </span>
                   </div>
                 </div>
               </div>
@@ -143,7 +147,8 @@
                       <span class="fas fa-minus"></span>
                     </button>
                     <input class="form-control text-center input-spin-none bg-transparent border-0 outline-none"
-                           style="width: 60px;" type="number" min="1" max="{{quantityMax}}" id="quantity" name="quantity"
+                           style="width: 60px;" type="number" min="1" max="{{quantityMax}}" id="quantity"
+                           name="quantity"
                            [(ngModel)]="quantity" (change)="quantityChange($event)"/>
                     <button class="btn btn-phoenix-primary px-3" (click)="plusQuantity()"
                             [disabled]="quantity >= quantityMax">

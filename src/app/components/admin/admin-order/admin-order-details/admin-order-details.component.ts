@@ -17,14 +17,14 @@ export class AdminOrderDetailsComponent implements OnInit {
   baseUrl = Environment.apiBaseUrl + '/images/';
 
   // tao 1 danh sach cac gia tri cua orderStatus
-  orderStatus = [
-    {id: 0, name: 'Chờ xác nhận'},
-    {id: 1, name: 'Đã xác nhận'},
-    {id: 2, name: 'Đang giao hàng'},
-    {id: 3, name: 'Đã giao hàng'},
-    {id: 4, name: 'Đã nhận hàng'},
-    {id: 5, name: 'Đã hoàn thành'},
-    {id: 6, name: 'Đã hủy'}
+  orderStatus: any = [
+    // {id: 0, name: 'Chờ xác nhận'},
+    // {id: 1, name: 'Đã xác nhận'},
+    // {id: 2, name: 'Đang giao hàng'},
+    // {id: 3, name: 'Đã giao hàng'},
+    // {id: 4, name: 'Đã nhận hàng'},
+    // {id: 5, name: 'Đã hoàn thành'},
+    // {id: 6, name: 'Đã hủy'}
   ];
 
   orderStatusInDb: any = 0;
@@ -38,6 +38,32 @@ export class AdminOrderDetailsComponent implements OnInit {
     this.findById();
   }
 
+  updateOrderStatusList() {
+    this.orderStatus = [];
+    if (this.orderDto.orderStatus == 0) {
+      this.orderStatus.push({id: 0, name: 'Chờ xác nhận'});
+      this.orderStatus.push({id: 1, name: 'Đã xác nhận'});
+      this.orderStatus.push({id: 6, name: 'Đã hủy'});
+    }
+    if (this.orderDto.orderStatus == 1) {
+      this.orderStatus.push({id: 1, name: 'Đã xác nhận'});
+      this.orderStatus.push({id: 2, name: 'Đang giao hàng'});
+      // this.orderStatus.push({id: 6, name: 'Đã hủy'});
+    }
+    if (this.orderDto.orderStatus == 2) {
+      this.orderStatus.push({id: 2, name: 'Đang giao hàng'});
+      this.orderStatus.push({id: 5, name: 'Đã giao hàng'});
+      // this.orderStatus.push({id: 6, name: 'Đã hủy'});
+    }
+    if (this.orderDto.orderStatus >= 3 && this.orderDto.orderStatus <= 5) {
+      this.orderStatus.push({id: 5, name: 'Đã giao hàng'});
+      // this.orderStatus.push({id: 6, name: 'Đã hủy'});
+    }
+    if (this.orderDto.orderStatus == 6) {
+      this.orderStatus.push({id: 6, name: 'Đã hủy'});
+    }
+  }
+
   findById() {
     this.orderService.findById(this.activatedRoute.snapshot.params["id"]).subscribe({
       next: (data: any) => {
@@ -48,6 +74,7 @@ export class AdminOrderDetailsComponent implements OnInit {
           orderDetails.totalMoney = orderDetails.quantity * orderDetails.price;
           this.orderDto.totalMoney += orderDetails.totalMoney;
         });
+        this.updateOrderStatusList();
       },
       error: (error: any) => {
         if (error.status == 400) {

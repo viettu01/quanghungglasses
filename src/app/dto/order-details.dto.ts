@@ -10,6 +10,8 @@ export class OrderDetailsDto {
   productThumbnail: string = '';
   totalMoney: number = 0;
 
+  productTimeWarranty: number = 0;
+
   constructor(id: number, productDetailsId: number, quantity: number, price: number) {
     this.id = id;
     this.productDetailsId = productDetailsId;

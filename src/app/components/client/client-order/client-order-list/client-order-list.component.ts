@@ -25,13 +25,13 @@ export class ClientOrderListComponent implements OnInit {
   isOrderStatus0: boolean = false;
   isOrderStatus1: boolean = false;
   isOrderStatus2: boolean = false;
-  isOrderStatus3: boolean = false;
+  isOrderStatus5: boolean = false;
   isOrderStatus6: boolean = false;
   countAll: number = 0;
   countOrderStatus0: number = 0;
   countOrderStatus1: number = 0;
   countOrderStatus2: number = 0;
-  countOrderStatus3: number = 0;
+  countOrderStatus5: number = 0;
   countOrderStatus6: number = 0;
 
   constructor(private title: Title, private activatedRoute: ActivatedRoute, private router: Router,
@@ -56,7 +56,7 @@ export class ClientOrderListComponent implements OnInit {
     this.getCountOrderStatus0();
     this.getCountOrderStatus1();
     this.getCountOrderStatus2();
-    this.getCountOrderStatus3();
+    this.getCountOrderStatus5();
     this.getCountOrderStatus6();
   }
 
@@ -128,7 +128,7 @@ export class ClientOrderListComponent implements OnInit {
     this.isOrderStatus0 = this.activatedRoute.snapshot.queryParams['trang-thai'] === "0";
     this.isOrderStatus1 = this.activatedRoute.snapshot.queryParams['trang-thai'] === "1";
     this.isOrderStatus2 = this.activatedRoute.snapshot.queryParams['trang-thai'] === "2";
-    this.isOrderStatus3 = this.activatedRoute.snapshot.queryParams['trang-thai'] === "3";
+    this.isOrderStatus5 = this.activatedRoute.snapshot.queryParams['trang-thai'] === "5";
     this.isOrderStatus6 = this.activatedRoute.snapshot.queryParams['trang-thai'] === "6";
   }
 
@@ -164,10 +164,10 @@ export class ClientOrderListComponent implements OnInit {
     });
   }
 
-  getCountOrderStatus3() {
-    this.orderService.findAllByCustomer("", 3, 1, 1, "", "").subscribe({
+  getCountOrderStatus5() {
+    this.orderService.findAllByCustomer("", 5, 1, 1, "", "").subscribe({
       next: (response: any) => {
-        this.countOrderStatus3 = response.totalElements;
+        this.countOrderStatus5 = response.totalElements;
       }
     });
   }
